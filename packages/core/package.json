@@ -1,0 +1,9 @@
+{
+  "name": "@kjam/core",
+  "description": "Core of Kjam powered websites.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/knitkode/kjam.git",
+    "directory": "packages/core"
+  }
+}

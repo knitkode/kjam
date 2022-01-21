@@ -1,0 +1,35 @@
+{
+  "root": "packages/next-ui",
+  "sourceRoot": "packages/next-ui/src",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@nrwl/web:rollup",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/packages/next-ui",
+        "tsConfig": "packages/next-ui/tsconfig.lib.json",
+        "project": "packages/next-ui/package.json",
+        "entryFile": "packages/next-ui/src/index.ts",
+        "external": ["react/jsx-runtime"],
+        "rollupConfig": "@nrwl/react/plugins/bundle-rollup",
+        "compiler": "swc",
+        "assets": [
+          {
+            "glob": "packages/next-ui/README.md",
+            "input": ".",
+            "output": "."
+          }
+        ]
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["packages/next-ui/**/*.{ts,tsx,js,jsx}"]
+      }
+    }
+  }
+}

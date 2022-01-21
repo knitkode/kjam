@@ -1,0 +1,86 @@
+{
+  "name": "kjam",
+  "version": "1.0.0",
+  "license": "MIT",
+  "scripts": {
+    "commit": "git-cz",
+    "prepare": "husky install",
+    "format": "npx prettier --write **/*.{js,json,css,ts,tsx}",
+    "build": "npx nx run-many --target=build --all=true",
+    "clean": "rm -rf ./node_modules/.cache/nx",
+    "test-action-next": "nx run action-next:build && KJAM_ROOT_PATH=../../LaSchola/content-www KJAM_SKIP_GIT=true node ./dist/packages/action-next/index.js"
+  },
+  "private": true,
+  "dependencies": {
+    "@actions/core": "^1.6.0",
+    "core-js": "^3.6.5",
+    "fdir": "^5.1.0",
+    "fs-extra": "^10.0.0",
+    "gray-matter": "^4.0.3",
+    "js-yaml": "^4.1.0",
+    "next": "^12.0.7",
+    "next-mdx-remote": "^3.0.8",
+    "probe-image-size": "^7.2.2",
+    "react": "^17.0.2",
+    "react-dom": "17.0.2",
+    "regenerator-runtime": "0.13.7",
+    "simple-git": "^2.48.0",
+    "tslib": "^2.0.0"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^15.0.0",
+    "@commitlint/config-angular": "^15.0.0",
+    "@commitlint/config-conventional": "^15.0.0",
+    "@e-square/nx-ncc": "^1.1.0",
+    "@nrwl/cli": "13.3.6",
+    "@nrwl/eslint-plugin-nx": "13.3.6",
+    "@nrwl/jest": "13.3.6",
+    "@nrwl/js": "13.3.6",
+    "@nrwl/linter": "13.3.6",
+    "@nrwl/node": "^13.4.6",
+    "@nrwl/react": "^13.4.6",
+    "@nrwl/tao": "13.3.6",
+    "@nrwl/web": "13.4.6",
+    "@nrwl/workspace": "13.3.6",
+    "@swc/core": "1.2.118",
+    "@testing-library/react": "12.1.2",
+    "@testing-library/react-hooks": "7.0.2",
+    "@types/fs-extra": "^9.0.13",
+    "@types/jest": "27.0.2",
+    "@types/js-yaml": "^4.0.5",
+    "@types/node": "14.14.33",
+    "@types/probe-image-size": "^7.0.1",
+    "@types/react": "17.0.30",
+    "@types/react-dom": "17.0.9",
+    "@typescript-eslint/eslint-plugin": "~5.3.0",
+    "@typescript-eslint/parser": "~5.3.0",
+    "@vercel/ncc": "^0.33.0",
+    "eslint": "8.2.0",
+    "eslint-config-prettier": "8.1.0",
+    "eslint-plugin-import": "2.25.2",
+    "eslint-plugin-jsx-a11y": "6.5.1",
+    "eslint-plugin-react": "7.27.0",
+    "eslint-plugin-react-hooks": "4.2.0",
+    "git-cz": "^4.8.0",
+    "husky": "^7.0.4",
+    "jest": "27.2.3",
+    "lint-staged": "^12.1.2",
+    "prettier": "^2.5.1",
+    "react-test-renderer": "17.0.2",
+    "ts-jest": "27.0.5",
+    "typescript": "~4.4.3"
+  },
+  "config": {
+    "commitizen": {
+      "path": "cz-conventional-changelog"
+    }
+  },
+  "lint-staged": {
+    "*.{js,json,css,ts,tsx}": [
+      "prettier --write"
+    ],
+    "*.{js,ts,tsx}": [
+      "eslint --fix"
+    ]
+  }
+}

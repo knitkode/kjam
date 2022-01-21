@@ -1,0 +1,9 @@
+{
+  "files.exclude": {
+    "tmp": true,
+    ".husky": true,
+    ".swc": true,
+    "**/.eslintrc.json": true,
+    "**/.babelrc": true
+  }
+}

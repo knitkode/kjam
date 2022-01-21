@@ -1,0 +1,9 @@
+{
+  "name": "@kjam/next",
+  "description": "Client to use in Kjam + Next.js powered websites.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/knitkode/kjam.git",
+    "directory": "packages/next"
+  }
+}

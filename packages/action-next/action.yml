@@ -1,0 +1,6 @@
+name: 'kjam-next'
+description: 'Parse Netlify CMS content structure for next.js applications. Static rest API?'
+author: 'KnitKode'
+runs:
+  using: 'node12'
+  main: 'index.js'

@@ -1,0 +1,8 @@
+{
+  "name": "@kjam/serializer",
+  "dependencies": {
+    "fdir": "^5.1.0",
+    "fs-extra": "^10.0.0",
+    "js-yaml": "^4.1.0"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "root": "packages/serializer",
+  "sourceRoot": "packages/serializer/src",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["packages/serializer/**/*.ts"]
+      }
+    }
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "rootDir": ".",
+    "sourceMap": true,
+    "declaration": true,
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "target": "es2015",
+    "module": "esnext",
+    "lib": ["es2017", "dom"],
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "noPropertyAccessFromIndexSignature": true, // custom
+    "noImplicitOverride": true, // custom
+    "composite": true,
+    "baseUrl": ".",
+    "paths": {
+      "@kjam/action": ["packages/action/src/index.ts"],
+      "@kjam/action-next": ["packages/action-next/src/index.ts"],
+      "@kjam/core": ["packages/core/src/index.ts"],
+      "@kjam/next": ["packages/next/src/index.ts"],
+      "@kjam/next-ui": ["packages/next-ui/src/index.ts"],
+      "@kjam/serializer": ["packages/serializer/src/index.ts"],
+      "@kjam/serializer-next": ["packages/serializer-next/src/index.ts"]
+    }
+  },
+  "exclude": ["node_modules", "tmp"]
+}
