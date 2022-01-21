@@ -73,7 +73,7 @@ export abstract class ApiGit extends Api {
     try {
       return JSON.parse(raw) as T;
     } catch (_e) {
-      console.error(`kjam/core/ApiGit::getData failed parsing path: ${path}`);
+      console.error(`kjam/core/ApiGit::getData failed parsing path ${path}`);
       throw new Error();
     }
   }

@@ -67,8 +67,8 @@ export const PageDebug: FC<PageDebugProps> = ({
           }
           
           .kjam-PageDebug {
-            table-layout: fixed;
             width: 100%;
+            table-layout: fixed;
             border-collapse: collapse;
             font-family: monospace;
           }

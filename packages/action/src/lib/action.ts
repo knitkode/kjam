@@ -102,7 +102,7 @@ export class Git {
       );
 
       core.endGroup();
-      core.info("> Task completed ");
+      core.info("> Task completed.");
     } else {
       core.endGroup();
       core.info("> Working tree clean. Nothing to commit.");
