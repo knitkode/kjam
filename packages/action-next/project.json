@@ -11,8 +11,8 @@
         "outputPath": "dist/packages/action-next",
         "main": "packages/action-next/src/index.ts",
         "tsConfig": "packages/action-next/tsconfig.lib.json",
-        "generatePackageJson": true,
-        "optimization": true,
+        "generatePackageJson": false,
+        "optimization": false,
         "assets": [
           "packages/action-next/.gitignore",
           "packages/action-next/*.md",

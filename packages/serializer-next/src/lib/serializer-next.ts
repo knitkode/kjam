@@ -1,7 +1,7 @@
 import type { Redirect, Rewrite } from "next/dist/lib/load-custom-routes";
-import type { StructureI18n } from "@kjam/core"; // @kjam/
-import { Serializer } from "@kjam/serializer"; // @kjam/
-import { encodePathname } from "@kjam/core"; // @kjam/
+import type { StructureI18n } from "../../../core/src"; // @kjam/
+import { Serializer } from "../../../serializer/src"; // @kjam/
+import { encodePathname } from "../../../core/src"; // @kjam/
 
 export type SerializerNextOutputConfig = {
   /**
