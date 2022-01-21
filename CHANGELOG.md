@@ -1,5 +1,15 @@
 # 1.0.0 (2022-01-21)
 
+### Chores
+
+- 🤖 build ([65e4222](https://github.com/knitkode/kjam/commit/65e4222937ffdbe4a9069f8f4ec2505a5453c6af))
+
+### Other
+
+- Initial commit ([31752dc](https://github.com/knitkode/kjam/commit/31752dcabdbd1ab713b9f775e2c3ed7e26b3e14b))
+
+# 1.0.0 (2022-01-21)
+
 ### Bug Fixes
 
 - 🐛 remove unused workflow ([7674b8b](https://github.com/knitkode/kjam/commit/7674b8b5c4b63a8781b97011b619218e551a014b))
