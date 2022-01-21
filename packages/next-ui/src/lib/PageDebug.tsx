@@ -74,8 +74,8 @@ export const PageDebug: FC<PageDebugProps> = ({
           }
           
           .kjam-PageDebug th {
-            text-align: right;
             width: 150px;
+            text-align: right;
           }
           
           .kjam-PageDebug th,
