@@ -1,3 +1,16 @@
+# [1.2.0](https://github.com/knitkode/kjam/compare/v1.1.1...v1.2.0) (2022-01-24)
+
+### Features
+
+- **next-content api:** allow to proxy git api to local filesystem ([74bfed6](https://github.com/knitkode/kjam/commit/74bfed677c27d10fa09144e22eb0bb644c9fb5f1))
+- **wip:** use specific page json ([86beacc](https://github.com/knitkode/kjam/commit/86beacc075c4b852f09fa6e5677bc80e536e4d61))
+- **wip:** use specific page json ([83f4b29](https://github.com/knitkode/kjam/commit/83f4b293226824d382110a44da5bec48ca1c4014))
+- **wip:** use specific page json ([a859694](https://github.com/knitkode/kjam/commit/a85969448bf94282b6decb0f3440ed6268bac080))
+
+### Other
+
+- Merge branch 'main' of github.com:knitkode/kjam into main ([0ca81fc](https://github.com/knitkode/kjam/commit/0ca81fc1ca63cc504af8f7162c30281fe131a863))
+
 ## [1.1.1](https://github.com/knitkode/kjam/compare/v1.1.0...v1.1.1) (2022-01-23)
 
 ### Bug Fixes
