@@ -1,5 +1,6 @@
 // import fs from 'node:fs';
-// import nodePath from 'node:path';
+import { resolve } from "node:path";
+import { readFile } from "node:fs/promises";
 import type {
   EntriesMap,
   EntriesMapByRoute,
@@ -59,6 +60,13 @@ export abstract class ApiGit extends Api {
   }
 
   static async getRaw(path: string) {
+    const gitFsPath = process.env["KJAM_GIT_FS"] || "";
+
+    if (gitFsPath) {
+      const filepath = resolve(process.cwd(), gitFsPath, encodePathname(path));
+      return await readFile(filepath, { encoding: "utf-8" });
+    }
+
     const url = `${this.getUrl(path)}`;
     const res = await fetch(url);
     const raw = await res.text();

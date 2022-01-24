@@ -7,6 +7,7 @@ type branch = string;
 
 type KjamEnv = {
   KJAM_GIT: `${username}/${repo}/${branch}`;
+  KJAM_GIT_FS?: string;
   KJAM_DEBUG?: "true" | "false";
 };
 
