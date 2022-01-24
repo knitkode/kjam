@@ -1,3 +1,14 @@
+## [1.2.2](https://github.com/knitkode/kjam/compare/v1.2.1...v1.2.2) (2022-01-24)
+
+### Bug Fixes
+
+- **build:** node imports? ([1956d5e](https://github.com/knitkode/kjam/commit/1956d5ebc0bb1ffcb99f358dd6d418209d77ae9c))
+- **build:** node imports? ([100d179](https://github.com/knitkode/kjam/commit/100d179e9a10c35655cc35607e90372b93146716))
+
+### Other
+
+- Merge branch 'main' of github.com:knitkode/kjam into main ([850bb3b](https://github.com/knitkode/kjam/commit/850bb3b7b4e1b95074986f345456a2f40f5abff1))
+
 ## [1.2.1](https://github.com/knitkode/kjam/compare/v1.2.0...v1.2.1) (2022-01-24)
 
 ### Bug Fixes
