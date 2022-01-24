@@ -1,6 +1,6 @@
 // import fs from 'node:fs';
 import { resolve } from "path";
-import { readFile } from "fs/promises";
+import { readFile } from "fs-extra";
 import type {
   EntriesMap,
   EntriesMapByRoute,
