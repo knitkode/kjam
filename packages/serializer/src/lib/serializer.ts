@@ -185,7 +185,7 @@ export class Serializer<T> {
    *
    * ```
    * https://example.com/projects/wood/boxes (en)
-   * https://example.com/it/progetti/legno/scatole (en)
+   * https://example.com/it/progetti/legno/scatole (it)
    * ```
    */
   private getAllFolderPaths(markdownFiles: string[]) {
@@ -335,7 +335,7 @@ export class Serializer<T> {
       for (const [routeLocale, route] of Object.entries(routeLocales)) {
         const { templateSlug } = route;
 
-        this.writeFile(`pages/${templateSlug}__${routeLocale}`, route);
+        this.writeFile(`entries/${templateSlug}__${routeLocale}`, route);
 
         // const templateSlugParts = templateSlug.split("/");
         // for (let i = 0; i < templateSlugParts.length; i++) {

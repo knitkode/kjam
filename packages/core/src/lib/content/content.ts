@@ -14,9 +14,10 @@ export abstract class Content {
   }
 
   static async treatBodyImages<T>(entry: Entry<T>) {
+    console.log("treatBodyImagestreatBodyImagestreatBodyImagestreatBodyImages")
     const { dir, body } = entry;
     const relativePath = dir;
-    const baseUrl = this.api.getUrl() + relativePath;
+    const baseUrl = this.api.getUrl(relativePath);
     const regex = /\!\[.+\]\(.+\)/gm;
     const matches = body.match(regex);
     let output = body;

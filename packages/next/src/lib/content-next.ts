@@ -124,8 +124,12 @@ abstract class ContentNext extends Content {
 
     if (!templateSlug) return null;
 
-    const { byTemplateSlug } = await Content.api.getMaps<T>();
-    return byTemplateSlug[templateSlug]?.[locale];
+    const data = (await Content.api.getData(
+      `entries/${templateSlug}__${locale}`
+    )) as Entry<T>;
+    return data;
+    // const { byTemplateSlug } = await Content.api.getMaps<T>();
+    // return byTemplateSlug[templateSlug]?.[locale];
   }
 
   static async getStaticProps<
