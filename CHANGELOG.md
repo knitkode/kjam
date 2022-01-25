@@ -1,3 +1,9 @@
+## [1.4.2](https://github.com/knitkode/kjam/compare/v1.4.1...v1.4.2) (2022-01-25)
+
+### Bug Fixes
+
+- **content:** json circularity weirdness ([a81fdfb](https://github.com/knitkode/kjam/commit/a81fdfbde3091f9e307e43fade0b35ac52e2b763))
+
 ## [1.4.1](https://github.com/knitkode/kjam/compare/v1.4.0...v1.4.1) (2022-01-25)
 
 ### Bug Fixes
