@@ -1,3 +1,9 @@
+## [1.4.1](https://github.com/knitkode/kjam/compare/v1.4.0...v1.4.1) (2022-01-25)
+
+### Bug Fixes
+
+- **content:** circular data structure ([c03d3d0](https://github.com/knitkode/kjam/commit/c03d3d07b7511d50218958aba7142096ba5c9ddd))
+
 # [1.4.0](https://github.com/knitkode/kjam/compare/v1.3.0...v1.4.0) (2022-01-25)
 
 ### Features
