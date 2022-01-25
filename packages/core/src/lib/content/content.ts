@@ -15,9 +15,8 @@ export abstract class Content {
   }
 
   static async treatBodyImages<T>(entry: Entry<T>) {
-    const { dir, body } = entry;
-    const relativePath = dir;
-    const baseUrl = this.api.getUrl(relativePath);
+    const { body } = entry;
+    const baseUrl = Content.api.getUrl(entry.dir);
     const regex = /\!\[.+\]\(.+\)/gm;
     const matches = body.match(regex);
     let output = body;
@@ -35,7 +34,7 @@ export abstract class Content {
     return output;
   }
 
-  static processDataPortion(data: any, key: any, baseDir: string) {
+  static processDataSlice(data: any, key: any, baseDir: string) {
     if (typeof data[key] === "string") {
       const currentValue = data[key];
       if (currentValue.endsWith(".jpg") || currentValue.endsWith(".jpeg") || currentValue.endsWith(".png")) {
@@ -43,30 +42,24 @@ export abstract class Content {
         // console.log("transformed: ", data[key]);
       }
     } else if (Array.isArray(data[key])) {
-      const subdata = data[key];
       // console.log("is array", key);
-
-      for (let i = 0; i < subdata.length; i++) {
-        Content.processDataPortion(subdata, i, baseDir);
+      for (let i = 0; i < data[key].length; i++) {
+        Content.processDataSlice(data[key], i, baseDir);
       }
     } else if (
       Object.prototype.toString.call(data[key]).slice(8, -1) === "Object"
     ) {
-      const subdata = data[key];
       // console.log("is object", key);
-
-      for (const subkey in subdata) {
-        Content.processDataPortion(subdata, subkey, baseDir);
+      for (const subkey in data[key]) {
+        Content.processDataSlice(data[key], subkey, baseDir);
       }
     }
-
-    return data;
   }
 
   static async treatDataImages<T>(entry: any) {
     for (const key in entry.data) {
-      if (Object.prototype.hasOwnProperty.call(entry.data, key)) {
-        Content.processDataPortion(
+      if (Object.prototype.hasOwnProperty.call(entry.data, key) && key !== "body") {
+        Content.processDataSlice(
           entry.data,
           key,
           entry.dir
