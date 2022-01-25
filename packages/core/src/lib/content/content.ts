@@ -1,3 +1,4 @@
+import { join } from "path";
 import type { Entry } from "../types";
 import { ApiGit } from "../api/api-git";
 import { Img } from "../img/img";
@@ -14,7 +15,6 @@ export abstract class Content {
   }
 
   static async treatBodyImages<T>(entry: Entry<T>) {
-    console.log("treatBodyImagestreatBodyImagestreatBodyImagestreatBodyImages")
     const { dir, body } = entry;
     const relativePath = dir;
     const baseUrl = this.api.getUrl(relativePath);
@@ -33,6 +33,55 @@ export abstract class Content {
     }
 
     return output;
+  }
+
+  static processDataPortion(data: any, key: any, baseDir: string) {
+    if (typeof data[key] === "string") {
+      const currentValue = data[key];
+      if (currentValue.endsWith(".jpg") || currentValue.endsWith(".jpeg") || currentValue.endsWith(".png")) {
+        data[key] = Content.api.getUrl(join(baseDir, currentValue));
+        // console.log("transformed: ", data[key]);
+      }
+    } else if (Array.isArray(data[key])) {
+      const subdata = data[key];
+      // console.log("is array", key);
+
+      for (let i = 0; i < subdata.length; i++) {
+        subdata[i] = Content.processDataPortion(subdata, i, baseDir);
+      }
+    } else if (
+      Object.prototype.toString.call(data[key]).slice(8, -1) === "Object"
+    ) {
+      const subdata = data[key];
+      // console.log("is object", key);
+
+      for (const subkey in subdata) {
+        data[key] = Content.processDataPortion(subdata, subkey, baseDir);
+      }
+    }
+
+    return data;
+  }
+
+  static async treatDataImages<T>(entry: any) {
+    for (const key in entry.data) {
+      if (Object.prototype.hasOwnProperty.call(entry.data, key)) {
+        entry.data[key] = Content.processDataPortion(
+          entry.data,
+          key,
+          entry.dir
+        );
+      }
+    }
+
+    return entry as Entry<T>;
+  }
+
+  static async treatAllImages<T>(entry: any) {
+    entry = await Content.treatDataImages(entry);
+    entry.body = await Content.treatBodyImages(entry);
+
+    return entry as Entry<T>;
   }
 
   /**
