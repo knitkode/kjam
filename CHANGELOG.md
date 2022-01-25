@@ -1,3 +1,9 @@
+# [1.4.0](https://github.com/knitkode/kjam/compare/v1.3.0...v1.4.0) (2022-01-25)
+
+### Features
+
+- **content:** treat data images ([c9a370a](https://github.com/knitkode/kjam/commit/c9a370af989051bd8464b1e657d00101b8420a54))
+
 # [1.3.0](https://github.com/knitkode/kjam/compare/v1.2.2...v1.3.0) (2022-01-24)
 
 ### Features
