@@ -47,7 +47,7 @@ export abstract class Content {
       // console.log("is array", key);
 
       for (let i = 0; i < subdata.length; i++) {
-        subdata[i] = Content.processDataPortion(subdata, i, baseDir);
+        Content.processDataPortion(subdata, i, baseDir);
       }
     } else if (
       Object.prototype.toString.call(data[key]).slice(8, -1) === "Object"
@@ -56,7 +56,7 @@ export abstract class Content {
       // console.log("is object", key);
 
       for (const subkey in subdata) {
-        data[key] = Content.processDataPortion(subdata, subkey, baseDir);
+        Content.processDataPortion(subdata, subkey, baseDir);
       }
     }
 
@@ -66,7 +66,7 @@ export abstract class Content {
   static async treatDataImages<T>(entry: any) {
     for (const key in entry.data) {
       if (Object.prototype.hasOwnProperty.call(entry.data, key)) {
-        entry.data[key] = Content.processDataPortion(
+        Content.processDataPortion(
           entry.data,
           key,
           entry.dir
