@@ -1,3 +1,9 @@
+## [1.4.5](https://github.com/knitkode/kjam/compare/v1.4.4...v1.4.5) (2022-01-26)
+
+### Bug Fixes
+
+- **next-config:** remove middleware related config ([19576ec](https://github.com/knitkode/kjam/commit/19576ec1383f91354e06d4c2d8be34df2394a1d0))
+
 ## [1.4.4](https://github.com/knitkode/kjam/compare/v1.4.3...v1.4.4) (2022-01-26)
 
 ### Bug Fixes
