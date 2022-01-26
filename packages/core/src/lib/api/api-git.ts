@@ -1,5 +1,5 @@
 import { resolve } from "path";
-import { readFile } from "fs-extra";
+import { readFileSync } from "fs";
 import type {
   EntriesMap,
   EntriesMapByRoute,
@@ -68,7 +68,7 @@ export class ApiGit extends Api {
 
     if (gitFsPath) {
       const filepath = resolve(process.cwd(), gitFsPath, encodePathname(path));
-      return await readFile(filepath, { encoding: "utf-8" });
+      return readFileSync(filepath, { encoding: "utf-8" });
     }
 
     const url = `${this.getUrl(path)}`;
