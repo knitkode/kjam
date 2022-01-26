@@ -44,7 +44,7 @@ type StaticPathSlug<SlugAsString> = SlugAsString extends true
 
 export type ContentNextConfig = ConfigNextOptions & {};
 
-abstract class ContentNext extends Content {
+class ContentNext extends Content {
   /**
    * @param context Unused for now
    * @param fallback Defaults to `"blocking"`
@@ -52,7 +52,7 @@ abstract class ContentNext extends Content {
    * @param asString Defaults to `false`
    * @returns
    */
-  static async getStaticPaths<
+  async getStaticPaths<
     Params extends StaticPathsParams = StaticPathsParams,
     Type extends StaticPathsType = boolean
   >(
@@ -62,7 +62,7 @@ abstract class ContentNext extends Content {
     asString?: Type
   ) {
     // const { locales, defaultLocale } = context;
-    const { byRoute } = await Content.api.getMaps();
+    const { byRoute } = await this.api.getMaps();
     const paths: GetStaticPathsResult<Params>["paths"] = [];
 
     // FIXME:
@@ -99,8 +99,8 @@ abstract class ContentNext extends Content {
     };
   }
 
-  static async getByRoute<T>(routeId: string, locale?: string) {
-    const { byRoute } = await Content.api.getMaps<T>();
+  async getByRoute<T>(routeId: string, locale?: string) {
+    const { byRoute } = await this.api.getMaps<T>();
 
     if (locale && byRoute[routeId]?.[locale]) {
       return byRoute[routeId]?.[locale];
@@ -109,7 +109,7 @@ abstract class ContentNext extends Content {
     return null;
   }
 
-  static async get<T>(
+  async get<T>(
     folderPath: string = "",
     slug: string | string[] = "",
     locale: string = ""
@@ -124,15 +124,15 @@ abstract class ContentNext extends Content {
 
     if (!templateSlug) return null;
 
-    const data = (await Content.api.getData(
+    const data = (await this.api.getData(
       `entries/${templateSlug}__${locale}`
     )) as Entry<T>;
     return data;
-    // const { byTemplateSlug } = await Content.api.getMaps<T>();
+    // const { byTemplateSlug } = await this.api.getMaps<T>();
     // return byTemplateSlug[templateSlug]?.[locale];
   }
 
-  static async getStaticProps<
+  async getStaticProps<
     Params extends StaticPathsParams = StaticPathsParams,
     Data extends {} = {}
     // ExtraData extends Record<string, any> = {}
@@ -151,46 +151,20 @@ abstract class ContentNext extends Content {
       };
     }
 
-    const body = await Content.treatBody<Data>(entry);
+    const body = await this.treatBody<Data>(entry);
     // const mdx = { compiledSource: body, scope: entry.data }; //
     const mdx = await mdxSerializer(body, { scope: entry.data });
     return { props: { mdx, entry, ...additionalData } };
   }
 
-  static async getEntryMdx<T>(
-    entry: Entry<T>,
-    mdxSerializer?: typeof serialize
-  ) {
-    const body = await Content.treatBody(entry);
+  async getEntryMdx<T>(entry: Entry<T>, mdxSerializer?: typeof serialize) {
+    const body = await this.treatBody(entry);
     const mdx = mdxSerializer
       ? await mdxSerializer(body, { scope: entry.data })
       : undefined;
 
     return mdx;
   }
-
-  /**
-   * @deprecated
-   */
-  // async getPaths<T>() {
-  //   const { byRoute } = await Content.api.getMaps<T>();
-  //   const paths = [];
-
-  //   for (const [_routeId, routeLocales] of Object.entries(byRoute)) {
-  //     for (const [routeLocale, route] of Object.entries(routeLocales)) {
-  //       const slug = route.slug.replace(/^\//, '').split('/');
-
-  //       if (slug) {
-  //         paths.push({
-  //           params: { slug },
-  //           locale: routeLocale,
-  //         });
-  //       }
-  //     }
-  //   }
-
-  //   return paths;
-  // }
 }
 
-export const kjam = ContentNext;
+export const kjam = new ContentNext();

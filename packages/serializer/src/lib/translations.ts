@@ -1,7 +1,7 @@
 import { join } from "path";
 import { existsSync, readFileSync } from "fs-extra";
-import type { Structure, SiteTranslations } from "../../../core/src";
 import { load } from "js-yaml";
+import type { Structure, SiteTranslations } from "@kjam/core";
 
 /**
  * Convention for translation strings

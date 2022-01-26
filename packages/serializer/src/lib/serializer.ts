@@ -16,7 +16,7 @@ import type {
   EntriesMapByTemplateSlug,
   EntriesMap,
   SiteTranslations,
-} from "../../../core/src";
+} from "../../../core/src"; // @kjam/core
 import {
   filterMarkdownFiles,
   extractMeta,
@@ -143,12 +143,12 @@ export class Serializer<T> {
   private ensureMetaFolder() {
     const target = join(this.root, ".kjam");
     // empty folder: @see https://stackoverflow.com/a/42182416/1938970
-    // fs.rmSync(target, {recursive: true, force: true})
+    // fs .rmSync(target, {recursive: true, force: true})
     emptyDirSync(target);
 
-    // fs.mkdirSync(target)
+    // fs .mkdirSync(target)
     mkdirpSync(target);
-    // if (fs.existsSync(target)) {
+    // if (fs .existsSync(target)) {
     // }
   }
 

@@ -1,22 +1,28 @@
 import { join } from "path";
 import type { Entry } from "../types";
+import { Api } from "../api/api";
 import { ApiGit } from "../api/api-git";
 import { Img } from "../img/img";
 
 export abstract class Content {
-  static api = ApiGit;
 
-  static debug = process.env["KJAM_DEBUG"] === "true";
+  api: Api;
+  debug?: boolean;
 
-  static async treatBody<T>(entry: Entry<T>) {
-    const body = await Content.treatBodyImages(entry);
+  constructor() {
+    this.api = new ApiGit();
+    this.debug = process.env["KJAM_DEBUG"] === "true";
+  }
+
+  async treatBody<T>(entry: Entry<T>) {
+    const body = await this.treatBodyImages(entry);
 
     return body;
   }
 
-  static async treatBodyImages<T>(entry: Entry<T>) {
+  async treatBodyImages<T>(entry: Entry<T>) {
     const { body } = entry;
-    const baseUrl = Content.api.getUrl(entry.dir);
+    const baseUrl = this.api.getUrl(entry.dir);
     const regex = /\!\[.+\]\(.+\)/gm;
     const matches = body.match(regex);
     let output = body;
@@ -34,32 +40,32 @@ export abstract class Content {
     return output;
   }
 
-  static processDataSlice(data: any, key: any, baseDir: string) {
+  processDataSlice(data: any, key: any, baseDir: string) {
     if (typeof data[key] === "string") {
       const currentValue = data[key];
       if (currentValue.endsWith(".jpg") || currentValue.endsWith(".jpeg") || currentValue.endsWith(".png")) {
-        data[key] = Content.api.getUrl(join(baseDir, currentValue));
+        data[key] = this.api.getUrl(join(baseDir, currentValue));
         // console.log("transformed: ", data[key]);
       }
     } else if (Array.isArray(data[key])) {
       // console.log("is array", key);
       for (let i = 0; i < data[key].length; i++) {
-        Content.processDataSlice(data[key], i, baseDir);
+        this.processDataSlice(data[key], i, baseDir);
       }
     } else if (
       Object.prototype.toString.call(data[key]).slice(8, -1) === "Object"
     ) {
       // console.log("is object", key);
       for (const subkey in data[key]) {
-        Content.processDataSlice(data[key], subkey, baseDir);
+        this.processDataSlice(data[key], subkey, baseDir);
       }
     }
   }
 
-  static async treatDataImages<T>(entry: any) {
+  async treatDataImages<T>(entry: any) {
     for (const key in entry.data) {
       if (Object.prototype.hasOwnProperty.call(entry.data, key) && key !== "body") {
-        Content.processDataSlice(
+        this.processDataSlice(
           entry.data,
           key,
           entry.dir
@@ -70,9 +76,9 @@ export abstract class Content {
     return entry as Entry<T>;
   }
 
-  static async treatAllImages<T>(entry: any) {
-    entry = await Content.treatDataImages(entry);
-    entry.body = await Content.treatBodyImages(entry);
+  async treatAllImages<T>(entry: any) {
+    entry = await this.treatDataImages(entry);
+    entry.body = await this.treatBodyImages(entry);
 
     return entry as Entry<T>;
   }
@@ -81,7 +87,7 @@ export abstract class Content {
    * About img regex replace:
    * @see https://regex101.com/r/Wefgyy/1
    */
-  // static treatContent(meta: EntryMeta, content: string = "") {
+  // treatContent(meta: EntryMeta, content: string = "") {
   //   const relativePath = meta.dir;
   //   const baseUrl = this.url + relativePath;
   //   const imgRegex = /(\!\[.+\])\((\.)(.+)\)/gm;

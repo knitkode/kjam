@@ -1,4 +1,4 @@
-import { Content } from "@kjam/core";
+import { kjam } from "./content-next";
 
 /**
  * Default configuration for `next-translate`
@@ -14,7 +14,7 @@ export function translate() {
     logBuild: false,
     // @see https://github.com/vinissimus/next-translate/issues/710#issuecomment-948489007
     loadLocaleFrom: (locale: string, namespace: string) =>
-      Content.api.getData(`i18n/${locale}/${namespace}`)
+      kjam.api.getData(`i18n/${locale}/${namespace}`)
     // loadLocaleFrom: (locale, namespace) =>
     //   import(`./public/locales/${locale}/${namespace}.json`).then(
     //     (m) => m.default

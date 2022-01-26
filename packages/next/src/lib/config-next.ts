@@ -2,7 +2,6 @@ import type { NextConfig } from "next";
 import type { Redirect, Rewrite } from "next/dist/lib/load-custom-routes";
 import type { BaseConfig, EntriesMapByRoute, StructureI18n } from "@kjam/core";
 import { ApiGit, normalisePathname } from "@kjam/core";
-// import type { SerializerNextOutputConfig } from "../../../serializer-next/src";
 // import type { SerializerNextOutputConfig } from "@kjam/serializer-next";
 
 // FIXME: using the above import of this type breaks the nx build,
@@ -29,17 +28,18 @@ export type ConfigNextOptions = BaseConfig & {
 };
 
 function ConfigNext(config?: ConfigNextOptions) {
-  const api: ApiGit = ApiGit;
+  const api: ApiGit = new ApiGit();
+
   const i18n: ConfigNextI18n = {
     locales: ["en"],
     defaultLocale: "en",
     localeDetection: false,
-    ...(config?.i18n || {})
+    ...(config?.i18n || {}),
   };
 
   /**
    * Get "base" config for `next.config.js`
-   * 
+   *
    * @param {boolean} [sc=true] Whether to use Styled Components
    * @param {boolean} [svgr=true] Whether to use NX svg support
    */
@@ -50,7 +50,7 @@ function ConfigNext(config?: ConfigNextOptions) {
       i18n,
       reactStrictMode: true,
       images: {
-        domains: [ApiGit.domain]
+        domains: [api.domain],
       },
       // @see https://nextjs.org/docs/api-reference/next.config.js
       eslint: {
@@ -66,7 +66,7 @@ function ConfigNext(config?: ConfigNextOptions) {
         // concurrentFeatures: true,
         // serverComponents: true,
         // reactRoot: true,
-        urlImports: [ApiGit.getUrl()],
+        urlImports: [api.getUrl()],
       },
       nx: {
         // Set this to true if you would like to to use SVGR
@@ -79,17 +79,21 @@ function ConfigNext(config?: ConfigNextOptions) {
   // async function getI18n() {}
 
   async function getRedirects() {
-    const data = await ApiGit.getData<SerializerNextOutputConfig>("next.config");
-    return data.redirects;
+    const data = await api.getData<SerializerNextOutputConfig>("next.config");
+    return data?.redirects ?? [];
   }
 
   async function getRewrites() {
     const data = await api.getData<SerializerNextOutputConfig>("next.config");
-    return data.rewrites;
+    return data?.rewrites ?? [];
   }
 
   async function getPathMap() {
     const byRoute = await api.getData<EntriesMapByRoute>("byRoute");
+    if (!byRoute) {
+      return {};
+    }
+
     const pathMap = {} as Record<
       string,
       {
@@ -117,6 +121,8 @@ function ConfigNext(config?: ConfigNextOptions) {
     if (config?.debug) {
       console.log("kjam/config::getPathMap,", pathMap);
     }
+
+    return pathMap;
   }
 
   return {

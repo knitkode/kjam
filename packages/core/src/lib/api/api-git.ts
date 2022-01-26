@@ -1,4 +1,3 @@
-// import fs from 'node:fs';
 import { resolve } from "path";
 import { readFile } from "fs-extra";
 import type {
@@ -17,26 +16,28 @@ export type ApiGitConfig = {
   branch?: string;
 };
 
-export abstract class ApiGit extends Api {
-  // config: Required<ApiGitConfig>;
-  // url: string;
+export class ApiGit extends Api {
+  config: Required<ApiGitConfig>;
 
-  static domain = "raw.githubusercontent.com";
+  constructor(config?: ApiGitConfig) {
+    super();
+    
+    const { username, repo, branch } = this.getConfig();
 
-  // constructor(config?: ApiGitConfig) {
-  //   const [username, repo, branch] = (process.env["KJAM_GIT"] || "").split("/");
-  //   this.config = {
-  //     username: config?.username || username,
-  //     repo: config?.repo || repo,
-  //     branch: config?.branch || branch,
-  //   };
-  //   this.url = d.getUrl();
-  // }
+    this.domain = "raw.githubusercontent.com";
+
+    this.config = {
+      username: config?.username || username,
+      repo: config?.repo || repo,
+      branch: config?.branch || branch,
+    };
+    this.url = this.getUrl();
+  }
 
   /**
    * Get git config from mandatory .env variable
    */
-  static getConfig() {
+  getConfig() {
     const [username, repo, branch] = (process.env["KJAM_GIT"] || "").split("/");
 
     return {
@@ -51,9 +52,9 @@ export abstract class ApiGit extends Api {
    * 
    * `https://api.github.com/repos/${username}/${repo}/${branch}`
    */
-  static getUrl(path?: string) {
+  getUrl(path?: string) {
     const { username, repo, branch } = this.getConfig();
-    let baseUrl = `https://${ApiGit.domain}/${username}/${repo}/${branch}`;
+    let baseUrl = `https://${this.domain}/${username}/${repo}/${branch}`;
 
     if (path) {
       return `${baseUrl}/${encodePathname(path)}`;
@@ -62,7 +63,7 @@ export abstract class ApiGit extends Api {
     return baseUrl;
   }
 
-  static async getRaw(path: string) {
+  async getRaw(path: string) {
     const gitFsPath = process.env["KJAM_GIT_FS"] || "";
 
     if (gitFsPath) {
@@ -79,17 +80,17 @@ export abstract class ApiGit extends Api {
   /**
    * Get and parse json file produced by `kjam-action` on remote git repo
    */
-  static async getData<T>(path: string) {
+  async getData<T>(path: string) {
     const raw = await this.getRaw(`.kjam/${path}.json`);
     try {
       return JSON.parse(raw) as T;
     } catch (_e) {
       console.error(`kjam/core/ApiGit::getData failed parsing path, ${path}`);
-      throw new Error();
+      return null;
     }
   }
 
-  static async getMaps<T>() {
+  async getMaps<T>() {
     // const cached = Cache.get<EntriesMap<T>>("content");
     // if (cached) {
     //   return cached;
@@ -106,14 +107,6 @@ export abstract class ApiGit extends Api {
     } as EntriesMap<T>;
 
     // Cache.set<EntriesMap<T>>("content", entriesMap);
-
-    // fs.writeFileSync(
-    //   nodePath.join(process.cwd(), 'yes.json'),
-    //   JSON.stringify(entriesMap, null, 2),
-    //   {
-    //     encoding: 'utf-8',
-    //   }
-    // );
 
     return entriesMap;
   }
