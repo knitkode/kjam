@@ -1,1 +1,1 @@
-export * from "./lib/PageDebug";
+export * from "./PageDebug";

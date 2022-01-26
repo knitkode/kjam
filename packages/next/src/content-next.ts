@@ -8,7 +8,7 @@ import type { serialize } from "next-mdx-remote/serialize";
 import type { Entry } from "@kjam/core";
 import { Content, normalisePathname } from "@kjam/core";
 import type { ConfigNextOptions } from "./config-next";
-import type { KjamProps } from "../index";
+import type { KjamProps } from "./index";
 
 type StaticPathsParams = {
   slug: string | string[];

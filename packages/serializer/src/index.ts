@@ -1,1 +1,1 @@
-export * from "./lib/serializer";
+export * from "./serializer";

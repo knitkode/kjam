@@ -1,7 +1,7 @@
 import { read } from "gray-matter";
 import { load, JSON_SCHEMA } from "js-yaml";
 import type { EntryMeta, EntryMatter, EntryRoute } from "@kjam/core";
-import { normalisePathname } from "../../../core/src"; // @kjam/core
+import { normalisePathname } from "../../core/src"; // @kjam/core
 
 /**
  * Only keep `.md` and `.mdx` files based on filename

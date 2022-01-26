@@ -16,7 +16,7 @@ import type {
   EntriesMapByTemplateSlug,
   EntriesMap,
   SiteTranslations,
-} from "../../../core/src"; // @kjam/core
+} from "../../core/src"; // @kjam/core
 import {
   filterMarkdownFiles,
   extractMeta,
