@@ -1,3 +1,11 @@
+## [1.4.6](https://github.com/knitkode/kjam/compare/v1.4.5...v1.4.6) (2022-01-26)
+
+### Bug Fixes
+
+- **all:** change imports and no static ([0e4dae3](https://github.com/knitkode/kjam/commit/0e4dae3edde7b785cc8506d46bab564b098cc86f))
+- **build:** avoid static classes and see if imports now work ([83a9bb5](https://github.com/knitkode/kjam/commit/83a9bb5efcf3252139e187cfb243ca015e523feb))
+- **build:** avoid static classes and see if imports now work ([de7abfa](https://github.com/knitkode/kjam/commit/de7abfa7b6c9dd5a22612a61a961b48558e175fd))
+
 ## [1.4.5](https://github.com/knitkode/kjam/compare/v1.4.4...v1.4.5) (2022-01-26)
 
 ### Bug Fixes
