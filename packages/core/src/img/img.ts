@@ -1,4 +1,4 @@
-import probe from "probe-image-size";
+// import probe from "probe-image-size";
 
 export class Img {
   baseUrl: string;
@@ -35,7 +35,9 @@ export class Img {
   async getInfo() {
     console.log("kjam/Img::getInfo originalUrl", this.originalUrl);
     // const start = performance.now();
-    const { width, height } = await probe(this.originalUrl);
+    const width = 0;
+    const height = 0;
+    // const { width, height } = await probe(this.originalUrl);
     // console.log(`Img:getInfo took ${performance.now() - start}ms for image at url ${this.originalUrl}`);
 
     this.width = width;
