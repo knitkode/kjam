@@ -1,5 +1,3 @@
-import { resolve } from "path";
-import { readFileSync } from "fs";
 import type {
   EntriesMap,
   EntriesMapByRoute,
@@ -21,7 +19,7 @@ export class ApiGit extends Api {
 
   constructor(config?: ApiGitConfig) {
     super();
-    
+
     const { username, repo, branch } = this.getConfig();
 
     this.domain = "raw.githubusercontent.com";
@@ -49,7 +47,7 @@ export class ApiGit extends Api {
 
   /**
    * The GitHub api url is:
-   * 
+   *
    * `https://api.github.com/repos/${username}/${repo}/${branch}`
    */
   getUrl(path?: string) {
@@ -67,6 +65,8 @@ export class ApiGit extends Api {
     const gitFsPath = process.env["KJAM_GIT_FS"] || "";
 
     if (gitFsPath) {
+      const { readFileSync } = require("fs");
+      const { resolve } = require("path");
       const filepath = resolve(process.cwd(), gitFsPath, encodePathname(path));
       return readFileSync(filepath, { encoding: "utf-8" });
     }
