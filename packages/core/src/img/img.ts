@@ -33,7 +33,7 @@ export class Img {
   }
 
   async getInfo() {
-    console.log("kjam/Img::getInfo originalUrl", this.originalUrl);
+    // console.log("kjam/Img::getInfo originalUrl is", this.originalUrl);
     // const start = performance.now();
     const width = 0;
     const height = 0;
