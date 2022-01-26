@@ -1,3 +1,17 @@
+## [1.4.8](https://github.com/knitkode/kjam/compare/v1.4.7...v1.4.8) (2022-01-26)
+
+### Bug Fixes
+
+- **api:** use require for fs ([2ed7871](https://github.com/knitkode/kjam/commit/2ed7871cb3ff6b1a2e58127b4b9482033181fb19))
+- **build:** switch to js builder ([3e923ec](https://github.com/knitkode/kjam/commit/3e923ec4ca09496e800098e41b95d57a3f2707eb))
+- **core:** back to tsc, swc breaks on github ci ([86e944e](https://github.com/knitkode/kjam/commit/86e944ea221581e4e31d76a4e559242411e6a9b4))
+- **core:** trigger build ([7f27100](https://github.com/knitkode/kjam/commit/7f27100ef0b09f1ffe48893ff185232a37924000))
+- **wip:** eslint ([29284c2](https://github.com/knitkode/kjam/commit/29284c27209a61afc41cf51e6fce793e9b3309e6))
+- **wip:** structuring ([d33a386](https://github.com/knitkode/kjam/commit/d33a386404cbdaf52ec36c74f1703ca6edd1c7b8))
+- **wip:** structuring ([f26e22a](https://github.com/knitkode/kjam/commit/f26e22a919b743c40dddc0afdac88df7984f7004))
+- **wip:** structuring ([ca7cf5b](https://github.com/knitkode/kjam/commit/ca7cf5b22cf37a37f4823c207bd2cc18f04fb9c9))
+- **wip:** translations ([9786e09](https://github.com/knitkode/kjam/commit/9786e091afa692422479eaca7e90515b81b7b26e))
+
 ## [1.4.7](https://github.com/knitkode/kjam/compare/v1.4.6...v1.4.7) (2022-01-26)
 
 ### Bug Fixes
