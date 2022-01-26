@@ -53,7 +53,8 @@ export function getTranslations(folderPath: string, structure: Structure) {
         if (keyParts.length === 1) {
           if (!isCommon) {
             console.error(
-              `kjam/Serializer::getTranslations, only '_common' ` +
+              `kjam/Serializer::getTranslations, problem found with ` +
+                `'${key}' in file '${target}', only '_common' ` +
                 `translations can have no dots in the key.\n`
             );
           } else {
