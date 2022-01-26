@@ -17,5 +17,5 @@ async function run(): Promise<void> {
 }
 
 run()
-  .then(git ? () => git.success() : () => {})
-  .catch(git ? (e) => git.error(e) : () => {});
+  .then(git ? () => git.success() : () => null)
+  .catch(git ? (e) => git.error(e) : () => null);

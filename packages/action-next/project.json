@@ -12,7 +12,7 @@
         "main": "packages/action-next/src/index.ts",
         "tsConfig": "packages/action-next/tsconfig.lib.json",
         "generatePackageJson": false,
-        "optimization": false,
+        "optimization": true,
         "assets": [
           "packages/action-next/.gitignore",
           "packages/action-next/*.md",
