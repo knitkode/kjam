@@ -1,3 +1,14 @@
+## [1.4.9](https://github.com/knitkode/kjam/compare/v1.4.8...v1.4.9) (2022-01-26)
+
+### Bug Fixes
+
+- **core:** disable prove-image-size as it breaks next-translate ([5d5b8dc](https://github.com/knitkode/kjam/commit/5d5b8dc4567856f11cdd61147a7cc4ec85addcc5))
+- **core:** disable prove-image-size as it breaks next-translate ([38fb978](https://github.com/knitkode/kjam/commit/38fb978a67db0681f7adda6a53037fae219df3b2))
+
+### Other
+
+- Merge branch 'main' of github.com:knitkode/kjam into main ([ca52991](https://github.com/knitkode/kjam/commit/ca52991305e88574ade39db6e1b56c4205c40393))
+
 ## [1.4.8](https://github.com/knitkode/kjam/compare/v1.4.7...v1.4.8) (2022-01-26)
 
 ### Bug Fixes
