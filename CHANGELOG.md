@@ -1,3 +1,14 @@
+## [1.4.7](https://github.com/knitkode/kjam/compare/v1.4.6...v1.4.7) (2022-01-26)
+
+### Bug Fixes
+
+- **api:** use fs instead of fs-extra ([3ba85fd](https://github.com/knitkode/kjam/commit/3ba85fd25a3a6eef0aa9ca1e7661775b048e6340))
+- **api:** use fs instead of fs-extra ([bc76f5c](https://github.com/knitkode/kjam/commit/bc76f5c71f9a24d6604a84093b806aa355023f27))
+
+### Other
+
+- Merge branch 'main' of github.com:knitkode/kjam into main ([1b8ff50](https://github.com/knitkode/kjam/commit/1b8ff50940721a9a31bf026cb7c1abf1077c6046))
+
 ## [1.4.6](https://github.com/knitkode/kjam/compare/v1.4.5...v1.4.6) (2022-01-26)
 
 ### Bug Fixes
