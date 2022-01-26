@@ -33,7 +33,7 @@ export class Img {
   }
 
   async getInfo() {
-    console.log("this.originalUrl", this.originalUrl);
+    console.log("kjam/Img::getInfo originalUrl", this.originalUrl);
     const start = performance.now();
     const { width, height } = await probe(this.originalUrl);
     // console.log(`Img:getInfo took ${performance.now() - start}ms for image at url ${this.originalUrl}`);
