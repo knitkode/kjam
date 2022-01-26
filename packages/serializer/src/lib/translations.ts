@@ -24,7 +24,6 @@ export const TRANSLATIONS_CHARS = {
 };
 
 export const TRANSLATIONS_REGEX = {
-  common: /^_/,
   route: /~/g,
 };
 
@@ -32,7 +31,7 @@ export function getTranslations(folderPath: string, structure: Structure) {
   const { locales } = structure.i18n;
   const out: SiteTranslations = {};
   const { common: commonChar, route: routeChar } = TRANSLATIONS_CHARS;
-  const { common: commonReg, route: routeReg } = TRANSLATIONS_REGEX;
+  const { route: routeReg } = TRANSLATIONS_REGEX;
 
   for (let i = 0; i < locales.length; i++) {
     const locale = locales[i];
@@ -54,7 +53,8 @@ export function getTranslations(folderPath: string, structure: Structure) {
         if (keyParts.length === 1) {
           if (!isCommon) {
             console.error(
-              `Only '_common' translations can have no dots in the key.`
+              `kjam/Serializer::getTranslations, only '_common' ` +
+              `translations can have no dots in the key.\n`
             );
           } else {
             const scoped = keyParts[0];
@@ -79,9 +79,8 @@ export function getTranslations(folderPath: string, structure: Structure) {
         } else {
           // throw Error(
           console.warn(
-            `kjam/Serializer::getTranslations, too many levels of 
-depth of '${key}' in file '${target}', max 2 allowed (one dot!).
-\n`
+            `kjam/Serializer::getTranslations, too many levels of ` +
+            `depth of '${key}' in file '${target}', max 2 allowed (one dot!).\n`
           );
         }
       }

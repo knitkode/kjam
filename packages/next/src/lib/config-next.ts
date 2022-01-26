@@ -63,9 +63,9 @@ function ConfigNext(config?: ConfigNextOptions) {
       experimental: {
         styledComponents: sc,
         scrollRestoration: true,
-        concurrentFeatures: true,
-        serverComponents: true,
-        reactRoot: true,
+        // concurrentFeatures: true,
+        // serverComponents: true,
+        // reactRoot: true,
         urlImports: [ApiGit.getUrl()],
       },
       nx: {
