@@ -5,12 +5,14 @@ type username = string & { _brand: true }; // Brand<string, 'username'>;
 type repo = string;
 type branch = string;
 
-type KjamEnv = {
+interface KjamEnv {
   KJAM_GIT: `${username}/${repo}/${branch}`;
   KJAM_GIT_FS?: string;
   KJAM_DEBUG?: "true" | "false";
-};
+}
 
 declare namespace NodeJS {
-  interface ProcessEnv extends KjamEnv {}
+  interface ProcessEnv extends KjamEnv {
+    KJAM: undefined;
+  }
 }

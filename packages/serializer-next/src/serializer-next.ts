@@ -40,10 +40,11 @@ export class SerializerNext extends Serializer<{}> {
     const redirects = [];
 
     for (const [templateName, routeLocales] of Object.entries(routes)) {
-      for (let [routeLocale, routeLocalisedPathname] of Object.entries(
+      for (const [routeLocale, _routeLocalisedPathname] of Object.entries(
         routeLocales
       )) {
         const templateAsPathname = `/${templateName}`;
+        let routeLocalisedPathname = _routeLocalisedPathname;
 
         // only redirect if the template name of `/pages/${name}` is not the same
         // as the actual slug of this route
@@ -87,6 +88,7 @@ export class SerializerNext extends Serializer<{}> {
     const rewrites = [];
 
     for (const [templateName, routeLocales] of Object.entries(routes)) {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       for (const [_routeLocale, routeLocalisedPathname] of Object.entries(
         routeLocales
       )) {

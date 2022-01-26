@@ -5,7 +5,6 @@ import { normalisePathname } from "../../core/src"; // @kjam/core
 
 /**
  * Only keep `.md` and `.mdx` files based on filename
- * @returns
  */
 export function filterMarkdownFiles(filenameOrPath: string) {
   return filenameOrPath.endsWith(".md") || filenameOrPath.endsWith(".mdx");
@@ -39,7 +38,7 @@ export function extractMeta(filepath: string): EntryMeta {
 }
 
 export function extractMatter<T>(filepath: string): EntryMatter<T> {
-  let { content, excerpt, data } = read(filepath, {
+  const { content, excerpt, data } = read(filepath, {
     excerpt: true,
     // FIXME: eval is not allowed in middleware, not sure if that is a problem,
     // as it is enabled by default
@@ -47,7 +46,7 @@ export function extractMatter<T>(filepath: string): EntryMatter<T> {
     engines: {
       // turn off automatic date parsing
       // @see https://github.com/jonschlinkert/gray-matter/issues/62#issuecomment-577628177
-      // @ts-expect-error
+      // @ts-expect-error I don't think this is important
       yaml: (s) => load(s, { schema: JSON_SCHEMA }),
     },
   });

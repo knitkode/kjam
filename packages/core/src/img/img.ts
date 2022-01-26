@@ -19,7 +19,7 @@ export class Img {
   }
 
   parseMarkdown() {
-    const regex = /\!\[(.+)\]\((.+)\)/;
+    const regex = /!\[(.+)\]\((.+)\)/;
     const matches = this.md.match(regex);
 
     if (matches) {
@@ -34,7 +34,7 @@ export class Img {
 
   async getInfo() {
     console.log("kjam/Img::getInfo originalUrl", this.originalUrl);
-    const start = performance.now();
+    // const start = performance.now();
     const { width, height } = await probe(this.originalUrl);
     // console.log(`Img:getInfo took ${performance.now() - start}ms for image at url ${this.originalUrl}`);
 
@@ -51,7 +51,7 @@ export class Img {
    * ```
    */
   async toMarkdown() {
-    const imgRegex = /(\!\[.+\])\((\.)(.+)\)/gm;
+    const imgRegex = /(!\[.+\])\((\.)(.+)\)/gm;
     const imgSubst = `$1(${this.baseUrl}$3)`;
     const output = this.md.replace(imgRegex, imgSubst);
 
@@ -81,7 +81,7 @@ export class Img {
    */
   async toHtml() {
     const { width, height } = await this.getInfo();
-    let attributes = `src="${this.originalUrl}" alt="${this.alt}" width={${width}} height={${height}}`;
+    const attributes = `src="${this.originalUrl}" alt="${this.alt}" width={${width}} height={${height}}`;
 
     return `<img ${attributes} />`;
   }

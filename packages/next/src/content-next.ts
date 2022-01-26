@@ -58,7 +58,7 @@ class ContentNext extends Content {
   >(
     context: GetStaticPathsContext,
     fallback: GetStaticPathsResult["fallback"] = "blocking",
-    routeType: string = "",
+    routeType = "",
     asString?: Type
   ) {
     // const { locales, defaultLocale } = context;
@@ -81,7 +81,7 @@ class ContentNext extends Content {
 
           if (slug) {
             paths.push({
-              // @ts-expect-error
+              // @ts-expect-error Not sure why this breaks
               params: { slug },
               locale: routeLocale,
             });
@@ -92,11 +92,11 @@ class ContentNext extends Content {
         }
       }
     }
-    
+
     if (this.debug) {
       console.log("kjam/content::getStaticPaths", paths);
     }
-    
+
     return {
       fallback,
       paths,
@@ -113,11 +113,7 @@ class ContentNext extends Content {
     return null;
   }
 
-  async get<T>(
-    folderPath: string = "",
-    slug: string | string[] = "",
-    locale: string = ""
-  ) {
+  async get<T>(folderPath = "", slug: string | string[] = "", locale = "") {
     let templateSlug = Array.isArray(slug) ? slug.join("/") : slug;
     // templateSlug = normalisePathname(`${localisedFolderPath}/${slug}`);
     templateSlug = normalisePathname(`${folderPath}/${slug}`);
@@ -143,7 +139,7 @@ class ContentNext extends Content {
   >(
     ctx: GetStaticPropsContext<Params>,
     mdxSerializer: typeof serialize,
-    routeType: string = "",
+    routeType = "",
     additionalData = {}
   ): Promise<GetStaticPropsResult<KjamProps<Data, Params>>> {
     const { params, locale } = ctx;

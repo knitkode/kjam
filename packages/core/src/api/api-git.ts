@@ -21,7 +21,7 @@ export class ApiGit extends Api {
 
   constructor(config?: ApiGitConfig) {
     super();
-    
+
     const { username, repo, branch } = this.getConfig();
 
     this.domain = "raw.githubusercontent.com";
@@ -49,12 +49,12 @@ export class ApiGit extends Api {
 
   /**
    * The GitHub api url is:
-   * 
+   *
    * `https://api.github.com/repos/${username}/${repo}/${branch}`
    */
   getUrl(path?: string) {
     const { username, repo, branch } = this.getConfig();
-    let baseUrl = `https://${this.domain}/${username}/${repo}/${branch}`;
+    const baseUrl = `https://${this.domain}/${username}/${repo}/${branch}`;
 
     if (path) {
       return `${baseUrl}/${encodePathname(path)}`;

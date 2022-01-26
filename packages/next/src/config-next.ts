@@ -104,6 +104,7 @@ function ConfigNext(config?: ConfigNextOptions) {
       }
     >;
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     for (const [_routeId, routeLocales] of Object.entries(byRoute)) {
       for (const [routeLocale, route] of Object.entries(routeLocales)) {
         const slugLocale =

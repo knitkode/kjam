@@ -1,7 +1,6 @@
-import type { EntriesMap } from "../types"
+import type { EntriesMap } from "../types";
 
 export abstract class Api {
-  
   /**
    * The domain of the API, without `https://` protocol
    */
@@ -25,7 +24,7 @@ export abstract class Api {
   /**
    * Get JSON data from relative URL path of API,
    *  typical endpoint like behaviour.
-   * 
+   *
    * Usage:
    * ```ts
    * const data = await api.getData(`i18n/${locale}/_.json`)
@@ -36,7 +35,7 @@ export abstract class Api {
   /**
    * Return the full base URL of the API
    */
-  abstract getUrl<T>(path?: string): string;
+  abstract getUrl(path?: string): string;
 
   abstract getMaps<T>(): Promise<EntriesMap<T>>;
 }

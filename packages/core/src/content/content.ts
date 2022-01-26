@@ -5,7 +5,6 @@ import { ApiGit } from "../api/api-git";
 import { Img } from "../img/img";
 
 export abstract class Content {
-
   api: Api;
   debug?: boolean;
 
@@ -23,7 +22,7 @@ export abstract class Content {
   async treatBodyImages<T>(entry: Entry<T>) {
     const { body } = entry;
     const baseUrl = this.api.getUrl(entry.dir);
-    const regex = /\!\[.+\]\(.+\)/gm;
+    const regex = /!\[.+\]\(.+\)/gm;
     const matches = body.match(regex);
     let output = body;
 
@@ -43,7 +42,11 @@ export abstract class Content {
   processDataSlice(data: any, key: any, baseDir: string) {
     if (typeof data[key] === "string") {
       const currentValue = data[key];
-      if (currentValue.endsWith(".jpg") || currentValue.endsWith(".jpeg") || currentValue.endsWith(".png")) {
+      if (
+        currentValue.endsWith(".jpg") ||
+        currentValue.endsWith(".jpeg") ||
+        currentValue.endsWith(".png")
+      ) {
         data[key] = this.api.getUrl(join(baseDir, currentValue));
         // console.log("transformed: ", data[key]);
       }
@@ -64,12 +67,11 @@ export abstract class Content {
 
   async treatDataImages<T>(entry: any) {
     for (const key in entry.data) {
-      if (Object.prototype.hasOwnProperty.call(entry.data, key) && key !== "body") {
-        this.processDataSlice(
-          entry.data,
-          key,
-          entry.dir
-        );
+      if (
+        Object.prototype.hasOwnProperty.call(entry.data, key) &&
+        key !== "body"
+      ) {
+        this.processDataSlice(entry.data, key, entry.dir);
       }
     }
 

@@ -1,4 +1,4 @@
-// @ts-ignore eslint-disable-next-line no-unused-vars
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import React from "react";
 import type { FC, ReactNode } from "react";
 import { MDXRemote } from "next-mdx-remote";

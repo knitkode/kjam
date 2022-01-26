@@ -109,7 +109,7 @@ export class Serializer<T> {
         i18n: this.i18n,
       }
     );
-    
+
     writeTranslations(this.translations, this.writeFile.bind(this));
 
     await this.getEntriesMap();
@@ -273,7 +273,7 @@ export class Serializer<T> {
 
   private getSlugFromRawFile(filepath: string) {
     const content = readFileSync(filepath, "utf-8");
-    const regex = /slug\:[\s|\n]+(.+)$/m;
+    const regex = /slug:[\s|\n]+(.+)$/m;
     const matches = content.match(regex);
 
     if (matches && matches[1]) {
@@ -354,7 +354,8 @@ export class Serializer<T> {
     this.writeFile("byRoute", byRoute);
     this.writeFile("byTemplateSlug", byTemplateSlug);
 
-    for (const [routeId, routeLocales] of Object.entries(byRoute)) {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    for (const [_routeId, routeLocales] of Object.entries(byRoute)) {
       for (const [routeLocale, route] of Object.entries(routeLocales)) {
         const { templateSlug } = route;
 

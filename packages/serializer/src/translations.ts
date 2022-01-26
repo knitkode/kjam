@@ -54,7 +54,7 @@ export function getTranslations(folderPath: string, structure: Structure) {
           if (!isCommon) {
             console.error(
               `kjam/Serializer::getTranslations, only '_common' ` +
-              `translations can have no dots in the key.\n`
+                `translations can have no dots in the key.\n`
             );
           } else {
             const scoped = keyParts[0];
@@ -69,7 +69,7 @@ export function getTranslations(folderPath: string, structure: Structure) {
           if (isCommon) {
             const scoped = keyParts[0];
             out[locale][file][scoped] = out[locale][file][scoped] || {};
-            // @ts-ignore
+            // @ts-expect-error It does not matter...
             out[locale][file][scoped][keyParts[1]] = value;
           } else {
             const file = keyParts[0].replace(routeReg, "");
@@ -80,7 +80,7 @@ export function getTranslations(folderPath: string, structure: Structure) {
           // throw Error(
           console.warn(
             `kjam/Serializer::getTranslations, too many levels of ` +
-            `depth of '${key}' in file '${target}', max 2 allowed (one dot!).\n`
+              `depth of '${key}' in file '${target}', max 2 allowed (one dot!).\n`
           );
         }
       }

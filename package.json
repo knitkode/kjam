@@ -5,8 +5,9 @@
   "scripts": {
     "commit": "git-cz",
     "prepare": "husky install",
-    "format": "npx prettier --write **/*.{js,json,css,ts,tsx}",
     "build": "npx nx run-many --target=build --all=true",
+    "format": "clear && npx prettier --write **/*.{js,json,css,ts,tsx}",
+    "lint": "clear && npx eslint --fix packages/**/*.{ts,tsx}",
     "clean": "rm -rf ./node_modules/.cache/nx",
     "test-action-next": "nx run action-next:build && KJAM_GIT_FS=../../LaSchola/content-www KJAM_SKIP_GIT=true node ./dist/packages/action-next/index.js"
   },
