@@ -82,13 +82,16 @@ export class ApiGit extends Api {
   /**
    * Get and parse json file produced by `kjam-action` on remote git repo
    */
-  async getData<T>(path: string) {
+  async getData<T, F = null>(
+    path: string,
+    failedReturn: F = null as unknown as F
+  ) {
     const raw = await this.getRaw(`.kjam/${path}.json`);
     try {
       return JSON.parse(raw) as T;
     } catch (_e) {
       console.error(`kjam/core/ApiGit::getData failed parsing '${path}'`);
-      return null;
+      return failedReturn;
     }
   }
 

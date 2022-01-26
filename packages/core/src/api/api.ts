@@ -30,7 +30,7 @@ export abstract class Api {
    * const data = await api.getData(`i18n/${locale}/_.json`)
    * ```
    */
-  abstract getData<T>(path: string): Promise<T | null>;
+  abstract getData<T, F = null>(path: string, failedReturn?: F): Promise<T | F>;
 
   /**
    * Return the full base URL of the API
