@@ -86,13 +86,17 @@ class ContentNext extends Content {
               locale: routeLocale,
             });
             // console.log(
-            //   `content::getStaticPaths routeType ${routeType}, slug: ${slug}`
+            //   `kjam/content::getStaticPaths routeType ${routeType}, slug: ${slug}`
             // );
           }
         }
       }
     }
-    // console.log("git::getStaticPaths", paths);
+    
+    if (this.debug) {
+      console.log("kjam/content::getStaticPaths", paths);
+    }
+    
     return {
       fallback,
       paths,
@@ -152,7 +156,7 @@ class ContentNext extends Content {
     }
 
     const body = await this.treatBody<Data>(entry);
-    // const mdx = { compiledSource: body, scope: entry.data }; //
+    // const mdx = { compiledSource: body, scope: entry.data };
     const mdx = await mdxSerializer(body, { scope: entry.data });
     return { props: { mdx, entry, ...additionalData } };
   }

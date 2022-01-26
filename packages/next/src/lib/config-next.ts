@@ -119,7 +119,7 @@ function ConfigNext(config?: ConfigNextOptions) {
     }
 
     if (config?.debug) {
-      console.log("kjam/config::getPathMap,", pathMap);
+      console.log("kjam/config::getPathMap", pathMap);
     }
 
     return pathMap;
