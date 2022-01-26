@@ -1,3 +1,9 @@
+## [1.4.3](https://github.com/knitkode/kjam/compare/v1.4.2...v1.4.3) (2022-01-26)
+
+### Bug Fixes
+
+- **serializer:** i18n stuff wip ([c0aa378](https://github.com/knitkode/kjam/commit/c0aa3784d5f8a3b822aea29698f3ee864c9c7df6))
+
 ## [1.4.2](https://github.com/knitkode/kjam/compare/v1.4.1...v1.4.2) (2022-01-25)
 
 ### Bug Fixes
