@@ -7,7 +7,8 @@ export type KjamProps<Data, Params> = {
   params?: Params;
 };
 
-export type KjamEntry = Entry;
+export type KjamEntry<T> = Entry<T>;
 
 export * from "./config-next";
 export * from "./content-next";
+export * from "./translate";

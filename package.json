@@ -8,7 +8,7 @@
     "format": "npx prettier --write **/*.{js,json,css,ts,tsx}",
     "build": "npx nx run-many --target=build --all=true",
     "clean": "rm -rf ./node_modules/.cache/nx",
-    "test-action-next": "nx run action-next:build && KJAM_ROOT_PATH=../../LaSchola/content-www KJAM_SKIP_GIT=true node ./dist/packages/action-next/index.js"
+    "test-action-next": "nx run action-next:build && KJAM_GIT_FS=../../LaSchola/content-www KJAM_SKIP_GIT=true node ./dist/packages/action-next/index.js"
   },
   "private": true,
   "dependencies": {

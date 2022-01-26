@@ -15,6 +15,7 @@ import type {
   EntriesMapByRoute,
   EntriesMapByTemplateSlug,
   EntriesMap,
+  SiteTranslations,
 } from "../../../core/src";
 import {
   filterMarkdownFiles,
@@ -22,19 +23,23 @@ import {
   extractMatter,
   extractRoute,
 } from "./utils";
+import { getTranslations, writeTranslations } from "./translations";
 
 type LoggerType = "info" | "error" | "warn";
 
 type Logger = (data: any, type?: LoggerType) => void;
 
-export type SerializerConfig<T> = T & {
-  debug?: boolean;
+type SerializerConfig<T> = T & {
+  debug: boolean;
   /** @default "settings/i18n/config.yml" */
-  i18nPath?: string;
-  log?: Logger;
+  pathI18n: string;
+  /** @default "settings/i18n/messages" */
+  pathTranslations: string;
+  log: Logger;
 };
 
 export class Serializer<T> {
+  config: SerializerConfig<T>;
   /** Logger function */
   log: Logger;
   /** Flag for debug mode */
@@ -42,25 +47,33 @@ export class Serializer<T> {
   /** Repository root absolute folder path */
   readonly root: string;
 
-  i18n: Structure["i18n"];
   routes: Structure["routes"];
+  i18n: Structure["i18n"];
+  translations: SiteTranslations;
 
   /**
    * All markdown files paths
    */
   mdPaths: string[];
 
-  constructor(config?: SerializerConfig<T>) {
-    const i18nPath = config?.i18nPath || "settings/i18n/config.yml";
+  constructor(config?: Partial<SerializerConfig<T>>) {
     const defaultLogger: Logger = (data, type = "info") => {
       console[type](data);
     };
+    this.config = {
+      debug: false,
+      log: defaultLogger,
+      pathI18n: "settings/i18n/config.yml",
+      pathTranslations: "settings/i18n/messages",
+      ...config,
+    } as SerializerConfig<T>;
 
-    this.log = config?.log || defaultLogger;
+    this.log = this.config.log;
     this.debug = !!config?.debug;
-    this.root = join(process.cwd(), process.env["KJAM_ROOT_PATH"] || ".");
-    this.i18n = this.getI18n(i18nPath);
+    this.root = join(process.cwd(), process.env["KJAM_GIT_FS"] || ".");
+    this.i18n = this.getI18n();
     this.routes = {};
+    this.translations = {};
     this.mdPaths = [];
   }
 
@@ -88,6 +101,16 @@ export class Serializer<T> {
       i18n: this.i18n,
       routes: this.routes,
     });
+
+    this.translations = getTranslations(
+      join(this.root, this.config.pathTranslations),
+      {
+        routes: this.routes,
+        i18n: this.i18n,
+      }
+    );
+    
+    writeTranslations(this.translations, this.writeFile.bind(this));
 
     await this.getEntriesMap();
 
@@ -138,8 +161,8 @@ export class Serializer<T> {
     writeFileSync(target, content);
   }
 
-  private getI18n(i18nPath: string) {
-    const target = join(this.root, i18nPath);
+  private getI18n() {
+    const target = join(this.root, this.config.pathI18n);
 
     if (existsSync(target)) {
       const content = readFileSync(target, "utf-8");

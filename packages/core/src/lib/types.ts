@@ -19,6 +19,44 @@ export type StructureI18n = {
 export type StructureRoutes = Record<Template, Record<Locale, Slug>>;
 
 /**
+ * Structure:
+ * 
+ * ```txt
+ * |__`/locale` (folder)
+ *    |__`filename.json` (in here max two levels deep)
+ *        |__"rootLevel": "rootValue",
+ *           |__"scopedLevel": "scopedValue"
+ * ```
+ * 
+ * The JSON like object would be:
+ * ```
+ * {
+ *   "en": {
+ *     "common": {
+ *       "stringKey": "Site wide translated value",
+ *       "maxDepth": {
+ *         "stringKey": "Site wide 'scoped' translated value",
+ *       }
+ *     },
+ *     "routes": {
+ *       "stringKey": "/translated/path/name"
+ *     }
+ *     "Component": {
+ *       "stringKey": "Component specific translated value",
+ *       "maxDepth": {
+ *         "stringKey": "Component specific 'scoped' translated value",
+ *       }
+ *     }
+ *   }
+ * }
+ * ```
+ */
+export type SiteTranslations = Record<
+  Locale,
+  Record<"*" | "~" | string, Record<string, string | Record<string, string>>>
+>;
+
+/**
  * Given this input string `/news/some-title/index.it.md`
  */
 export type EntryMeta = {

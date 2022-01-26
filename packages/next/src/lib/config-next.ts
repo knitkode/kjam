@@ -22,8 +22,7 @@ type SerializerNextOutputConfig = {
  *
  * FIXME: implement a check if a mismatch happens and report to the user
  */
-type ConfigNextI18n = StructureI18n &
-  Omit<NextConfig["i18n"], keyof StructureI18n>;
+type ConfigNextI18n = StructureI18n & NextConfig["i18n"]; // Omit<NextConfig["i18n"], keyof StructureI18n>;
 
 export type ConfigNextOptions = BaseConfig & {
   i18n: ConfigNextI18n;
@@ -31,34 +30,56 @@ export type ConfigNextOptions = BaseConfig & {
 
 function ConfigNext(config?: ConfigNextOptions) {
   const api: ApiGit = ApiGit;
-  const i18n: ConfigNextI18n = config?.i18n || {
+  const i18n: ConfigNextI18n = {
     locales: ["en"],
     defaultLocale: "en",
+    localeDetection: false,
+    ...(config?.i18n || {})
   };
 
   /**
    * Get "base" config for `next.config.js`
+   * 
+   * @param {boolean} [sc=true] Whether to use Styled Components
+   * @param {boolean} [svgr=true] Whether to use NX svg support
    */
-  function base() {
+  function base(sc = true, svgr = true) {
     return {
       // @see https://bit.ly/3c7BsAx
-      pageExtensions: ["page.tsx", "page.ts", "page.jsx", "page.js"],
-      reactStrictMode: true,
+      pageExtensions: ["page.tsx", "page.ts"],
       i18n,
-      // swcMinify: true,
-      // experimental: {
-      //   scrollRestoration: true,
-      //   concurrentFeatures: true,
-      //   serverComponents: true,
-      //   reactRoot: true,
-      // },
+      reactStrictMode: true,
+      images: {
+        domains: [ApiGit.domain]
+      },
+      // @see https://nextjs.org/docs/api-reference/next.config.js
+      eslint: {
+        ignoreDuringBuilds: true, // we have this strict check on each commit anyway
+      },
+      typescript: {
+        ignoreBuildErrors: true, // we have this strict check on each commit anyway
+      },
+      swcMinify: true,
+      experimental: {
+        styledComponents: sc,
+        scrollRestoration: true,
+        concurrentFeatures: true,
+        serverComponents: true,
+        reactRoot: true,
+        urlImports: [ApiGit.getUrl()],
+      },
+      nx: {
+        // Set this to true if you would like to to use SVGR
+        // See: https://github.com/gregberge/svgr
+        svgr,
+      },
     };
   }
 
-  async function getI18n() {}
+  // async function getI18n() {}
 
   async function getRedirects() {
-    const data = await api.getData<SerializerNextOutputConfig>("next.config");
+    const data = await ApiGit.getData<SerializerNextOutputConfig>("next.config");
     return data.redirects;
   }
 

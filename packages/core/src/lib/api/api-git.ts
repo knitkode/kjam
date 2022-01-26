@@ -21,6 +21,8 @@ export abstract class ApiGit extends Api {
   // config: Required<ApiGitConfig>;
   // url: string;
 
+  static domain = "raw.githubusercontent.com";
+
   // constructor(config?: ApiGitConfig) {
   //   const [username, repo, branch] = (process.env["KJAM_GIT"] || "").split("/");
   //   this.config = {
@@ -45,12 +47,13 @@ export abstract class ApiGit extends Api {
   }
 
   /**
-   * The github api url would be:
-   * `https://api.github.com/repos/${username}/${repo}/git/trees/${branch}?recursive=1`
+   * The GitHub api url is:
+   * 
+   * `https://api.github.com/repos/${username}/${repo}/${branch}`
    */
   static getUrl(path?: string) {
     const { username, repo, branch } = this.getConfig();
-    let baseUrl = `https://raw.githubusercontent.com/${username}/${repo}/${branch}`;
+    let baseUrl = `https://${ApiGit.domain}/${username}/${repo}/${branch}`;
 
     if (path) {
       return `${baseUrl}/${encodePathname(path)}`;
