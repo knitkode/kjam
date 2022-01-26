@@ -17,8 +17,8 @@
     "strict": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
-    "noPropertyAccessFromIndexSignature": true, // custom
-    "noImplicitOverride": true, // custom
+    "noPropertyAccessFromIndexSignature": true,
+    "noImplicitOverride": true,
     "composite": true,
     "baseUrl": ".",
     "paths": {
@@ -28,7 +28,8 @@
       "@kjam/next": ["packages/next/src/index.ts"],
       "@kjam/next-ui": ["packages/next-ui/src/index.ts"],
       "@kjam/serializer": ["packages/serializer/src/index.ts"],
-      "@kjam/serializer-next": ["packages/serializer-next/src/index.ts"]
+      "@kjam/serializer-next": ["packages/serializer-next/src/index.ts"],
+      "@kjam/test": ["packages/test/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

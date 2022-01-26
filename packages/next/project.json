@@ -5,13 +5,12 @@
   "tags": [],
   "targets": {
     "build": {
-      "executor": "@nrwl/node:package",
+      "executor": "@nrwl/js:swc",
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/packages/next",
-        "tsConfig": "packages/next/tsconfig.lib.json",
-        "packageJson": "packages/next/package.json",
         "main": "packages/next/src/index.ts",
+        "tsConfig": "packages/next/tsconfig.lib.json",
         "assets": ["packages/next/*.md"]
       }
     },

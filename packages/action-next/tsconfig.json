@@ -1,10 +1,67 @@
 {
-  "extends": "../../tsconfig.base.json",
-  "files": [],
-  "include": [],
-  "references": [
-    {
-      "path": "./tsconfig.lib.json"
-    }
+  "compilerOptions": {
+    "rootDir": "../..",
+    "sourceMap": true,
+    "declaration": true,
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "target": "es6",
+    "module": "commonjs",
+    "lib": [
+      "es2017",
+      "dom"
+    ],
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "noImplicitOverride": true,
+    "composite": true,
+    "baseUrl": "../..",
+    "paths": {
+      "@kjam/action": [
+        "packages/action/src/index.ts"
+      ],
+      "@kjam/action-next": [
+        "packages/action-next/src/index.ts"
+      ],
+      "@kjam/core": [
+        "packages/core/src/index.ts"
+      ],
+      "@kjam/next": [
+        "packages/next/src/index.ts"
+      ],
+      "@kjam/next-ui": [
+        "packages/next-ui/src/index.ts"
+      ],
+      "@kjam/serializer": [
+        "packages/serializer/src/index.ts"
+      ],
+      "@kjam/serializer-next": [
+        "packages/serializer-next/src/index.ts"
+      ],
+      "@kjam/test": [
+        "packages/test/src/index.ts"
+      ]
+    },
+    "outDir": "../../dist/out-tsc",
+    "types": [
+      "node"
+    ]
+  },
+  "files": [
+    "./src/index.ts",
+    "./src/lib/action-next.ts"
+  ],
+  "include": [
+    "**/*.ts"
+  ],
+  "exclude": [
+    "**/*.spec.ts"
   ]
 }
