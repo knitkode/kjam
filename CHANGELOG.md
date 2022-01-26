@@ -1,3 +1,9 @@
+## [1.4.10](https://github.com/knitkode/kjam/compare/v1.4.9...v1.4.10) (2022-01-26)
+
+### Bug Fixes
+
+- **translate:** return empty object if translate fails ([ba93e4d](https://github.com/knitkode/kjam/commit/ba93e4df0a08728db29200f59438d28938be69a7))
+
 ## [1.4.9](https://github.com/knitkode/kjam/compare/v1.4.8...v1.4.9) (2022-01-26)
 
 ### Bug Fixes
