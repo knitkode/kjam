@@ -20,14 +20,14 @@ export type StructureRoutes = Record<Template, Record<Locale, Slug>>;
 
 /**
  * Structure:
- * 
+ *
  * ```txt
  * |__`/locale` (folder)
  *    |__`filename.json` (in here max two levels deep)
  *        |__"rootLevel": "rootValue",
  *           |__"scopedLevel": "scopedValue"
  * ```
- * 
+ *
  * The JSON like object would be:
  * ```
  * {
