@@ -1,6 +1,6 @@
 {
   "root": "packages/next",
-  "sourceRoot": "packages/next/src",
+  "sourceRoot": "packages/next",
   "projectType": "library",
   "tags": [],
   "targets": {
@@ -9,7 +9,7 @@
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/packages/next",
-        "main": "packages/next/src/index.ts",
+        "main": "packages/next/index.ts",
         "tsConfig": "packages/next/tsconfig.lib.json",
         "assets": ["packages/next/*.md"]
       }

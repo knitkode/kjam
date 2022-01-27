@@ -20,21 +20,18 @@ export class ApiGit extends Api {
   branch: string;
 
   constructor(config?: ApiGitConfig) {
-    super();
-
-    this.domain = "raw.githubusercontent.com";
+    super(config);
 
     const { username, repo, branch } = this.getConfig();
     this.username = config?.username || username;
     this.repo = config?.repo || repo;
     this.branch = config?.branch || branch;
-    this.url = this.getUrl();
   }
 
   /**
    * Get git config from mandatory .env variable
    */
-  private getConfig() {
+  getConfig() {
     const [username, repo, branch] = (process.env["KJAM_GIT"] || "").split("/");
 
     return {
@@ -50,7 +47,7 @@ export class ApiGit extends Api {
    * `https://api.github.com/repos/${username}/${repo}/${branch}`
    */
   getUrl(path?: string) {
-    const { username, repo, branch } = this;
+    const { username, repo, branch } = this.getConfig();
     const baseUrl = `https://${this.domain}/${username}/${repo}/${branch}`;
 
     if (path) {

@@ -1,7 +1,8 @@
+import { BaseConfig } from "..";
 import type { EntriesMap } from "../types";
 
-export type ApiConfig = {
-  debug?: boolean;
+export type ApiConfig = BaseConfig & {
+  domain?: string;
 };
 
 export abstract class Api {
@@ -12,15 +13,9 @@ export abstract class Api {
    */
   domain: string;
 
-  /**
-   * The full URL of the API
-   */
-  url: string;
-
-  constructor(config?: ApiConfig) {
-    this.debug = config?.debug;
-    this.domain = "";
-    this.url = this.getUrl();
+  constructor(config: ApiConfig = {}) {
+    this.debug = !!config?.debug;
+    this.domain = config?.domain || "";
   }
 
   /**

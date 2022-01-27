@@ -6,7 +6,7 @@
  * - Removes subsequent slashes
  * - Removing initial and ending slashes
  */
-export function normalisePathname(pathname: string) {
+export function normalisePathname(pathname = "") {
   return pathname.replace(/\/+\//g, "/").replace(/^\/+(.*?)\/+$/, "$1");
 }
 

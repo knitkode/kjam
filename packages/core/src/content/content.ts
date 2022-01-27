@@ -1,16 +1,21 @@
 import { join } from "path";
 import type { Entry } from "../types";
 import { Api } from "../api/api";
-import { ApiGit } from "../api/api-git";
-import { Img } from "../img/img";
+import { ApiGithub, ApiGithubConfig } from "../api/api-github";
+import { Img } from "../img";
+import { BaseConfig } from "..";
+
+export type ContentConfig = BaseConfig & {
+  api?: ApiGithubConfig;
+};
 
 export abstract class Content {
   api: Api;
   debug?: boolean;
 
-  constructor() {
-    this.api = new ApiGit();
-    this.debug = process.env["KJAM_DEBUG"] === "true";
+  constructor(config: ContentConfig = {}) {
+    this.debug = !!config?.debug || process.env["KJAM_DEBUG"] === "true";
+    this.api = new ApiGithub(config.api);
   }
 
   async treatBody<T>(entry: Entry<T>) {
