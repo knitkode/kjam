@@ -21,3 +21,5 @@ export function translate() {
     //   ),
   };
 }
+
+export default translate;

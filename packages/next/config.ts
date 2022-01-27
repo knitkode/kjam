@@ -1,3 +1,4 @@
+import "dotenv/config";
 import type { NextConfig } from "next";
 import type { Redirect, Rewrite } from "next/dist/lib/load-custom-routes";
 import type { EntriesMapByRoute, StructureI18n } from "@kjam/core";
@@ -120,7 +121,7 @@ export function ConfigNext(nextConfig: NextConfig) {
   };
 }
 
-export default function withKjam(nextConfig: NextConfig = {}): NextConfig {
+export const withKjam = (nextConfig: NextConfig = {}): NextConfig => {
   const config = ConfigNext(nextConfig);
 
   return {
@@ -133,7 +134,8 @@ export default function withKjam(nextConfig: NextConfig = {}): NextConfig {
       domains: [config.api.domain],
     },
     env: {
-      KJAM_GIT: Object.keys(config.api.getConfig()).join("/"),
+      // KJAM_GIT: Object.keys(config.api.getConfig()).join("/"),
+      KJAM_GIT: process.env["KJAM_GIT"] || "",
     },
     // FIXME: this temporarily fixes a build problem related to @kjam/core
     // happening in the next.js app build process
@@ -207,4 +209,6 @@ export default function withKjam(nextConfig: NextConfig = {}): NextConfig {
       };
     },
   };
-}
+};
+
+export default withKjam;
