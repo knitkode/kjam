@@ -1,3 +1,14 @@
+## [1.4.12](https://github.com/knitkode/kjam/compare/v1.4.11...v1.4.12) (2022-01-27)
+
+### Bug Fixes
+
+- **wip:** refactor next translate ([84f9338](https://github.com/knitkode/kjam/commit/84f93385d421341ce136c6e112f86b05cefb2c40))
+- **wip:** refactor next translate ([7a01776](https://github.com/knitkode/kjam/commit/7a01776d8ca6cfab74ad264f056ffdfd39b5799f))
+
+### Other
+
+- Merge branch 'main' of github.com:knitkode/kjam into main ([3893ca2](https://github.com/knitkode/kjam/commit/3893ca256fff8ef1198522ca23ed3d575f317627))
+
 ## [1.4.11](https://github.com/knitkode/kjam/compare/v1.4.10...v1.4.11) (2022-01-27)
 
 ### Bug Fixes
