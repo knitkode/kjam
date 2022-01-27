@@ -1,6 +1,6 @@
 {
   "name": "kjam",
-  "version": "1.4.10",
+  "version": "1.4.11",
   "license": "MIT",
   "scripts": {
     "commit": "git-cz",
