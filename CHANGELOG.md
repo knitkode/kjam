@@ -1,3 +1,9 @@
+## [1.4.14](https://github.com/knitkode/kjam/compare/v1.4.13...v1.4.14) (2022-01-27)
+
+### Bug Fixes
+
+- **versions:** trigger build ([086415e](https://github.com/knitkode/kjam/commit/086415e5a2d651b60ab11a1373c261cf13272af7))
+
 ## [1.4.13](https://github.com/knitkode/kjam/compare/v1.4.12...v1.4.13) (2022-01-27)
 
 ### Bug Fixes
