@@ -34,7 +34,7 @@ export class ApiGit extends Api {
   /**
    * Get git config from mandatory .env variable
    */
-  getConfig() {
+  private getConfig() {
     const [username, repo, branch] = (process.env["KJAM_GIT"] || "").split("/");
 
     return {
@@ -50,7 +50,7 @@ export class ApiGit extends Api {
    * `https://api.github.com/repos/${username}/${repo}/${branch}`
    */
   getUrl(path?: string) {
-    const { username, repo, branch } = this.getConfig();
+    const { username, repo, branch } = this;
     const baseUrl = `https://${this.domain}/${username}/${repo}/${branch}`;
 
     if (path) {

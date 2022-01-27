@@ -1,9 +1,28 @@
 {
   "files.exclude": {
-    "tmp": true
-    // ".husky": true,
-    // ".swc": true,
-    // "**/.eslintrc.json": true,
-    // "**/.babelrc": true
+    // temporary
+    // @at root
+    ".swc": true,
+    "tmp": true,
+    "tools": true,
+    ".commitlintrc.json": true,
+    ".editorconfig": true,
+    ".prettierignore": true,
+    ".prettierrc": true,
+    "babel.config.json": true,
+    "jest.config.js": true,
+    "jest.preset.js": true,
+    // "tsconfig.base.json": true,
+    // @at apps/ or libs/
+    "**/.gitkeep": true,
+    "**/.swc": true,
+    "**/.swcrc": true,
+    // "**/tsconfig.json": true,
+    // "**/tsconfig.lib.json": true,
+    // "**/.babelrc": true,
+    "**/.eslintrc.json": true,
+    // "**/project.json": true,
+    // "**/package.json": true,
+    "**/README.md": true
   }
 }
