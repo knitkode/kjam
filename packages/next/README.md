@@ -4,28 +4,40 @@
 
 ## Usage
 
-In `next.config.mjs`
+In `next.config.js`
 
 ```js
-import { config } from "@kjam/next";
+const { withKjam } = require("@kjam/next/config");
+const withTranslate = require("next-translate");
+// const withNx = require("@nrwl/next/plugins/with-nx");
 
-const kjam = config({
-  i18n: {
-    locales: ["en", "it"],
-    defaultLocale: "it",
-    localeDetection: false,
-  },
-});
+let nextConfig = withKjam();
+nextConfig = withTranslate(nextConfig);
+nextConfig = withNx(nextConfig);
 
+module.exports = nextConfig;
+
+```
+
+In `i18n.js`
+
+```js
 module.exports = {
-  ...kjam.base(), // optionally...
-  async redirects() {
-    return [...await kjam.getRedirects()];
-  },
-  async rewrites() {
-    return [...await kjam.getRewrites()];
+  ...require('@kjam/next/translate').translate(),
+  locales: ['it', 'en'],
+  defaultLocale: 'it',
+  pages: {
+    '*': ['_', '~'],
+    // "/": ["home", "ReadMore"],
+    // "/[slug]": ["ReadMore"],
+    // "rgx:^/articles": ["articles"],
+    // "/contact": ["ContactForm"],
+    // "/profile": ["profile", "CompanyForm"],
+    // "/signin": ["auth", "AuthFormLogin"],
+    // "/signup": ["auth", "AuthFormRegister"],
   },
 };
+
 ```
 
 In one of your pages, e.g. `pages/[slug].ts`
