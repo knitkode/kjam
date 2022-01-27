@@ -1,3 +1,9 @@
+## [1.4.13](https://github.com/knitkode/kjam/compare/v1.4.12...v1.4.13) (2022-01-27)
+
+### Bug Fixes
+
+- **next:** use dotenv ([8074e43](https://github.com/knitkode/kjam/commit/8074e430dba996d481877e094378878de8a49d46))
+
 ## [1.4.12](https://github.com/knitkode/kjam/compare/v1.4.11...v1.4.12) (2022-01-27)
 
 ### Bug Fixes
