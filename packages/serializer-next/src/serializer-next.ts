@@ -74,7 +74,7 @@ export class SerializerNext extends Serializer<{}> {
     }
 
     if (this.debug) {
-      console.log("KjamNext::redirects", redirects);
+      console.log("kjam/serialier-next::redirects", redirects);
     }
 
     return redirects;
@@ -111,7 +111,7 @@ export class SerializerNext extends Serializer<{}> {
     }
 
     if (this.debug) {
-      console.log("KjamNext::rewrites", rewrites);
+      console.log("kjam/serialier-next::rewrites", rewrites);
     }
 
     return rewrites;

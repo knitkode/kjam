@@ -5,32 +5,29 @@ import type {
   EntriesMapByRoute,
   EntriesMapByTemplateSlug,
 } from "../types";
-import { Api } from "./api";
+import { Api, ApiConfig } from "./api";
 import { encodePathname } from "../helpers";
-// FIXME: fix typescript for Cache class, otherwise it breaks the build
-// import { Cache } from "../helpers/cache";
 
-export type ApiGitConfig = {
+export type ApiGitConfig = ApiConfig & {
   username?: string;
   repo?: string;
   branch?: string;
 };
 
 export class ApiGit extends Api {
-  config: Required<ApiGitConfig>;
+  username: string;
+  repo: string;
+  branch: string;
 
   constructor(config?: ApiGitConfig) {
     super();
 
-    const { username, repo, branch } = this.getConfig();
-
     this.domain = "raw.githubusercontent.com";
 
-    this.config = {
-      username: config?.username || username,
-      repo: config?.repo || repo,
-      branch: config?.branch || branch,
-    };
+    const { username, repo, branch } = this.getConfig();
+    this.username = config?.username || username;
+    this.repo = config?.repo || repo;
+    this.branch = config?.branch || branch;
     this.url = this.getUrl();
   }
 
@@ -70,13 +67,22 @@ export class ApiGit extends Api {
       // const { readFileSync } = require("fs");
       // const { resolve } = require("path");
       const filepath = resolve(process.cwd(), gitFsPath, encodePathname(path));
-      return readFileSync(filepath, { encoding: "utf-8" });
+      try {
+        return readFileSync(filepath, { encoding: "utf-8" });
+      } catch (_e) {
+        return "";
+      }
     }
 
     const url = `${this.getUrl(path)}`;
-    const res = await fetch(url);
-    const raw = await res.text();
-    return raw;
+
+    try {
+      const res = await fetch(url);
+      const raw = await res.text();
+      return raw;
+    } catch (_e) {
+      return "";
+    }
   }
 
   /**
@@ -90,17 +96,14 @@ export class ApiGit extends Api {
     try {
       return JSON.parse(raw) as T;
     } catch (_e) {
-      console.error(`kjam/core/ApiGit::getData failed parsing '${path}'`);
+      if (this.debug) {
+        console.error(`kjam/core/ApiGit::getData failed parsing '${path}'`);
+      }
       return failedReturn;
     }
   }
 
   async getMaps<T>() {
-    // const cached = Cache.get<EntriesMap<T>>("content");
-    // if (cached) {
-    //   return cached;
-    // }
-
     const byRoute = (await this.getData("byRoute")) as EntriesMapByRoute<T>;
     const byTemplateSlug = (await this.getData(
       "byTemplateSlug"
@@ -110,8 +113,6 @@ export class ApiGit extends Api {
       byRoute,
       byTemplateSlug,
     } as EntriesMap<T>;
-
-    // Cache.set<EntriesMap<T>>("content", entriesMap);
 
     return entriesMap;
   }

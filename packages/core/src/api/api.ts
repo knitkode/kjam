@@ -1,6 +1,12 @@
 import type { EntriesMap } from "../types";
 
+export type ApiConfig = {
+  debug?: boolean;
+};
+
 export abstract class Api {
+  debug?: boolean;
+
   /**
    * The domain of the API, without `https://` protocol
    */
@@ -11,7 +17,8 @@ export abstract class Api {
    */
   url: string;
 
-  constructor() {
+  constructor(config?: ApiConfig) {
+    this.debug = config?.debug;
     this.domain = "";
     this.url = this.getUrl();
   }

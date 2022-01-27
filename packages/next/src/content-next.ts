@@ -118,9 +118,11 @@ class ContentNext extends Content {
     // templateSlug = normalisePathname(`${localisedFolderPath}/${slug}`);
     templateSlug = normalisePathname(`${folderPath}/${slug}`);
 
-    console.log(
-      `kjam/content::get folderPath: ${folderPath}, templateSlug: ${templateSlug}`
-    );
+    if (this.debug) {
+      console.log(
+        `kjam/content::get folderPath: ${folderPath}, templateSlug: ${templateSlug}`
+      );
+    }
 
     if (!templateSlug) return null;
 
@@ -152,7 +154,6 @@ class ContentNext extends Content {
     }
 
     const body = await this.treatBody<Data>(entry);
-    // const mdx = { compiledSource: body, scope: entry.data };
     const mdx = await mdxSerializer(body, { scope: entry.data });
     return { props: { mdx, entry, ...additionalData } };
   }
@@ -161,7 +162,7 @@ class ContentNext extends Content {
     const body = await this.treatBody(entry);
     const mdx = mdxSerializer
       ? await mdxSerializer(body, { scope: entry.data })
-      : undefined;
+      : null;
 
     return mdx;
   }

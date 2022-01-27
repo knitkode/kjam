@@ -32,7 +32,7 @@ export const PageDebug: FC<PageDebugProps> = ({
               <td>{entry.slug}</td>
             </tr>
           )}
-          {entry && (
+          {entry && entry?.data && (
             <tr>
               <th>entry.data.title</th>
               <td>{entry.data?.title || entry.data?.name || ""}</td>
