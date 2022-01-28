@@ -9,7 +9,7 @@ export type ContentConfig = BaseConfig & {
   api?: ApiGithubConfig;
 };
 
-export abstract class Content {
+export class Content {
   api: Api;
   debug?: boolean;
 
@@ -18,13 +18,13 @@ export abstract class Content {
     this.api = new ApiGithub(config.api);
   }
 
-  async treatBody<T>(entry: Entry<T>) {
+  async treatBody<T>(entry: Pick<Entry<T>, "dir" | "body">) {
     const body = await this.treatBodyImages(entry);
 
     return body;
   }
 
-  async treatBodyImages<T>(entry: Entry<T>) {
+  async treatBodyImages<T>(entry: Pick<Entry<T>, "dir" | "body">) {
     const { body } = entry;
     const baseUrl = this.api.getUrl(entry.dir);
     const regex = /!\[.+\]\(.+\)/gm;
@@ -72,10 +72,7 @@ export abstract class Content {
 
   async treatDataImages<T>(entry: any) {
     for (const key in entry.data) {
-      if (
-        Object.prototype.hasOwnProperty.call(entry.data, key) &&
-        key !== "body"
-      ) {
+      if (key !== "body") {
         this.processDataSlice(entry.data, key, entry.dir);
       }
     }

@@ -22,10 +22,9 @@ export class ApiGit extends Api {
   constructor(config?: ApiGitConfig) {
     super(config);
 
-    const { username, repo, branch } = this.getConfig();
-    this.username = config?.username || username;
-    this.repo = config?.repo || repo;
-    this.branch = config?.branch || branch;
+    this.username = config?.username || "";
+    this.repo = config?.repo || "";
+    this.branch = config?.branch || "";
   }
 
   /**
@@ -35,9 +34,9 @@ export class ApiGit extends Api {
     const [username, repo, branch] = (process.env["KJAM_GIT"] || "").split("/");
 
     return {
-      username,
-      repo,
-      branch,
+      username: username || this.username || "",
+      repo: repo || this.repo || "",
+      branch: branch || this.branch || "",
     };
   }
 

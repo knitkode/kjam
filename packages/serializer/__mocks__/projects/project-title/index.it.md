@@ -1,0 +1,3 @@
+---
+slug: progetti/titolo-progetto
+---

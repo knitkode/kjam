@@ -1,8 +1,6 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
-    "module": "commonjs",
-    "declaration": true,
     "outDir": "../../dist/out-tsc",
     "types": ["node"],
     "allowSyntheticDefaultImports": true // for "probe-image-size"

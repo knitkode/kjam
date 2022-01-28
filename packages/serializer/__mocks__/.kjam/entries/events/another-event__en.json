@@ -1,0 +1,16 @@
+{
+  "dir": "events/another-event",
+  "parentDirs": "events",
+  "filename": "index.en.md",
+  "basename": "index.en",
+  "ext": "md",
+  "locale": "en",
+  "body": "",
+  "excerpt": "",
+  "data": {
+    "slug": "another-event"
+  },
+  "routeId": "events/another-event",
+  "slug": "another-event",
+  "templateSlug": "events/another-event"
+}

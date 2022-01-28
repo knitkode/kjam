@@ -1,0 +1,25 @@
+{
+  "i18n": {
+    "locales": ["en", "it"],
+    "defaultLocale": "en",
+    "hideDefaultLocaleInUrl": true
+  },
+  "routes": {
+    "events": {
+      "en": "/events",
+      "it": "/eventi"
+    },
+    "about": {
+      "en": "/about-us",
+      "it": "/chi-siamo"
+    },
+    "home": {
+      "en": "/",
+      "it": "/"
+    },
+    "projects": {
+      "en": "/projects",
+      "it": "/progetti"
+    }
+  }
+}

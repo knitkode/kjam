@@ -1,0 +1,16 @@
+{
+  "dir": "projects/project-title",
+  "parentDirs": "projects",
+  "filename": "index.en.md",
+  "basename": "index.en",
+  "ext": "md",
+  "locale": "en",
+  "body": "",
+  "excerpt": "",
+  "data": {
+    "slug": "project-title"
+  },
+  "routeId": "projects/project-title",
+  "slug": "project-title",
+  "templateSlug": "projects/project-title"
+}

@@ -10,12 +10,13 @@ import {
 import { fdir } from "fdir";
 import { join, relative } from "path";
 import { load } from "js-yaml";
-import type {
+import {
   Structure,
   EntriesMapByRoute,
   EntriesMapByTemplateSlug,
   EntriesMap,
   SiteTranslations,
+  normalisePathname,
 } from "../../core/src"; // @kjam/core
 import {
   filterMarkdownFiles,
@@ -30,20 +31,25 @@ type LoggerType = "info" | "error" | "warn";
 type Logger = (data: any, type?: LoggerType) => void;
 
 type SerializerConfig<T> = T & {
-  debug: boolean;
+  debug?: boolean;
+  root?: string;
   /** @default "settings/i18n/config.yml" */
-  pathI18n: string;
+  pathI18n?: string;
   /** @default "settings/i18n/messages" */
-  pathTranslations: string;
-  log: Logger;
+  pathTranslations?: string;
+  log?: Logger;
 };
 
-export class Serializer<T> {
-  config: SerializerConfig<T>;
+export class Serializer<T = Record<string, unknown>> {
+  config: T;
   /** Logger function */
   log: Logger;
   /** Flag for debug mode */
   readonly debug: boolean;
+  /** Path where the i18n config YAML file is placed */
+  readonly pathI18n: string;
+  /** Path of the folder where the i18n YAML translations files are placed */
+  readonly pathTranslations: string;
   /** Repository root absolute folder path */
   readonly root: string;
 
@@ -56,21 +62,21 @@ export class Serializer<T> {
    */
   mdPaths: string[];
 
-  constructor(config?: Partial<SerializerConfig<T>>) {
+  constructor(config?: SerializerConfig<T>) {
     const defaultLogger: Logger = (data, type = "info") => {
       console[type](data);
     };
-    this.config = {
-      debug: false,
-      log: defaultLogger,
-      pathI18n: "settings/i18n/config.yml",
-      pathTranslations: "settings/i18n/messages",
-      ...config,
-    } as SerializerConfig<T>;
 
-    this.log = this.config.log;
-    this.debug = !!config?.debug;
-    this.root = join(process.cwd(), process.env["KJAM_GIT_FS"] || ".");
+    const { log, debug, pathI18n, pathTranslations, root, ...restConfig } =
+      config || {};
+    this.config = restConfig as T;
+
+    this.log = log || defaultLogger;
+    this.debug = !!debug || false;
+    this.pathI18n = pathI18n || "settings/i18n/config.yml";
+    this.pathTranslations = pathI18n || "settings/i18n/messages";
+    this.root = root || join(process.cwd(), process.env["KJAM_GIT_FS"] || ".");
+
     this.i18n = this.getI18n();
     this.routes = {};
     this.translations = {};
@@ -80,18 +86,7 @@ export class Serializer<T> {
   async run() {
     this.ensureMetaFolder();
 
-    const paths = await this.getPaths(this.root);
-    if (!paths) {
-      this.log(`Repository is empty`, "error");
-
-      throw Error("Repository is empty!");
-    }
-
-    this.mdPaths = paths
-      .filter(filterMarkdownFiles)
-      .map((filepath) => relative(this.root, filepath))
-      // TODO: make the following more optional and better thought of
-      .filter((filepath) => !filepath.startsWith("settings/"));
+    this.mdPaths = await this.getMarkdownPaths();
 
     this.log(`> Found ${this.mdPaths.length} markdown files.`);
 
@@ -103,7 +98,7 @@ export class Serializer<T> {
     });
 
     this.translations = getTranslations(
-      join(this.root, this.config.pathTranslations),
+      join(this.root, this.pathTranslations),
       {
         routes: this.routes,
         i18n: this.i18n,
@@ -115,6 +110,8 @@ export class Serializer<T> {
     await this.getEntriesMap();
 
     await this.start();
+
+    return;
   }
 
   /**
@@ -123,18 +120,37 @@ export class Serializer<T> {
    *
    * @abstract
    */
-  start(): Promise<any> {
-    return new Promise(() => "");
+  async start(): Promise<any> {
+    return new Promise((resolve) => resolve(""));
   }
   // abstract start(): Promise<any>;
 
   /**
    * Get all files' path recursively
    */
-  async getPaths(dir: string) {
-    const api = new fdir().withFullPaths().crawl(dir);
-    const paths = (await api.withPromise()) as string[];
+  async getPaths(dir?: string) {
+    const crawler = new fdir().withFullPaths().crawl(dir || this.root);
+    const paths = (await crawler.withPromise()) as string[];
     return paths;
+  }
+
+  /** @protected */
+  async getMarkdownPaths() {
+    const paths = await this.getPaths();
+
+    if (!paths) {
+      this.log("Repository is empty", "error");
+
+      throw Error("Repository is empty!");
+    }
+
+    return (
+      paths
+        .filter(filterMarkdownFiles)
+        .map((filepath) => relative(this.root, filepath))
+        // TODO: make the following more optional and better thought of
+        .filter((filepath) => !filepath.startsWith("settings/"))
+    );
   }
 
   /**
@@ -161,8 +177,9 @@ export class Serializer<T> {
     writeFileSync(target, content);
   }
 
-  private getI18n() {
-    const target = join(this.root, this.config.pathI18n);
+  /** @protected */
+  getI18n() {
+    const target = join(this.root, this.pathI18n);
 
     if (existsSync(target)) {
       const content = readFileSync(target, "utf-8");
@@ -176,16 +193,21 @@ export class Serializer<T> {
     };
   }
 
-  private getRoutes(markdownFiles: string[]) {
+  /**
+   * @private
+   */
+  getRoutes(markdownFiles: string[]) {
     const folderPaths = this.getAllFolderPaths(markdownFiles);
+    console.log("folderPaths", folderPaths);
     const routes: Structure["routes"] = {};
 
     for (let i = 0; i < folderPaths.length; i++) {
       const folderPath = folderPaths[i];
       const slugs = this.findFolderPathSlugs(folderPath);
+      const routeKey = folderPath.replace("pages/", "");
 
       if (slugs) {
-        routes[folderPath] = slugs;
+        routes[routeKey] = slugs;
       }
     }
 
@@ -210,15 +232,21 @@ export class Serializer<T> {
    * https://example.com/projects/wood/boxes (en)
    * https://example.com/it/progetti/legno/scatole (it)
    * ```
+   *
+   * @private
    */
-  private getAllFolderPaths(markdownFiles: string[]) {
+  getAllFolderPaths(markdownFiles: string[]) {
     const map: Record<string, boolean> = {};
-    const blacklistedFolderPaths = ["pages", "settings"];
+    const blacklistedFolderPaths = [/* "pages", */ "settings"];
 
     for (let i = 0; i < markdownFiles.length; i++) {
       const relativePath = markdownFiles[i];
       const parts = relativePath.split("/").filter((part) => !!part);
-      const folderPath = parts.length > 2 ? parts.slice(0, -2).join("/") : "";
+      // treat pages collection as if it is in the root folder
+      const idx = parts[0] === "pages" ? 1 : 2;
+      const folderPath =
+        parts.length > idx ? parts.slice(0, -idx).join("/") : "";
+
       map[folderPath] = true;
     }
 
@@ -238,8 +266,37 @@ export class Serializer<T> {
       return true;
     });
   }
+  // getAllFolderPaths(markdownFiles: string[]) {
+  //   const map: Record<string, boolean> = {};
+  //   const blacklistedFolderPaths = [/* "pages", */ "settings"];
 
-  private findFolderPathSlugs(folderPath: string) {
+  //   for (let i = 0; i < markdownFiles.length; i++) {
+  //     const relativePath = markdownFiles[i];
+  //     console.log("relativePath", relativePath)
+  //     const parts = relativePath.split("/").filter((part) => !!part);
+  //     const folderPath = parts.length > 2 ? parts.slice(0, -2).join("/") : "";
+  //     map[folderPath] = true;
+  //   }
+
+  //   return Object.keys(map).filter((folderPath) => {
+  //     // exclude e.g. `pages`
+  //     if (blacklistedFolderPaths.indexOf(folderPath) > -1) {
+  //       return false;
+  //     }
+  //     // exclude e.g. `settings/categores`
+  //     for (let i = 0; i < blacklistedFolderPaths.length; i++) {
+  //       const blacklistedFolderPath = blacklistedFolderPaths[i];
+
+  //       if (folderPath.startsWith(`${blacklistedFolderPath}/`)) {
+  //         return false;
+  //       }
+  //     }
+  //     return true;
+  //   });
+  // }
+
+  /** @private */
+  findFolderPathSlugs(folderPath: string) {
     const slugs: Structure["routes"][string] = {};
 
     for (let i = 0; i < this.i18n.locales.length; i++) {
@@ -247,7 +304,13 @@ export class Serializer<T> {
       const locale = this.i18n.locales[i];
       // Should we check `mdx` too? I don't think so...
       const filename = `index.${locale}.md`;
-      const pageEntry = join(this.root, "pages", folderPath, filename);
+      const pageEntryLocation = folderPath === "pages" ? "" : "pages";
+      const pageEntry = join(
+        this.root,
+        pageEntryLocation,
+        folderPath,
+        filename
+      );
 
       // first check if we have a specific page entry for this folderPath in
       // `pages` folder
@@ -264,14 +327,22 @@ export class Serializer<T> {
 
       if (existingEntry) {
         const slug = this.getSlugFromRawFile(existingEntry);
-        slugs[locale] = slug || folderPath;
+
+        // special case for homepage, if no slug is specified in the markdown
+        // file, and it should never be probably we just hardcode the empty path
+        if (!slug && folderPath === "pages/home") {
+          slugs[locale] = "/";
+        } else {
+          slugs[locale] = "/" + normalisePathname(slug || folderPath);
+        }
       }
     }
 
     return Object.keys(slugs).length ? slugs : null;
   }
 
-  private getSlugFromRawFile(filepath: string) {
+  /** @private */
+  getSlugFromRawFile(filepath: string) {
     const content = readFileSync(filepath, "utf-8");
     const regex = /slug:[\s|\n]+(.+)$/m;
     const matches = content.match(regex);
@@ -283,7 +354,8 @@ export class Serializer<T> {
     return "";
   }
 
-  private async getRawFile(filepath: string) {
+  /** @private */
+  async getRawFile(filepath: string) {
     try {
       return await readFile(join(this.root, filepath), "utf-8");
     } catch (e) {
@@ -292,7 +364,8 @@ export class Serializer<T> {
     }
   }
 
-  private async getEntriesMap() {
+  /** @private */
+  async getEntriesMap() {
     const { mdPaths } = this;
     const output = await Promise.all(
       mdPaths.map(async (mdPath) => {

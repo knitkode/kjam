@@ -1,0 +1,212 @@
+{
+  "/projects": {
+    "en": {
+      "dir": "projects",
+      "parentDirs": "",
+      "filename": "index.en.md",
+      "basename": "index.en",
+      "ext": "md",
+      "locale": "en",
+      "body": "",
+      "excerpt": "",
+      "data": {
+        "slug": "projects"
+      },
+      "routeId": "projects",
+      "slug": "projects",
+      "templateSlug": "/projects"
+    }
+  },
+  "/progetti": {
+    "it": {
+      "dir": "projects",
+      "parentDirs": "",
+      "filename": "index.it.md",
+      "basename": "index.it",
+      "ext": "md",
+      "locale": "it",
+      "body": "",
+      "excerpt": "",
+      "data": {
+        "slug": "progetti"
+      },
+      "routeId": "projects",
+      "slug": "progetti",
+      "templateSlug": "/progetti"
+    }
+  },
+  "events/another-event": {
+    "en": {
+      "dir": "events/another-event",
+      "parentDirs": "events",
+      "filename": "index.en.md",
+      "basename": "index.en",
+      "ext": "md",
+      "locale": "en",
+      "body": "",
+      "excerpt": "",
+      "data": {
+        "slug": "another-event"
+      },
+      "routeId": "events/another-event",
+      "slug": "another-event",
+      "templateSlug": "events/another-event"
+    }
+  },
+  "about-us": {
+    "en": {
+      "dir": "pages/about",
+      "parentDirs": "pages",
+      "filename": "index.en.md",
+      "basename": "index.en",
+      "ext": "md",
+      "locale": "en",
+      "body": "",
+      "excerpt": "",
+      "data": {
+        "slug": "about-us"
+      },
+      "routeId": "about",
+      "slug": "about-us",
+      "templateSlug": "about-us"
+    }
+  },
+  "chi-siamo": {
+    "it": {
+      "dir": "pages/about",
+      "parentDirs": "pages",
+      "filename": "index.it.md",
+      "basename": "index.it",
+      "ext": "md",
+      "locale": "it",
+      "body": "",
+      "excerpt": "",
+      "data": {
+        "slug": "chi-siamo"
+      },
+      "routeId": "about",
+      "slug": "chi-siamo",
+      "templateSlug": "chi-siamo"
+    }
+  },
+  "events": {
+    "en": {
+      "dir": "pages/events",
+      "parentDirs": "pages",
+      "filename": "index.en.md",
+      "basename": "index.en",
+      "ext": "md",
+      "locale": "en",
+      "body": "",
+      "excerpt": "",
+      "data": {
+        "slug": "events"
+      },
+      "routeId": "events",
+      "slug": "events",
+      "templateSlug": "events"
+    }
+  },
+  "eventi": {
+    "it": {
+      "dir": "pages/events",
+      "parentDirs": "pages",
+      "filename": "index.it.md",
+      "basename": "index.it",
+      "ext": "md",
+      "locale": "it",
+      "body": "",
+      "excerpt": "",
+      "data": {
+        "slug": "eventi"
+      },
+      "routeId": "events",
+      "slug": "eventi",
+      "templateSlug": "eventi"
+    }
+  },
+  "events/nome-evento": {
+    "it": {
+      "dir": "events/event-name",
+      "parentDirs": "events",
+      "filename": "index.it.md",
+      "basename": "index.it",
+      "ext": "md",
+      "locale": "it",
+      "body": "",
+      "excerpt": "",
+      "data": {
+        "slug": "nome-evento"
+      },
+      "routeId": "events/event-name",
+      "slug": "nome-evento",
+      "templateSlug": "events/nome-evento"
+    }
+  },
+  "home": {
+    "en": {
+      "dir": "pages/home",
+      "parentDirs": "pages",
+      "filename": "index.en.md",
+      "basename": "index.en",
+      "ext": "md",
+      "locale": "en",
+      "body": "",
+      "excerpt": "",
+      "data": {},
+      "routeId": "home",
+      "slug": "home",
+      "templateSlug": "home"
+    },
+    "it": {
+      "dir": "pages/home",
+      "parentDirs": "pages",
+      "filename": "index.it.md",
+      "basename": "index.it",
+      "ext": "md",
+      "locale": "it",
+      "body": "",
+      "excerpt": "",
+      "data": {},
+      "routeId": "home",
+      "slug": "home",
+      "templateSlug": "home"
+    }
+  },
+  "projects/project-title": {
+    "en": {
+      "dir": "projects/project-title",
+      "parentDirs": "projects",
+      "filename": "index.en.md",
+      "basename": "index.en",
+      "ext": "md",
+      "locale": "en",
+      "body": "",
+      "excerpt": "",
+      "data": {
+        "slug": "project-title"
+      },
+      "routeId": "projects/project-title",
+      "slug": "project-title",
+      "templateSlug": "projects/project-title"
+    }
+  },
+  "projects/titolo-progetto": {
+    "it": {
+      "dir": "projects/project-title",
+      "parentDirs": "projects",
+      "filename": "index.it.md",
+      "basename": "index.it",
+      "ext": "md",
+      "locale": "it",
+      "body": "",
+      "excerpt": "",
+      "data": {
+        "slug": "progetti/titolo-progetto"
+      },
+      "routeId": "projects/project-title",
+      "slug": "progetti/titolo-progetto",
+      "templateSlug": "projects/titolo-progetto"
+    }
+  }
+}

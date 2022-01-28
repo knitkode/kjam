@@ -4,8 +4,9 @@
   "license": "MIT",
   "scripts": {
     "commit": "git-cz",
+    "start": "nx affected:test --all --parallel --maxParallel 10 --watch",
     "prepare": "husky install",
-    "build": "npx nx run-many --target=build --all=true",
+    "build": "nx run-many --target=build --all=true",
     "format": "clear && npx prettier --write **/*.{js,json,css,ts,tsx}",
     "lint": "clear && npx eslint --fix packages/**/*.{ts,tsx}",
     "clean": "rm -rf ./node_modules/.cache/nx",
@@ -14,6 +15,7 @@
   "private": true,
   "dependencies": {
     "@actions/core": "^1.6.0",
+    "@types/dotenv": "^8.2.0",
     "core-js": "^3.20.3",
     "fdir": "^5.2.0",
     "fs-extra": "^10.0.0",

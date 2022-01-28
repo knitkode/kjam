@@ -1,0 +1,16 @@
+{
+  "dir": "pages/events",
+  "parentDirs": "pages",
+  "filename": "index.it.md",
+  "basename": "index.it",
+  "ext": "md",
+  "locale": "it",
+  "body": "",
+  "excerpt": "",
+  "data": {
+    "slug": "eventi"
+  },
+  "routeId": "events",
+  "slug": "eventi",
+  "templateSlug": "eventi"
+}

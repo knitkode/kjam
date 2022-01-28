@@ -10,6 +10,14 @@
       "options": {
         "lintFilePatterns": ["packages/serializer/**/*.ts"]
       }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/packages/serializer"],
+      "options": {
+        "jestConfig": "packages/serializer/jest.config.js",
+        "passWithNoTests": true
+      }
     }
   }
 }

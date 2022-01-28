@@ -69,11 +69,12 @@ export function extractRoute<T>(
   // section
   const slugParts = slug.split("/").filter((part) => !!part);
   let templateDynamicSlug = slugParts[slugParts.length - 1];
-  if (slugParts.length === 1) {
-    templateDynamicSlug = routeId;
-  }
+  // FIXME: ?this was causing the issue?
+  // if (slugParts.length === 1) {
+  //   templateDynamicSlug = routeId;
+  // }
   // the homepage should get here
-  else if (!slugParts.length) {
+  if (!slugParts.length) {
     templateDynamicSlug = "";
   }
 
@@ -90,6 +91,7 @@ export function extractRoute<T>(
     routeId,
     locale,
     slug,
+    // FIXME: understand this...templateSLug..what is it meant to be?
     templateSlug,
   };
 }
