@@ -16,14 +16,14 @@
     // @at apps/ or libs/
     "**/.gitkeep": true,
     "**/.swc": true,
-    "**/.swcrc": true,
+    "**/.swcrc": true
     // "**/tsconfig.json": true,
     // "**/tsconfig.lib.json": true,
     // "**/.babelrc": true,
     // "**/.eslintrc.json": true,
     // "**/project.json": true,
     // "**/package.json": true,
-    "**/README.md": true
+    // "**/README.md": true
   },
   "search.exclude": {
     "**/__mocks__/.kjam": true

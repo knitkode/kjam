@@ -16,7 +16,7 @@ import {
   EntriesMap,
   normalisePathname,
   isTestEnv,
-} from "@kjam/core";
+} from "../../core/src"; // @kjam/core
 import {
   filterMarkdownFiles,
   extractMeta,
