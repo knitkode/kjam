@@ -439,7 +439,7 @@ export class Serializer<T = Record<string, unknown>> {
           return null;
         }
 
-        const meta = extractMeta(mdPath);
+        const meta = extractMeta(mdPath, this.i18n);
         const matter = extractMatter<T>(join(this.root, mdPath));
         const route = extractRoute<T>(meta, matter, this.urls);
 

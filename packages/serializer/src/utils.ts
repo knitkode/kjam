@@ -18,7 +18,7 @@ export function filterMarkdownFiles(filenameOrPath: string) {
   return filenameOrPath.endsWith(".md") || filenameOrPath.endsWith(".mdx");
 }
 
-export function extractMeta(filepath: string): EntryMeta {
+export function extractMeta(filepath: string, i18n: Kjam.I18n): EntryMeta {
   const pathParts = filepath.split("/");
   const filename = pathParts[pathParts.length - 1];
   // clean directory from path, e.g. "./news/a-title/index.it.md" to "news/a-title"
@@ -33,7 +33,7 @@ export function extractMeta(filepath: string): EntryMeta {
   const locale =
     filenameParts.length > 2
       ? filenameParts[filenameParts.length - 2]
-      : "default";
+      : i18n.defaultLocale;
 
   return {
     dir,
