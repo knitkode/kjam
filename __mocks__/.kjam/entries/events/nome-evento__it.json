@@ -1,0 +1,11 @@
+{
+  "dir": "events/event-name",
+  "locale": "it",
+  "body": "",
+  "excerpt": "",
+  "data": {},
+  "routeId": "events/event-name",
+  "templateSlug": "events/nome-evento",
+  "slug": "nome-evento",
+  "url": "/eventi/nome-evento"
+}

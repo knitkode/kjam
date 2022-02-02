@@ -7,7 +7,7 @@ type branch = string;
 
 interface KjamEnv {
   KJAM_GIT: `${username}/${repo}/${branch}`;
-  KJAM_GIT_FS?: string;
+  KJAM_FOLDER?: string;
   KJAM_DEBUG?: "true" | "false";
 }
 

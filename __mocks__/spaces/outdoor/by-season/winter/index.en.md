@@ -1,0 +1,1 @@
+This should simply infer the slug from the folder name

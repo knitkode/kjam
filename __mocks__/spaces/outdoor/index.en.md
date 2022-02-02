@@ -1,0 +1,3 @@
+---
+slug: living-outside
+---

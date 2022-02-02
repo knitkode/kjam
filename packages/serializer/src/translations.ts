@@ -1,7 +1,7 @@
 import { join } from "path";
-import { existsSync, readFileSync } from "fs-extra";
+import { readFile } from "fs-extra";
 import { load } from "js-yaml";
-import type { Structure, SiteTranslations } from "@kjam/core";
+import type { Kjam } from "@kjam/core";
 
 /**
  * Convention for translation strings
@@ -27,19 +27,28 @@ export const TRANSLATIONS_REGEX = {
   route: /~/g,
 };
 
-export function getTranslations(folderPath: string, structure: Structure) {
-  const { locales } = structure.i18n;
-  const out: SiteTranslations = {};
+export async function getTranslations(
+  folderPath: string,
+  i18n: Kjam.I18n,
+  routes: Kjam.Routes
+) {
+  const { locales } = i18n;
+  const out: Kjam.Translations = {};
   const { common: commonChar, route: routeChar } = TRANSLATIONS_CHARS;
   const { route: routeReg } = TRANSLATIONS_REGEX;
 
   for (let i = 0; i < locales.length; i++) {
     const locale = locales[i];
     const target = join(folderPath, `${locale}.yml`);
+    let data: Record<string, string> | undefined;
+    try {
+      const content = await readFile(target, "utf-8");
+      data = load(content) as Record<string, string>;
+    } catch (_e) {
+      // no need to throw I guess
+    }
 
-    if (existsSync(target)) {
-      const content = readFileSync(target, "utf-8");
-      const data = load(content) as Record<string, string>;
+    if (data) {
       out[locale] = out[locale] || {};
 
       for (const key in data) {
@@ -80,7 +89,7 @@ export function getTranslations(folderPath: string, structure: Structure) {
         } else {
           // throw Error(
           console.warn(
-            `kjam/Serializer::getTranslations, too many levels of ` +
+            `kjam/serializer::getTranslations, too many levels of ` +
               `depth of '${key}' in file '${target}', max 2 allowed (one dot!).\n`
           );
         }
@@ -89,15 +98,15 @@ export function getTranslations(folderPath: string, structure: Structure) {
   }
 
   // automatically build translations for routes paths
-  for (const routeKey in structure.routes) {
-    const routeLocalisedPaths = structure.routes[routeKey];
+  for (const route in routes) {
+    const locales = routes[route];
 
-    for (const locale in routeLocalisedPaths) {
-      const localisedPath = routeLocalisedPaths[locale];
+    for (const locale in locales) {
+      const slug = locales[locale];
 
       out[locale][TRANSLATIONS_CHARS.route] =
         out[locale][TRANSLATIONS_CHARS.route] || {};
-      out[locale][TRANSLATIONS_CHARS.route][`/${routeKey}`] = localisedPath;
+      out[locale][TRANSLATIONS_CHARS.route][`/${route}`] = slug;
     }
   }
 
@@ -105,7 +114,7 @@ export function getTranslations(folderPath: string, structure: Structure) {
 }
 
 export function writeTranslations(
-  translations: SiteTranslations,
+  translations: Kjam.Translations,
   write: (path: string, data: Object) => any
 ) {
   for (const locale in translations) {

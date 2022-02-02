@@ -7,7 +7,7 @@
  * - Removing initial and ending slashes
  */
 export function normalisePathname(pathname = "") {
-  return pathname.replace(/\/+\//g, "/").replace(/^\/+(.*?)\/+$/, "$1");
+  return pathname.replace(/\/+\//g, "/").replace(/^\/*(.*?)\/*$/, "$1");
 }
 
 /**
@@ -22,4 +22,16 @@ export function encodePathname(pathname: string) {
     .filter((part) => !!part)
     .map((part) => encodeURIComponent(part))
     .join("/");
+}
+
+/**
+ * Detect if we are running a test
+ *
+ * @see https://stackoverflow.com/q/50940640/9122820
+ */
+export function isTestEnv() {
+  return (
+    process.env["JEST_WORKER_ID"] !== undefined ||
+    process.env["NODE_ENV"] === "test"
+  );
 }

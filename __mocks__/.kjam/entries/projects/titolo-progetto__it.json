@@ -1,0 +1,11 @@
+{
+  "dir": "projects/project-title",
+  "locale": "it",
+  "body": "\nthis `slug` is wrong, let's normalise this mistake, the `i-progetti` should not be declared here and automatically inferred by the parent folder markdown file\n",
+  "excerpt": "",
+  "data": {},
+  "routeId": "projects/project-title",
+  "templateSlug": "projects/titolo-progetto",
+  "slug": "titolo-progetto",
+  "url": "/progetti/titolo-progetto"
+}

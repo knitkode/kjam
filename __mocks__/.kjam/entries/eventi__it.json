@@ -1,0 +1,11 @@
+{
+  "dir": "pages/events",
+  "locale": "it",
+  "body": "",
+  "excerpt": "",
+  "data": {},
+  "routeId": "events",
+  "templateSlug": "eventi",
+  "slug": "eventi",
+  "url": "/eventi"
+}

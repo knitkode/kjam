@@ -1,0 +1,388 @@
+{
+  "spaces": {
+    "en": {
+      "dir": "spaces",
+      "locale": "en",
+      "body": "",
+      "excerpt": "",
+      "data": {},
+      "routeId": "spaces",
+      "templateSlug": "spaces",
+      "slug": "spaces",
+      "url": "/spaces"
+    },
+    "it": {
+      "dir": "spaces",
+      "locale": "it",
+      "body": "",
+      "excerpt": "",
+      "data": {},
+      "routeId": "spaces",
+      "templateSlug": "spazi",
+      "slug": "spazi",
+      "url": "/spazi"
+    }
+  },
+  "projects": {
+    "en": {
+      "dir": "projects",
+      "locale": "en",
+      "body": "",
+      "excerpt": "",
+      "data": {},
+      "routeId": "projects",
+      "templateSlug": "projects",
+      "slug": "projects",
+      "url": "/projects"
+    },
+    "it": {
+      "dir": "projects",
+      "locale": "it",
+      "body": "",
+      "excerpt": "",
+      "data": {},
+      "routeId": "projects",
+      "templateSlug": "progetti",
+      "slug": "progetti",
+      "url": "/progetti"
+    }
+  },
+  "home": {
+    "en": {
+      "dir": "pages/home",
+      "locale": "en",
+      "body": "",
+      "excerpt": "",
+      "data": {},
+      "routeId": "home",
+      "templateSlug": "",
+      "slug": "",
+      "url": "/"
+    },
+    "it": {
+      "dir": "pages/home",
+      "locale": "it",
+      "body": "",
+      "excerpt": "",
+      "data": {},
+      "routeId": "home",
+      "templateSlug": "",
+      "slug": "",
+      "url": "/"
+    }
+  },
+  "spaces/hospitality": {
+    "en": {
+      "dir": "spaces/hospitality",
+      "locale": "en",
+      "body": "",
+      "excerpt": "",
+      "data": {},
+      "routeId": "spaces/hospitality",
+      "templateSlug": "spaces/hospitality",
+      "slug": "hospitality",
+      "url": "/spaces/hospitality"
+    },
+    "it": {
+      "dir": "spaces/hospitality",
+      "locale": "it",
+      "body": "\n# Links\n\n- Test [link](/spazi/indoor/cucina)\n- Test [link](/spazi/indoor/cucina)\n- Test [link](/spaces/indoor/kitchen)\n- Test [link](https://example.com)\n- Test [link](//example.com)\n- Test [link spanningon multiple lines](/spazi/indoor/cucina)\n",
+      "excerpt": "",
+      "data": {},
+      "routeId": "spaces/hospitality",
+      "templateSlug": "spaces/ospitalita",
+      "slug": "ospitalita",
+      "url": "/spazi/ospitalita"
+    }
+  },
+  "events": {
+    "en": {
+      "dir": "pages/events",
+      "locale": "en",
+      "body": "",
+      "excerpt": "",
+      "data": {},
+      "routeId": "events",
+      "templateSlug": "events",
+      "slug": "events",
+      "url": "/events"
+    },
+    "it": {
+      "dir": "pages/events",
+      "locale": "it",
+      "body": "",
+      "excerpt": "",
+      "data": {},
+      "routeId": "events",
+      "templateSlug": "eventi",
+      "slug": "eventi",
+      "url": "/eventi"
+    }
+  },
+  "about": {
+    "en": {
+      "dir": "pages/about",
+      "locale": "en",
+      "body": "",
+      "excerpt": "",
+      "data": {},
+      "routeId": "about",
+      "templateSlug": "about-us",
+      "slug": "about-us",
+      "url": "/about-us"
+    },
+    "it": {
+      "dir": "pages/about",
+      "locale": "it",
+      "body": "",
+      "excerpt": "",
+      "data": {},
+      "routeId": "about",
+      "templateSlug": "chi-siamo",
+      "slug": "chi-siamo",
+      "url": "/chi-siamo"
+    }
+  },
+  "spaces/outdoor": {
+    "en": {
+      "dir": "spaces/outdoor",
+      "locale": "en",
+      "body": "",
+      "excerpt": "",
+      "data": {},
+      "routeId": "spaces/outdoor",
+      "templateSlug": "spaces/living-outside",
+      "slug": "living-outside",
+      "url": "/spaces/living-outside"
+    },
+    "it": {
+      "dir": "spaces/outdoor",
+      "locale": "it",
+      "body": "",
+      "excerpt": "",
+      "data": {},
+      "routeId": "spaces/outdoor",
+      "templateSlug": "spaces/all-aperto",
+      "slug": "all-aperto",
+      "url": "/spazi/all-aperto"
+    }
+  },
+  "events/another-event": {
+    "en": {
+      "dir": "events/another-event",
+      "locale": "en",
+      "body": "",
+      "excerpt": "",
+      "data": {},
+      "routeId": "events/another-event",
+      "templateSlug": "events/another-event",
+      "slug": "another-event",
+      "url": "/events/another-event"
+    }
+  },
+  "events/event-name": {
+    "it": {
+      "dir": "events/event-name",
+      "locale": "it",
+      "body": "",
+      "excerpt": "",
+      "data": {},
+      "routeId": "events/event-name",
+      "templateSlug": "events/nome-evento",
+      "slug": "nome-evento",
+      "url": "/eventi/nome-evento"
+    }
+  },
+  "projects/project-title": {
+    "en": {
+      "dir": "projects/project-title",
+      "locale": "en",
+      "body": "",
+      "excerpt": "",
+      "data": {},
+      "routeId": "projects/project-title",
+      "templateSlug": "projects/project-title",
+      "slug": "project-title",
+      "url": "/projects/project-title"
+    },
+    "it": {
+      "dir": "projects/project-title",
+      "locale": "it",
+      "body": "\nthis `slug` is wrong, let's normalise this mistake, the `i-progetti` should not be declared here and automatically inferred by the parent folder markdown file\n",
+      "excerpt": "",
+      "data": {},
+      "routeId": "projects/project-title",
+      "templateSlug": "projects/titolo-progetto",
+      "slug": "titolo-progetto",
+      "url": "/progetti/titolo-progetto"
+    }
+  },
+  "spaces/indoor/kitchen": {
+    "en": {
+      "dir": "spaces/indoor/kitchen",
+      "locale": "en",
+      "body": "",
+      "excerpt": "",
+      "data": {},
+      "routeId": "spaces/indoor/kitchen",
+      "templateSlug": "spaces/indoor/the-kitchen",
+      "slug": "the-kitchen",
+      "url": "/spaces/indoor/the-kitchen"
+    },
+    "it": {
+      "dir": "spaces/indoor/kitchen",
+      "locale": "it",
+      "body": "",
+      "excerpt": "",
+      "data": {},
+      "routeId": "spaces/indoor/kitchen",
+      "templateSlug": "spaces/indoor/cucina",
+      "slug": "cucina",
+      "url": "/spazi/indoor/cucina"
+    }
+  },
+  "spaces/indoor/hall": {
+    "en": {
+      "dir": "spaces/indoor/hall",
+      "locale": "en",
+      "body": "",
+      "excerpt": "",
+      "data": {},
+      "routeId": "spaces/indoor/hall",
+      "templateSlug": "spaces/indoor/the-hall",
+      "slug": "the-hall",
+      "url": "/spaces/indoor/the-hall"
+    },
+    "it": {
+      "dir": "spaces/indoor/hall",
+      "locale": "it",
+      "body": "",
+      "excerpt": "",
+      "data": {},
+      "routeId": "spaces/indoor/hall",
+      "templateSlug": "spaces/indoor/sala",
+      "slug": "sala",
+      "url": "/spazi/indoor/sala"
+    }
+  },
+  "spaces/outdoor/park": {
+    "en": {
+      "dir": "spaces/outdoor/park",
+      "locale": "en",
+      "body": "",
+      "excerpt": "",
+      "data": {},
+      "routeId": "spaces/outdoor/park",
+      "templateSlug": "spaces/outdoor/park",
+      "slug": "park",
+      "url": "/spaces/living-outside/park"
+    },
+    "it": {
+      "dir": "spaces/outdoor/park",
+      "locale": "it",
+      "body": "",
+      "excerpt": "",
+      "data": {},
+      "routeId": "spaces/outdoor/park",
+      "templateSlug": "spaces/outdoor/parco",
+      "slug": "parco",
+      "url": "/spazi/all-aperto/parco"
+    }
+  },
+  "spaces/outdoor/by-season": {
+    "en": {
+      "dir": "spaces/outdoor/by-season",
+      "locale": "en",
+      "body": "",
+      "excerpt": "",
+      "data": {},
+      "routeId": "spaces/outdoor/by-season",
+      "templateSlug": "spaces/outdoor/by-season",
+      "slug": "by-season",
+      "url": "/spaces/living-outside/by-season"
+    },
+    "it": {
+      "dir": "spaces/outdoor/by-season",
+      "locale": "it",
+      "body": "",
+      "excerpt": "",
+      "data": {},
+      "routeId": "spaces/outdoor/by-season",
+      "templateSlug": "spaces/outdoor/stagioni",
+      "slug": "stagioni",
+      "url": "/spazi/all-aperto/stagioni"
+    }
+  },
+  "spaces/outdoor/playground": {
+    "en": {
+      "dir": "spaces/outdoor/playground",
+      "locale": "en",
+      "body": "",
+      "excerpt": "",
+      "data": {},
+      "routeId": "spaces/outdoor/playground",
+      "templateSlug": "spaces/outdoor/playground",
+      "slug": "playground",
+      "url": "/spaces/living-outside/playground"
+    },
+    "it": {
+      "dir": "spaces/outdoor/playground",
+      "locale": "it",
+      "body": "",
+      "excerpt": "",
+      "data": {},
+      "routeId": "spaces/outdoor/playground",
+      "templateSlug": "spaces/outdoor/area-giochi",
+      "slug": "area-giochi",
+      "url": "/spazi/all-aperto/area-giochi"
+    }
+  },
+  "spaces/outdoor/by-season/summer": {
+    "en": {
+      "dir": "spaces/outdoor/by-season/summer",
+      "locale": "en",
+      "body": "",
+      "excerpt": "",
+      "data": {},
+      "routeId": "spaces/outdoor/by-season/summer",
+      "templateSlug": "spaces/outdoor/by-season/summer",
+      "slug": "summer",
+      "url": "/spaces/living-outside/by-season/summer"
+    },
+    "it": {
+      "dir": "spaces/outdoor/by-season/summer",
+      "locale": "it",
+      "body": "",
+      "excerpt": "",
+      "data": {},
+      "routeId": "spaces/outdoor/by-season/summer",
+      "templateSlug": "spaces/outdoor/by-season/estate",
+      "slug": "estate",
+      "url": "/spazi/all-aperto/stagioni/estate"
+    }
+  },
+  "spaces/outdoor/by-season/winter": {
+    "en": {
+      "dir": "spaces/outdoor/by-season/winter",
+      "locale": "en",
+      "body": "This should simply infer the slug from the folder name",
+      "excerpt": "",
+      "data": {},
+      "routeId": "spaces/outdoor/by-season/winter",
+      "templateSlug": "spaces/outdoor/by-season/winter",
+      "slug": "winter",
+      "url": "/spaces/living-outside/by-season/winter"
+    },
+    "it": {
+      "dir": "spaces/outdoor/by-season/winter",
+      "locale": "it",
+      "body": "",
+      "excerpt": "",
+      "data": {},
+      "routeId": "spaces/outdoor/by-season/winter",
+      "templateSlug": "spaces/outdoor/by-season/inverno",
+      "slug": "inverno",
+      "url": "/spazi/all-aperto/stagioni/inverno"
+    }
+  }
+}

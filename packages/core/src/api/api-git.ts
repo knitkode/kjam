@@ -1,20 +1,34 @@
-import { resolve } from "path";
+import { join, isAbsolute } from "path";
 import { readFileSync } from "fs";
-import type {
-  EntriesMap,
-  EntriesMapByRoute,
-  EntriesMapByTemplateSlug,
-} from "../types";
+import type { EntriesMap, EntriesMapByRoute } from "../types";
 import { Api, ApiConfig } from "./api";
 import { encodePathname } from "../helpers";
 
 export type ApiGitConfig = ApiConfig & {
+  /**
+   * Optionally point the API to a local folder. This value represent the relative
+   * path to the `cwd()` that points to the local repository.
+   *
+   * This is always overwritten by the .env variable `KJAM_FOLDER` if defined and
+   * not empty
+   */
+  folder?: string;
+  /**
+   * Git username, used to construct the remote git url
+   */
   username?: string;
+  /**
+   * Git repository name, used to construct the remote git url
+   */
   repo?: string;
+  /**
+   * Git branch name, used to construct the remote git url
+   */
   branch?: string;
 };
 
 export class ApiGit extends Api {
+  folder?: string;
   username: string;
   repo: string;
   branch: string;
@@ -22,6 +36,7 @@ export class ApiGit extends Api {
   constructor(config?: ApiGitConfig) {
     super(config);
 
+    this.folder = config?.folder || "";
     this.username = config?.username || "";
     this.repo = config?.repo || "";
     this.branch = config?.branch || "";
@@ -57,12 +72,16 @@ export class ApiGit extends Api {
   }
 
   async getRaw(path: string) {
-    const gitFsPath = process.env["KJAM_GIT_FS"] || "";
+    const gitFolder = process.env["KJAM_FOLDER"] || this.folder;
 
-    if (gitFsPath) {
+    if (gitFolder) {
       // const { readFileSync } = require("fs");
-      // const { resolve } = require("path");
-      const filepath = resolve(process.cwd(), gitFsPath, encodePathname(path));
+      // const { join } = require("path");
+      const filepath = join(
+        isAbsolute(gitFolder) ? "" : process.cwd(),
+        gitFolder,
+        path
+      );
       try {
         return readFileSync(filepath, { encoding: "utf-8" });
       } catch (_e) {
@@ -103,13 +122,9 @@ export class ApiGit extends Api {
 
   async getMaps<T>() {
     const byRoute = (await this.getData("byRoute")) as EntriesMapByRoute<T>;
-    const byTemplateSlug = (await this.getData(
-      "byTemplateSlug"
-    )) as EntriesMapByTemplateSlug<T>;
 
     const entriesMap = {
       byRoute,
-      byTemplateSlug,
     } as EntriesMap<T>;
 
     return entriesMap;

@@ -7,7 +7,7 @@ import type {
 } from "next";
 import type { serialize } from "next-mdx-remote/serialize";
 import type { Entry } from "@kjam/core";
-import { Content, ContentConfig, normalisePathname } from "@kjam/core";
+import { Content, ContentConfig } from "@kjam/core";
 import type { KjamProps } from "./index";
 
 type StaticPathsParams = {
@@ -44,7 +44,7 @@ type StaticPathSlug<SlugAsString> = SlugAsString extends true
 
 export type ContentNextConfig = ContentConfig & {};
 
-class ContentNext extends Content {
+export class ContentNext extends Content {
   /**
    * @param context Unused for now
    * @param fallback Defaults to `"blocking"`
@@ -103,37 +103,6 @@ class ContentNext extends Content {
     };
   }
 
-  async getByRoute<T>(routeId: string, locale?: string) {
-    const { byRoute } = await this.api.getMaps<T>();
-
-    if (locale && byRoute[routeId]?.[locale]) {
-      return byRoute[routeId]?.[locale];
-    }
-
-    return null;
-  }
-
-  async get<T>(folderPath = "", slug: string | string[] = "", locale = "") {
-    let templateSlug = Array.isArray(slug) ? slug.join("/") : slug;
-    // templateSlug = normalisePathname(`${localisedFolderPath}/${slug}`);
-    templateSlug = normalisePathname(`${folderPath}/${slug}`);
-
-    if (this.debug) {
-      console.log(
-        `kjam/content::get folderPath: ${folderPath}, templateSlug: ${templateSlug}`
-      );
-    }
-
-    if (!templateSlug) return null;
-
-    const data = (await this.api.getData(
-      `entries/${templateSlug}__${locale}`
-    )) as Entry<T>;
-    return data;
-    // const { byTemplateSlug } = await this.api.getMaps<T>();
-    // return byTemplateSlug[templateSlug]?.[locale];
-  }
-
   async getStaticProps<
     Params extends StaticPathsParams = StaticPathsParams,
     Data extends {} = {}
@@ -145,7 +114,7 @@ class ContentNext extends Content {
     additionalData = {}
   ): Promise<GetStaticPropsResult<KjamProps<Data, Params>>> {
     const { params, locale } = ctx;
-    const entry = await this.get<Data>(routeType, params?.slug, locale);
+    const entry = await this.get<Data>(routeType, params?.slug || "", locale);
 
     if (!entry) {
       return {

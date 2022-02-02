@@ -11,18 +11,19 @@ import { fdir } from "fdir";
 import { join, relative } from "path";
 import { load } from "js-yaml";
 import {
-  Structure,
+  Kjam,
   EntriesMapByRoute,
-  EntriesMapByTemplateSlug,
   EntriesMap,
-  SiteTranslations,
   normalisePathname,
-} from "../../core/src"; // @kjam/core
+  isTestEnv,
+} from "@kjam/core";
 import {
   filterMarkdownFiles,
   extractMeta,
   extractMatter,
   extractRoute,
+  isCollectionPath,
+  treatAllLinks,
 } from "./utils";
 import { getTranslations, writeTranslations } from "./translations";
 
@@ -53,9 +54,13 @@ export class Serializer<T = Record<string, unknown>> {
   /** Repository root absolute folder path */
   readonly root: string;
 
-  routes: Structure["routes"];
-  i18n: Structure["i18n"];
-  translations: SiteTranslations;
+  i18n: Kjam.I18n;
+  routes: Kjam.Routes;
+  urls: Kjam.Urls;
+  slugs: Kjam.Slugs;
+  translations: Kjam.Translations;
+  collections: Record<Kjam.RouteId, true>;
+  entries: Record<Kjam.RouteId, true>;
 
   /**
    * All markdown files paths
@@ -74,12 +79,16 @@ export class Serializer<T = Record<string, unknown>> {
     this.log = log || defaultLogger;
     this.debug = !!debug || false;
     this.pathI18n = pathI18n || "settings/i18n/config.yml";
-    this.pathTranslations = pathI18n || "settings/i18n/messages";
-    this.root = root || join(process.cwd(), process.env["KJAM_GIT_FS"] || ".");
+    this.pathTranslations = pathTranslations || "settings/i18n/messages";
+    this.root = root || join(process.cwd(), process.env["KJAM_FOLDER"] || ".");
 
     this.i18n = this.getI18n();
     this.routes = {};
+    this.urls = {};
+    this.slugs = {};
     this.translations = {};
+    this.collections = {};
+    this.entries = {};
     this.mdPaths = [];
   }
 
@@ -90,28 +99,33 @@ export class Serializer<T = Record<string, unknown>> {
 
     this.log(`> Found ${this.mdPaths.length} markdown files.`);
 
-    this.routes = this.getRoutes(this.mdPaths);
+    const { routes, urls, slugs, collections, entries } = await this.getRouting(
+      this.mdPaths
+    );
+    this.routes = routes;
+    this.urls = urls;
+    this.slugs = slugs;
+    this.collections = collections;
+    this.entries = entries;
 
-    this.writeFile("structure", {
-      i18n: this.i18n,
-      routes: this.routes,
-    });
+    this.writeFile("i18n", this.i18n);
+    this.writeFile("routes", this.routes);
+    this.writeFile("urls", this.urls);
+    this.writeFile("slugs", this.slugs);
 
-    this.translations = getTranslations(
+    this.translations = await getTranslations(
       join(this.root, this.pathTranslations),
-      {
-        routes: this.routes,
-        i18n: this.i18n,
-      }
+      this.i18n,
+      this.routes
     );
 
     writeTranslations(this.translations, this.writeFile.bind(this));
 
-    await this.getEntriesMap();
+    const map = await this.getEntriesMap();
 
     await this.start();
 
-    return;
+    return map;
   }
 
   /**
@@ -170,7 +184,7 @@ export class Serializer<T = Record<string, unknown>> {
 
   protected writeFile(filepath = "", data: any) {
     const target = join(this.root, ".kjam", `${filepath}.json`);
-    const content = JSON.stringify(data, null, 2);
+    const content = JSON.stringify(data, null, isTestEnv() ? 2 : 0);
 
     ensureFileSync(target);
 
@@ -184,7 +198,7 @@ export class Serializer<T = Record<string, unknown>> {
     if (existsSync(target)) {
       const content = readFileSync(target, "utf-8");
       const i18n = load(content);
-      return i18n as Structure["i18n"];
+      return i18n as Kjam.I18n;
     }
 
     return {
@@ -194,27 +208,10 @@ export class Serializer<T = Record<string, unknown>> {
   }
 
   /**
-   * @private
-   */
-  getRoutes(markdownFiles: string[]) {
-    const folderPaths = this.getAllFolderPaths(markdownFiles);
-    console.log("folderPaths", folderPaths);
-    const routes: Structure["routes"] = {};
-
-    for (let i = 0; i < folderPaths.length; i++) {
-      const folderPath = folderPaths[i];
-      const slugs = this.findFolderPathSlugs(folderPath);
-      const routeKey = folderPath.replace("pages/", "");
-
-      if (slugs) {
-        routes[routeKey] = slugs;
-      }
-    }
-
-    return routes;
-  }
-
-  /**
+   * Let's do everyhting in this big function. We can avoid creating too many maps
+   * to pass around to other functions. It might be hard to read but let's
+   * comment it properly.
+   *
    * The convention is that each markdown file is in its own folder alongside
    * its translations, e.g. we could have:
    *
@@ -235,120 +232,183 @@ export class Serializer<T = Record<string, unknown>> {
    *
    * @private
    */
-  getAllFolderPaths(markdownFiles: string[]) {
-    const map: Record<string, boolean> = {};
-    const blacklistedFolderPaths = [/* "pages", */ "settings"];
+  async getRouting(markdownFiles: string[]) {
+    // const folderPaths = await this.getAllFolderPaths(markdownFiles);
+    const slugs: Kjam.Slugs = {};
+    const urls: Kjam.Urls = {};
+    const routes: Kjam.Routes = {};
+    const collections: Record<string, true> = {};
+    const entries: Record<string, true> = {};
+    const BLACKLISTED_PATHS = ["settings"];
 
+    // Pass 1: divide all the markdown paths between `entries` and `collections`
     for (let i = 0; i < markdownFiles.length; i++) {
-      const relativePath = markdownFiles[i];
-      const parts = relativePath.split("/").filter((part) => !!part);
-      // treat pages collection as if it is in the root folder
-      const idx = parts[0] === "pages" ? 1 : 2;
-      const folderPath =
-        parts.length > idx ? parts.slice(0, -idx).join("/") : "";
+      const pathParts = normalisePathname(markdownFiles[i]).split("/");
+      let path = pathParts.slice(0, -1).join("/");
+      const isCollection = await isCollectionPath(join(this.root, path));
+      // pages collection is treated as if it was at the root level
+      path = path.replace("pages/", "");
 
-      map[folderPath] = true;
-    }
-
-    return Object.keys(map).filter((folderPath) => {
-      // exclude e.g. `pages`
-      if (blacklistedFolderPaths.indexOf(folderPath) > -1) {
-        return false;
-      }
-      // exclude e.g. `settings/categores`
-      for (let i = 0; i < blacklistedFolderPaths.length; i++) {
-        const blacklistedFolderPath = blacklistedFolderPaths[i];
-
-        if (folderPath.startsWith(`${blacklistedFolderPath}/`)) {
-          return false;
+      let exclude = false;
+      // exclude e.g. `settings`
+      if (BLACKLISTED_PATHS.indexOf(path) > -1) {
+        exclude = true;
+      } else {
+        // exclude e.g. `settings/categores`
+        for (let i = 0; i < BLACKLISTED_PATHS.length; i++) {
+          if (path.startsWith(`${BLACKLISTED_PATHS[i]}/`)) {
+            exclude = true;
+          }
         }
       }
-      return true;
-    });
+
+      if (!exclude && path) {
+        if (isCollection) {
+          collections[path] = true;
+        } else {
+          entries[path] = true;
+        }
+
+        slugs[path] = this.getSlugsForPath(path);
+      }
+    }
+
+    const all = { ...collections, ...entries };
+
+    // Pass 2: loop through each entry path and construct the output maps
+    for (const path in all) {
+      const pathParts = path.split("/");
+      const locales = slugs[path];
+
+      // if it's a one level path we do not need to do anything more
+      if (pathParts.length <= 1) {
+        routes[path] = locales;
+        urls[path] = locales;
+      } else {
+        // otherwise we need to loop through each portion of the route and pick
+        // each segment's translation from the previously constructed map
+        for (const locale in locales) {
+          let pathTarget = "";
+          let url = "";
+
+          // loop through each part of the route key (e.g. /spaces/outdoor/seasons)
+          // and translate each segment
+          for (let j = 0; j < pathParts.length; j++) {
+            pathTarget = `${pathTarget ? pathTarget + "/" : ""}${pathParts[j]}`;
+            // use the path part as fallback, which means that if a folder does
+            // not have an entry we use its folder name as part of its children's
+            // url pathnames
+            const folderBasedSlugSegment = `/${pathParts[j]}`;
+            const existingSlugSegment = slugs[pathTarget]?.[locale];
+            const slugSegment = existingSlugSegment || folderBasedSlugSegment;
+
+            if (!existingSlugSegment) {
+              // console.log("folderBasedSlugSegment", Object.keys(slugs), pathTarget);
+              // add to the `routes` the url to construct links of the nested
+              // entries, no need to add it to the `urls` map as it does not make
+              // sense to link directly to this URL, it is only an empty folder
+              // pathname
+              const routeWithoutEntry = pathTarget;
+              const urlWithoutEntry = routeWithoutEntry
+                .split("/")
+                .map((path) => slugs?.[path]?.[locale] || path)
+                .join("/");
+              routes[routeWithoutEntry] = routes[routeWithoutEntry] || {};
+              routes[routeWithoutEntry][locale] = urlWithoutEntry;
+            }
+
+            url += slugSegment;
+          }
+
+          // add to the `routes` structure only the collections pages
+          if (collections[path]) {
+            routes[path] = routes[path] || {};
+            routes[path][locale] = url;
+          }
+
+          urls[path] = urls[path] || {};
+          urls[path][locale] = url;
+        }
+      }
+    }
+
+    return { routes, urls, slugs, collections, entries };
   }
-  // getAllFolderPaths(markdownFiles: string[]) {
-  //   const map: Record<string, boolean> = {};
-  //   const blacklistedFolderPaths = [/* "pages", */ "settings"];
-
-  //   for (let i = 0; i < markdownFiles.length; i++) {
-  //     const relativePath = markdownFiles[i];
-  //     console.log("relativePath", relativePath)
-  //     const parts = relativePath.split("/").filter((part) => !!part);
-  //     const folderPath = parts.length > 2 ? parts.slice(0, -2).join("/") : "";
-  //     map[folderPath] = true;
-  //   }
-
-  //   return Object.keys(map).filter((folderPath) => {
-  //     // exclude e.g. `pages`
-  //     if (blacklistedFolderPaths.indexOf(folderPath) > -1) {
-  //       return false;
-  //     }
-  //     // exclude e.g. `settings/categores`
-  //     for (let i = 0; i < blacklistedFolderPaths.length; i++) {
-  //       const blacklistedFolderPath = blacklistedFolderPaths[i];
-
-  //       if (folderPath.startsWith(`${blacklistedFolderPath}/`)) {
-  //         return false;
-  //       }
-  //     }
-  //     return true;
-  //   });
-  // }
 
   /** @private */
-  findFolderPathSlugs(folderPath: string) {
-    const slugs: Structure["routes"][string] = {};
+  private getSlugsForPath(path: string) {
+    const slugs: Kjam.Routes[string] = {};
 
     for (let i = 0; i < this.i18n.locales.length; i++) {
-      let existingEntry = "";
       const locale = this.i18n.locales[i];
       // Should we check `mdx` too? I don't think so...
       const filename = `index.${locale}.md`;
-      const pageEntryLocation = folderPath === "pages" ? "" : "pages";
       const pageEntry = join(
         this.root,
-        pageEntryLocation,
-        folderPath,
+        path === "pages" ? `${path}` : `pages/${path}`,
         filename
       );
+      let existingEntry = "";
+      let slug;
 
-      // first check if we have a specific page entry for this folderPath in
+      // first check if we have a specific page entry for this path in
       // `pages` folder
       if (existsSync(pageEntry)) {
         existingEntry = pageEntry;
       } else {
-        // otherwise check if we have a specific page entry for this folderPath in
-        // its `{folderPath}` collection folder
-        const collectionEntry = join(this.root, folderPath, filename);
+        // otherwise check if we have a specific page entry for this path in
+        // its `{path}` collection folder
+        const collectionEntry = join(this.root, path, filename);
         if (existsSync(collectionEntry)) {
           existingEntry = collectionEntry;
         }
       }
 
+      // if we have an entry we try to read the slug from the raw file
       if (existingEntry) {
-        const slug = this.getSlugFromRawFile(existingEntry);
+        slug = this.getSlugFromRawMdFile(existingEntry);
+      }
 
+      // it might be that the entry markdown file does not specify a slug or that
+      // a collection folder might not have an `index` file, in these case URLS
+      // will be constructed by simply using the folder name as it is, as we can
+      // have entries that are fine with using their folder name as slug and
+      // have nested collections that are only meant for organizing the content
+      // structure. So we just use the last portion of the `path`.
+      if (!slug) {
         // special case for homepage, if no slug is specified in the markdown
-        // file, and it should never be probably we just hardcode the empty path
-        if (!slug && folderPath === "pages/home") {
-          slugs[locale] = "/";
+        // file (probably it should never be) we just hardcode the empty path
+        if (path === "home") {
+          slug = "/";
         } else {
-          slugs[locale] = "/" + normalisePathname(slug || folderPath);
+          const pathParts = path.split("/");
+          slug = pathParts[pathParts.length - 1];
         }
       }
+
+      slugs[locale] = "/" + normalisePathname(slug);
     }
 
-    return Object.keys(slugs).length ? slugs : null;
+    return slugs;
   }
 
-  /** @private */
-  getSlugFromRawFile(filepath: string) {
+  /**
+   * We want to be quick here, just using a regex is fine for now avoiding
+   * `frontmatter` parsing at this phase of the serialization
+   *
+   * @private
+   */
+  private getSlugFromRawMdFile(filepath: string) {
     const content = readFileSync(filepath, "utf-8");
     const regex = /slug:[\s|\n]+(.+)$/m;
     const matches = content.match(regex);
 
     if (matches && matches[1]) {
-      return matches[1];
+      // use the last bit only of the pathname, declaring a composed path is not
+      // allowed as each entry should just define its slug and not its ancestor's
+      // ones (which are inferred in the serialization phase).
+      const matchParts = matches[1].split("/");
+      return matchParts[matchParts.length - 1];
     }
 
     return "";
@@ -359,16 +419,20 @@ export class Serializer<T = Record<string, unknown>> {
     try {
       return await readFile(join(this.root, filepath), "utf-8");
     } catch (e) {
-      console.warn(`Failed to read file ${filepath}`, e);
+      if (this.debug) {
+        console.warn(
+          `kjam/serializer::getRawFile failed to read ${filepath}`,
+          e
+        );
+      }
       return null;
     }
   }
 
   /** @private */
   async getEntriesMap() {
-    const { mdPaths } = this;
-    const output = await Promise.all(
-      mdPaths.map(async (mdPath) => {
+    const entries = await Promise.all(
+      this.mdPaths.map(async (mdPath) => {
         const raw = await this.getRawFile(mdPath);
 
         if (raw === null) {
@@ -377,22 +441,24 @@ export class Serializer<T = Record<string, unknown>> {
 
         const meta = extractMeta(mdPath);
         const matter = extractMatter<T>(join(this.root, mdPath));
-        const route = extractRoute<T>(meta, matter);
+        const route = extractRoute<T>(meta, matter, this.urls);
 
         // ability to filter out contents with conventional frontmatter flags
         if (matter.data.draft) {
           return null;
         }
-        return {
+
+        const entry = {
           ...meta,
           ...matter,
           ...route,
-          // path,
         };
+
+        return treatAllLinks(entry, this.urls);
       })
     );
 
-    const byRoute = output
+    const byRoute = entries
       .filter((content) => !!content)
       .reduce((map, item) => {
         if (item) {
@@ -402,42 +468,18 @@ export class Serializer<T = Record<string, unknown>> {
         return map;
       }, {} as EntriesMapByRoute);
 
-    const byTemplateSlug = output.reduce((map, item) => {
-      if (item) {
-        map[item.templateSlug] = map[item.templateSlug] || {};
-        map[item.templateSlug][item.locale] = item;
-      }
-      return map;
-    }, {} as EntriesMapByTemplateSlug);
-
-    // const bySlug = output
-    //   .reduce((map, item) => {
-    //     if (item) {
-    //       map[item.slug] = item;
-    //     }
-    //     return map;
-    //   }, {} as EntriesMapBySlug);
-
     const entriesMap = {
       byRoute,
-      byTemplateSlug,
-      // bySlug,
     } as EntriesMap;
 
     this.writeFile("byRoute", byRoute);
-    this.writeFile("byTemplateSlug", byTemplateSlug);
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     for (const [_routeId, routeLocales] of Object.entries(byRoute)) {
-      for (const [routeLocale, route] of Object.entries(routeLocales)) {
-        const { templateSlug } = route;
+      for (const [routeLocale, entry] of Object.entries(routeLocales)) {
+        const { templateSlug } = entry;
 
-        this.writeFile(`entries/${templateSlug}__${routeLocale}`, route);
-
-        // const templateSlugParts = templateSlug.split("/");
-        // for (let i = 0; i < templateSlugParts.length; i++) {
-        //   const parts = templateSlugParts[i];
-        // }
+        this.writeFile(`entries/${templateSlug}__${routeLocale}`, entry);
       }
     }
 

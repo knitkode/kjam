@@ -1,5 +1,5 @@
 import type { Redirect, Rewrite } from "next/dist/lib/load-custom-routes";
-import type { StructureI18n } from "@kjam/core";
+import type { Kjam } from "@kjam/core";
 import { encodePathname } from "../../core/src"; // @kjam/core
 import { Serializer } from "../../serializer/src"; // @kjam/serializer
 
@@ -13,12 +13,12 @@ export type SerializerNextOutputConfig = {
    *
    * FIXME: implement a check if a mismatch happens and report to the user
    */
-  i18n: StructureI18n;
+  i18n: Kjam.I18n;
   redirects: Redirect[];
   rewrites: Rewrite[];
 };
 
-export class SerializerNext extends Serializer<{}> {
+export class SerializerNext extends Serializer {
   override async start() {
     this.writeFile("next.config", {
       i18n: {
@@ -39,36 +39,33 @@ export class SerializerNext extends Serializer<{}> {
     const { routes, i18n } = this;
     const redirects = [];
 
-    for (const [templateName, routeLocales] of Object.entries(routes)) {
-      for (const [routeLocale, _routeLocalisedPathname] of Object.entries(
-        routeLocales
-      )) {
-        const templateAsPathname = `/${templateName}`;
-        let routeLocalisedPathname = _routeLocalisedPathname;
+    for (const [route, locales] of Object.entries(routes)) {
+      for (const [locale, _url] of Object.entries(locales)) {
+        let url = _url;
+        const templateAsUrl = `/${route}`;
 
         // only redirect if the template name of `/pages/${name}` is not the same
         // as the actual slug of this route
-        if (routeLocalisedPathname !== templateAsPathname) {
+        if (url !== templateAsUrl && route !== "home") {
           // prepend locale if we need to redirect e.g. `/en/galleries` to `/en/gallery`
           // basically when the page template name does not match neither the
           // default language slug nor the translated slugs
-          if (routeLocale !== i18n.defaultLocale) {
-            routeLocalisedPathname = `${routeLocale}/${routeLocalisedPathname}`;
+          if (locale !== i18n.defaultLocale) {
+            url = `${locale}/${url}`;
           }
 
-          const redirect = this.getDynamicPathRedirect(
-            routeLocale,
-            templateAsPathname,
-            routeLocalisedPathname
-          );
-          const redirectDynamic = this.getDynamicPathRedirect(
-            routeLocale,
-            templateAsPathname,
-            routeLocalisedPathname,
-            true
-          );
+          const redirect = this.getPathRedirect(locale, templateAsUrl, url);
           redirects.push(redirect);
-          redirects.push(redirectDynamic);
+
+          if (this.collections[route]) {
+            const redirectDynamic = this.getPathRedirect(
+              locale,
+              templateAsUrl,
+              url,
+              true
+            );
+            redirects.push(redirectDynamic);
+          }
         }
       }
     }
@@ -87,25 +84,23 @@ export class SerializerNext extends Serializer<{}> {
     const { routes } = this;
     const rewrites = [];
 
-    for (const [templateName, routeLocales] of Object.entries(routes)) {
+    for (const [route, locales] of Object.entries(routes)) {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      for (const [_routeLocale, routeLocalisedPathname] of Object.entries(
-        routeLocales
-      )) {
-        const templateAsPathname = `/${templateName}`;
+      for (const [_locale, url] of Object.entries(locales)) {
+        const templateAsUrl = `/${route}`;
 
-        if (routeLocalisedPathname !== templateAsPathname) {
-          const rewrite = this.getPathRewrite(
-            routeLocalisedPathname,
-            templateAsPathname
-          );
-          const rewriteDynamic = this.getPathRewrite(
-            routeLocalisedPathname,
-            templateAsPathname,
-            true
-          );
+        if (url !== templateAsUrl && route !== "home") {
+          const rewrite = this.getPathRewrite(url, templateAsUrl);
           rewrites.push(rewrite);
-          rewrites.push(rewriteDynamic);
+
+          if (this.collections[route]) {
+            const rewriteDynamic = this.getPathRewrite(
+              url,
+              templateAsUrl,
+              true
+            );
+            rewrites.push(rewriteDynamic);
+          }
         }
       }
     }
@@ -125,11 +120,12 @@ export class SerializerNext extends Serializer<{}> {
     };
   }
 
-  getDynamicPathRedirect(
+  getPathRedirect(
     locale: string,
     localisedPathname: string,
     templateName: string,
-    dynamic?: boolean
+    dynamic?: boolean,
+    permanent?: boolean
   ) {
     const suffix = dynamic ? `/:slug*` : "";
     return {

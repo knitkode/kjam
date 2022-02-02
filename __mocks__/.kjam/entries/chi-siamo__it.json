@@ -1,0 +1,11 @@
+{
+  "dir": "pages/about",
+  "locale": "it",
+  "body": "",
+  "excerpt": "",
+  "data": {},
+  "routeId": "about",
+  "templateSlug": "chi-siamo",
+  "slug": "chi-siamo",
+  "url": "/chi-siamo"
+}

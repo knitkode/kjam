@@ -10,8 +10,8 @@
     ".prettierignore": true,
     ".prettierrc": true,
     "babel.config.json": true,
-    "jest.config.js": true,
-    "jest.preset.js": true,
+    // "jest.config.js": true,
+    // "jest.preset.js": true,
     // "tsconfig.base.json": true,
     // @at apps/ or libs/
     "**/.gitkeep": true,
@@ -20,9 +20,12 @@
     // "**/tsconfig.json": true,
     // "**/tsconfig.lib.json": true,
     // "**/.babelrc": true,
-    "**/.eslintrc.json": true,
+    // "**/.eslintrc.json": true,
     // "**/project.json": true,
     // "**/package.json": true,
     "**/README.md": true
+  },
+  "search.exclude": {
+    "**/__mocks__/.kjam": true
   }
 }

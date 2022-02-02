@@ -1,0 +1,70 @@
+{
+  "spaces": {
+    "en": "/spaces",
+    "it": "/spazi"
+  },
+  "projects": {
+    "en": "/projects",
+    "it": "/progetti"
+  },
+  "home": {
+    "en": "/",
+    "it": "/"
+  },
+  "spaces/hospitality": {
+    "en": "/hospitality",
+    "it": "/ospitalita"
+  },
+  "events": {
+    "en": "/events",
+    "it": "/eventi"
+  },
+  "about": {
+    "en": "/about-us",
+    "it": "/chi-siamo"
+  },
+  "spaces/outdoor": {
+    "en": "/living-outside",
+    "it": "/all-aperto"
+  },
+  "events/another-event": {
+    "en": "/another-event",
+    "it": "/another-event"
+  },
+  "events/event-name": {
+    "en": "/event-name",
+    "it": "/nome-evento"
+  },
+  "projects/project-title": {
+    "en": "/project-title",
+    "it": "/titolo-progetto"
+  },
+  "spaces/indoor/kitchen": {
+    "en": "/the-kitchen",
+    "it": "/cucina"
+  },
+  "spaces/indoor/hall": {
+    "en": "/the-hall",
+    "it": "/sala"
+  },
+  "spaces/outdoor/park": {
+    "en": "/park",
+    "it": "/parco"
+  },
+  "spaces/outdoor/by-season": {
+    "en": "/by-season",
+    "it": "/stagioni"
+  },
+  "spaces/outdoor/playground": {
+    "en": "/playground",
+    "it": "/area-giochi"
+  },
+  "spaces/outdoor/by-season/summer": {
+    "en": "/summer",
+    "it": "/estate"
+  },
+  "spaces/outdoor/by-season/winter": {
+    "en": "/winter",
+    "it": "/inverno"
+  }
+}

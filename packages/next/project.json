@@ -20,6 +20,14 @@
       "options": {
         "lintFilePatterns": ["packages/next/**/*.ts"]
       }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/packages/next"],
+      "options": {
+        "jestConfig": "packages/next/jest.config.js",
+        "passWithNoTests": true
+      }
     }
   }
 }

@@ -7,7 +7,14 @@
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true
   },
-  "exclude": ["**/*.spec.ts", "**/*.test.ts", "**/*.spec.tsx", "**/*.test.tsx"],
+  "exclude": [
+    "**/*.spec.ts",
+    "**/*.test.ts",
+    "**/*.spec.tsx",
+    "**/*.test.tsx",
+    "../next/**/*.spec.ts",
+    "../core/**/*.spec.ts"
+  ],
   "include": [
     "**/*.ts",
     "**/*.tsx",

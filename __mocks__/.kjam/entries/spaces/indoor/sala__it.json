@@ -1,0 +1,11 @@
+{
+  "dir": "spaces/indoor/hall",
+  "locale": "it",
+  "body": "",
+  "excerpt": "",
+  "data": {},
+  "routeId": "spaces/indoor/hall",
+  "templateSlug": "spaces/indoor/sala",
+  "slug": "sala",
+  "url": "/spazi/indoor/sala"
+}

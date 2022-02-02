@@ -4,6 +4,7 @@ import { Api } from "../api/api";
 import { ApiGithub, ApiGithubConfig } from "../api/api-github";
 import { Img } from "../img";
 import { BaseConfig } from "..";
+import { normalisePathname } from "../helpers";
 
 export type ContentConfig = BaseConfig & {
   api?: ApiGithubConfig;
@@ -18,12 +19,73 @@ export class Content {
     this.api = new ApiGithub(config.api);
   }
 
+  async getByRoute<T>(routeId: string, locale?: string) {
+    const { byRoute } = await this.api.getMaps<T>();
+
+    if (locale && byRoute[routeId]?.[locale]) {
+      return byRoute[routeId]?.[locale];
+    }
+
+    return null;
+  }
+
+  async get<T>(
+    slug: string | string[],
+    locale: string
+  ): Promise<Entry<T> | null>;
+  async get<T>(
+    folderPath: string,
+    slug: string | string[],
+    locale?: string
+  ): Promise<Entry<T> | null>;
+  async get<T>(
+    ...args:
+      | []
+      | [slug: string | string[], locale: string]
+      | [folderPath: string, slug: string | string[], locale?: string]
+  ) {
+    let _folder = "";
+    let _slug;
+    let _locale;
+    if (args.length === 2) {
+      const [slug, locale] = args;
+      _folder;
+      _slug = slug;
+      _locale = locale;
+    } else {
+      const [folderPath, slug, locale] = args;
+      _folder = folderPath === "pages" ? "" : folderPath || "";
+      _slug = slug;
+      _locale = locale;
+    }
+
+    let templateSlug = Array.isArray(_slug) ? _slug.join("/") : _slug;
+    // templateSlug = normalisePathname(`${localisedFolderPath}/${_slug}`);
+    templateSlug = normalisePathname(`${_folder}/${_slug}`);
+
+    // homepage special case
+    if (templateSlug === "home") {
+      templateSlug = "";
+    }
+    if (this.debug) {
+      console.log(`kjam/content::get templateSlug: ${templateSlug}`);
+    }
+
+    const data = await this.api.getData<Entry<T>>(
+      `entries/${templateSlug}__${_locale}`
+    );
+    return data;
+  }
+
   async treatBody<T>(entry: Pick<Entry<T>, "dir" | "body">) {
     const body = await this.treatBodyImages(entry);
 
     return body;
   }
 
+  /**
+   * Get entry's `body` managing images
+   */
   async treatBodyImages<T>(entry: Pick<Entry<T>, "dir" | "body">) {
     const { body } = entry;
     const baseUrl = this.api.getUrl(entry.dir);
@@ -44,7 +106,30 @@ export class Content {
     return output;
   }
 
-  processDataSlice(data: any, key: any, baseDir: string) {
+  /**
+   * Get entry managing images in `data`
+   */
+  async treatDataImages<T>(entry: any) {
+    for (const key in entry.data) {
+      if (key !== "body") {
+        this.processDataSlice(entry.data, key, entry.dir);
+      }
+    }
+
+    return entry as Entry<T>;
+  }
+
+  /**
+   * Get entry managing all images both in` body` and `data`
+   */
+  async treatAllImages<T>(entry: any) {
+    entry = await this.treatDataImages(entry);
+    entry.body = await this.treatBodyImages(entry);
+
+    return entry as Entry<T>;
+  }
+
+  private processDataSlice(data: any, key: any, baseDir: string) {
     if (typeof data[key] === "string") {
       const currentValue = data[key];
       if (
@@ -69,35 +154,4 @@ export class Content {
       }
     }
   }
-
-  async treatDataImages<T>(entry: any) {
-    for (const key in entry.data) {
-      if (key !== "body") {
-        this.processDataSlice(entry.data, key, entry.dir);
-      }
-    }
-
-    return entry as Entry<T>;
-  }
-
-  async treatAllImages<T>(entry: any) {
-    entry = await this.treatDataImages(entry);
-    entry.body = await this.treatBodyImages(entry);
-
-    return entry as Entry<T>;
-  }
-
-  /**
-   * About img regex replace:
-   * @see https://regex101.com/r/Wefgyy/1
-   */
-  // treatContent(meta: EntryMeta, content: string = "") {
-  //   const relativePath = meta.dir;
-  //   const baseUrl = this.url + relativePath;
-  //   const imgRegex = /(\!\[.+\])\((\.)(.+)\)/gm;
-  //   const imgSubst = `$1(${baseUrl}$3)`;
-  //   const output = content.replace(imgRegex, imgSubst);
-
-  //   return output;
-  // }
 }
