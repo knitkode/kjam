@@ -1,3 +1,10 @@
+## [1.4.15](https://github.com/knitkode/kjam/compare/v1.4.14...v1.4.15) (2022-02-02)
+
+### Bug Fixes
+
+- **tests:** lot of improvements ([5d51c36](https://github.com/knitkode/kjam/commit/5d51c36904ee12fff23960db2fbb13b07ea4cf37))
+- **test:** wip ([aef14d4](https://github.com/knitkode/kjam/commit/aef14d4d42124b119605a3080c19afd17dadf025))
+
 ## [1.4.14](https://github.com/knitkode/kjam/compare/v1.4.13...v1.4.14) (2022-01-27)
 
 ### Bug Fixes
