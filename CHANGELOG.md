@@ -1,3 +1,9 @@
+## [1.4.17](https://github.com/knitkode/kjam/compare/v1.4.16...v1.4.17) (2022-02-02)
+
+### Bug Fixes
+
+- **serializer:** split ([bb32ba8](https://github.com/knitkode/kjam/commit/bb32ba8d6139c17044c3513525421489119aae3d))
+
 ## [1.4.16](https://github.com/knitkode/kjam/compare/v1.4.15...v1.4.16) (2022-02-02)
 
 ### Bug Fixes
