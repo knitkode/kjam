@@ -88,7 +88,8 @@ export class Serializer<T = Record<string, unknown>> {
     const [username, repo] = (process.env["GITHUB_REPOSITORY"] || "").split(
       "/"
     );
-    const branch = process.env["GITHUB_REF_NAME"] || "main";
+    // TODO: check if I can use GITHUB_REF_NAME
+    const branch = process.env["GITHUB_REF"]?.substring(11) || "main";
     this.api = new ApiGithub({
       username,
       repo,
