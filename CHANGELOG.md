@@ -1,3 +1,9 @@
+## [1.4.18](https://github.com/knitkode/kjam/compare/v1.4.17...v1.4.18) (2022-02-03)
+
+### Bug Fixes
+
+- **all:** wip many things ([a2e4505](https://github.com/knitkode/kjam/commit/a2e450580079ef104f3bed451aee827c95150d22))
+
 ## [1.4.17](https://github.com/knitkode/kjam/compare/v1.4.16...v1.4.17) (2022-02-02)
 
 ### Bug Fixes
