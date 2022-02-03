@@ -1,10 +1,10 @@
 {
   "dir": "spaces/outdoor/by-season/winter",
   "locale": "en",
-  "body": "This should simply infer the slug from the folder name",
-  "excerpt": "",
+  "body": "",
+  "excerpt": "This should simply infer the slug from the folder name",
   "data": {},
-  "routeId": "spaces/outdoor/by-season/winter",
+  "id": "spaces/outdoor/by-season/winter",
   "templateSlug": "spaces/outdoor/by-season/winter",
   "slug": "winter",
   "url": "/spaces/living-outside/by-season/winter"

@@ -68,22 +68,22 @@ export class ContentNext extends Content {
     // FIXME:
     // routeType = routeType === "pages" ? "" : "";
 
-    for (const [routeId, routeLocales] of Object.entries(byRoute)) {
-      if (routeId.startsWith(routeType)) {
-        for (const [routeLocale, route] of Object.entries(routeLocales)) {
+    for (const [id, locales] of Object.entries(byRoute)) {
+      if (id.startsWith(routeType)) {
+        for (const [locale, entry] of Object.entries(locales)) {
           let slug;
 
           if (asString) {
-            slug = route.templateSlug as StaticPathSlug<true>;
+            slug = entry.templateSlug as StaticPathSlug<true>;
           } else {
-            slug = route.templateSlug.split("/") as StaticPathSlug<false>;
+            slug = entry.templateSlug.split("/") as StaticPathSlug<false>;
           }
 
           if (slug) {
             paths.push({
               // @ts-expect-error Not sure why this breaks
               params: { slug },
-              locale: routeLocale,
+              locale: locale,
             });
             // console.log(
             //   `kjam/content::getStaticPaths routeType ${routeType}, slug: ${slug}`
@@ -122,15 +122,13 @@ export class ContentNext extends Content {
       };
     }
 
-    const body = await this.treatBody<Data>(entry);
-    const mdx = await mdxSerializer(body, { scope: entry.data });
+    const mdx = await mdxSerializer(entry.body, { scope: entry.data });
     return { props: { mdx, entry, ...additionalData } };
   }
 
   async getEntryMdx<T>(entry: Entry<T>, mdxSerializer?: typeof serialize) {
-    const body = await this.treatBody(entry);
     const mdx = mdxSerializer
-      ? await mdxSerializer(body, { scope: entry.data })
+      ? await mdxSerializer(entry.body, { scope: entry.data })
       : null;
 
     return mdx;

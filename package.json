@@ -10,7 +10,7 @@
     "format": "clear && npx prettier --write **/*.{js,json,css,ts,tsx}",
     "lint": "clear && npx eslint --fix packages/**/*.{ts,tsx}",
     "clean": "rm -rf ./node_modules/.cache/nx",
-    "test-action-next": "nx run action-next:build && KJAM_FOLDER=../../LaSchola/content-www KJAM_SKIP_GIT=true node ./dist/packages/action-next/index.js"
+    "test-action-next": "nx run action-next:build && KJAM_GIT=amicidellaschola/content-www/main KJAM_FOLDER=../../LaSchola/content-www KJAM_SKIP_GIT=true node ./dist/packages/action-next/index.js"
   },
   "private": true,
   "dependencies": {

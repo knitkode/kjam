@@ -1,8 +1,9 @@
 import { join } from "path";
-import { fdir } from "fdir";
+import { readdirSync } from "fs-extra";
 import { read } from "gray-matter";
 import { load, JSON_SCHEMA } from "js-yaml";
 import type {
+  Api,
   Kjam,
   Entry,
   EntryMeta,
@@ -10,6 +11,7 @@ import type {
   EntryRoute,
 } from "@kjam/core";
 import { normalisePathname } from "../../core/src"; // @kjam/core
+import { Img } from "./img";
 
 /**
  * Only keep `.md` and `.mdx` files based on filename
@@ -45,6 +47,23 @@ export function extractMeta(filepath: string, i18n: Kjam.I18n): EntryMeta {
   };
 }
 
+/**
+ * Quickly clean markdown specific syntax and mdx imports and components
+ */
+function getExcerpt(content: string, maxChars = 160) {
+  const cleaned = content.replace(
+    /<[\n|\s|\S|.]*?>|\n|!\[.*?\]|\[|\]|\(.*?\)|#.*?\n|import\s.*?\n|\*|\*\*|_|__|>.*?\n/gm,
+    ""
+  );
+  let truncated = cleaned.slice(0, maxChars + 0);
+
+  if (cleaned.length > maxChars) {
+    truncated += "...";
+  }
+
+  return truncated;
+}
+
 export function extractMatter<T>(filepath: string): EntryMatter<T> {
   const { content, excerpt, data } = read(filepath, {
     excerpt: true,
@@ -55,7 +74,11 @@ export function extractMatter<T>(filepath: string): EntryMatter<T> {
       yaml: (s) => load(s, { schema: JSON_SCHEMA }),
     },
   });
-  return { body: content, excerpt, data: data as T };
+  return {
+    body: "", //content,
+    excerpt: excerpt || getExcerpt(content),
+    data: data as T,
+  };
 }
 
 export function extractRoute<T>(
@@ -67,7 +90,7 @@ export function extractRoute<T>(
   const dirParts = dir.split("/");
   const matterSlugParts = matter.data?.slug?.split("/") ?? [];
   // pages ids get the `pages/` part stripped out to act as root level routes
-  const routeId = dir.replace("pages/", "");
+  const id = dir.replace("pages/", "");
   // get the parent path of the entry's directory
   const parentDirs = dirParts
     .slice(0, -1)
@@ -75,7 +98,7 @@ export function extractRoute<T>(
     .replace(/(pages\/*).*$/, "");
   // use last portion of the frontmatter defined `slug` key as priority slug
   const slugFromMatter = matterSlugParts[matterSlugParts.length - 1];
-  // use last portion of the directory/routeId as fallback slug
+  // use last portion of the directory/id as fallback slug
   const slugFromDir = dirParts[dirParts.length - 1];
   // extract locale from frontmatter or use last portion of the directory
   let slug = normalisePathname(slugFromMatter || slugFromDir || "");
@@ -86,7 +109,7 @@ export function extractRoute<T>(
 
   // prepend the dynamic part of the slug (if any) by reading the routes structure
   // which should match this entry's parent directories path.
-  const url = urls?.[routeId]?.[locale] || "";
+  const url = urls?.[id]?.[locale] || "";
   // const url = (urlPrepend ? `${urlPrepend}/` : urlPrepend) + slug;
 
   // update the slug read from frontmatter too, as it might be wrongly defined
@@ -101,8 +124,7 @@ export function extractRoute<T>(
   delete matter.data.slug;
 
   return {
-    routeId,
-    locale,
+    id,
     templateSlug,
     slug,
     url,
@@ -112,14 +134,18 @@ export function extractRoute<T>(
 /**
  * Check if the given folder path is a folder containing a collection of entries
  */
-export async function isCollectionPath(fullpath: string) {
-  const quantity = (await new fdir()
-    .onlyCounts()
-    // .withRelativePaths()
-    .crawl(fullpath)
-    .withPromise()) as { files: number; dirs: number };
-  // console.log(">", fullpath, quantity)
-  return quantity.dirs > 1;
+export function isCollectionPath(fullpath: string) {
+  const children = readdirSync(fullpath, { withFileTypes: true });
+
+  return (
+    children.filter((dirent) => {
+      const isDir = dirent.isDirectory();
+      if (!isDir) return false;
+      const { name } = dirent;
+      // TODO: test for this behaviour...
+      return name !== "media" && name !== "photos" && name !== "images";
+    }).length > 0
+  );
 }
 
 /**
@@ -127,7 +153,7 @@ export async function isCollectionPath(fullpath: string) {
  *
  */
 function getTranslatedLink(raw: string, entry: Entry<any>, urls: Kjam.Urls) {
-  let routeId = "";
+  let id = "";
   const isRelative = /^(?!\/\/)[.|/]/.test(raw);
   if (!isRelative) {
     return raw;
@@ -135,12 +161,12 @@ function getTranslatedLink(raw: string, entry: Entry<any>, urls: Kjam.Urls) {
   const startsWithDot = raw[0] === ".";
   if (startsWithDot) {
     const rawPath = raw.replace(/\/index\..+/, "");
-    routeId = join(entry.dir, rawPath);
+    id = join(entry.dir, rawPath);
   } else {
-    routeId = raw;
+    id = raw;
   }
 
-  return urls[routeId]?.[entry.locale] || raw;
+  return urls[id]?.[entry.locale] || raw;
   // raw.match(/[\.|\/]*(.+)/)[1]
 }
 
@@ -166,7 +192,7 @@ function treatBodyLinks(entry: Entry<any>, urls: Kjam.Urls) {
 function treatDataLinks<T>(entry: any, urls: Kjam.Urls) {
   for (const key in entry.data) {
     if (key !== "body") {
-      processDataSlice(entry.data, key, entry, urls);
+      treatDataLinksSlice(entry.data, key, entry, urls);
     }
   }
 
@@ -183,7 +209,81 @@ export function treatAllLinks<T>(entry: any, urls: Kjam.Urls) {
   return entry as Entry<T>;
 }
 
-function processDataSlice(
+/**
+ * Get entry's `body` managing images
+ */
+async function treatBodyImages<T>(
+  entry: Pick<Entry<T>, "dir" | "body">,
+  api: Api
+) {
+  const { body } = entry;
+  const baseUrl = api.getUrl(entry.dir);
+  const regex = /!\[.+\]\(.+\)/gm;
+  const matches = body.match(regex);
+  let output = body;
+
+  if (matches) {
+    for (let i = 0; i < matches.length; i++) {
+      const match = matches[i];
+      const img = new Img(match, baseUrl);
+      const replacement = await img.toComponent();
+      output = body.replace(match, replacement);
+    }
+  }
+
+  return output;
+}
+
+/**
+ * Get entry managing images in `data`
+ */
+async function treatDataImages<T>(entry: any, api: Api) {
+  for (const key in entry.data) {
+    if (key !== "body") {
+      treatDataImagesSlice(entry.data, key, entry.dir, api);
+    }
+  }
+
+  return entry as Entry<T>;
+}
+
+/**
+ * Get entry managing all images both in` body` and `data`
+ */
+export async function treatAllImages<T>(entry: any, api: Api) {
+  entry = await treatDataImages(entry, api);
+  entry.body = await treatBodyImages(entry, api);
+
+  return entry as Entry<T>;
+}
+
+function treatDataImagesSlice(data: any, key: any, baseDir: string, api: Api) {
+  if (typeof data[key] === "string") {
+    const currentValue = data[key];
+    if (
+      currentValue.endsWith(".jpg") ||
+      currentValue.endsWith(".jpeg") ||
+      currentValue.endsWith(".png")
+    ) {
+      data[key] = api.getUrl(join(baseDir, currentValue));
+      // console.log("transformed: ", data[key]);
+    }
+  } else if (Array.isArray(data[key])) {
+    // console.log("is array", key);
+    for (let i = 0; i < data[key].length; i++) {
+      treatDataImagesSlice(data[key], i, baseDir, api);
+    }
+  } else if (
+    Object.prototype.toString.call(data[key]).slice(8, -1) === "Object"
+  ) {
+    // console.log("is object", key);
+    for (const subkey in data[key]) {
+      treatDataImagesSlice(data[key], subkey, baseDir, api);
+    }
+  }
+}
+
+function treatDataLinksSlice(
   data: any,
   key: any,
   entry: Entry<any>,
@@ -198,14 +298,14 @@ function processDataSlice(
   } else if (Array.isArray(data[key])) {
     // console.log("is array", key);
     for (let i = 0; i < data[key].length; i++) {
-      processDataSlice(data[key], i, entry, urls);
+      treatDataLinksSlice(data[key], i, entry, urls);
     }
   } else if (
     Object.prototype.toString.call(data[key]).slice(8, -1) === "Object"
   ) {
     // console.log("is object", key);
     for (const subkey in data[key]) {
-      processDataSlice(data[key], subkey, entry, urls);
+      treatDataLinksSlice(data[key], subkey, entry, urls);
     }
   }
 }

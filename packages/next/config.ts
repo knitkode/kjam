@@ -110,15 +110,14 @@ export function ConfigNext(
     >;
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    for (const [_routeId, routeLocales] of Object.entries(byRoute)) {
-      for (const [routeLocale, route] of Object.entries(routeLocales)) {
-        const slugLocale =
-          routeLocale === i18n.defaultLocale ? "" : `${routeLocale}/`;
-        const fullSlug = `/${normalisePathname(`${slugLocale}${route.slug}`)}`;
+    for (const [_route, locales] of Object.entries(byRoute)) {
+      for (const [locale, entry] of Object.entries(locales)) {
+        const slugLocale = locale === i18n.defaultLocale ? "" : `${locale}/`;
+        const fullSlug = `/${normalisePathname(`${slugLocale}${entry.url}`)}`;
         pathMap[fullSlug] = {
-          page: `/${route.templateSlug.split("/")[0]}`,
+          page: `/${entry.templateSlug.split("/")[0]}`,
           query: {
-            slug: route.slug.split("/"),
+            slug: entry.slug.split("/"),
           },
         };
       }

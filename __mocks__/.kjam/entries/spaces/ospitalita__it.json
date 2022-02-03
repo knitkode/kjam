@@ -1,10 +1,10 @@
 {
   "dir": "spaces/hospitality",
   "locale": "it",
-  "body": "\n# Links\n\n- Test [link](/spazi/indoor/cucina)\n- Test [link](/spazi/indoor/cucina)\n- Test [link](/spaces/indoor/kitchen)\n- Test [link](https://example.com)\n- Test [link](//example.com)\n- Test [link spanningon multiple lines](/spazi/indoor/cucina)\n",
-  "excerpt": "",
+  "body": "",
+  "excerpt": "- Test link- Test link- Test link- Test link- Test link- Test link spanningon multiple lines",
   "data": {},
-  "routeId": "spaces/hospitality",
+  "id": "spaces/hospitality",
   "templateSlug": "spaces/ospitalita",
   "slug": "ospitalita",
   "url": "/spazi/ospitalita"

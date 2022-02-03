@@ -4,7 +4,7 @@
   "body": "",
   "excerpt": "",
   "data": {},
-  "routeId": "about",
+  "id": "about",
   "templateSlug": "about-us",
   "slug": "about-us",
   "url": "/about-us"

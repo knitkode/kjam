@@ -4,7 +4,7 @@
   "body": "",
   "excerpt": "",
   "data": {},
-  "routeId": "events",
+  "id": "events",
   "templateSlug": "events",
   "slug": "events",
   "url": "/events"

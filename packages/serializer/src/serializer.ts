@@ -16,6 +16,9 @@ import {
   EntriesMap,
   normalisePathname,
   isTestEnv,
+  ApiGithub,
+  ApiGithubConfig,
+  Api,
 } from "../../core/src"; // @kjam/core
 import {
   filterMarkdownFiles,
@@ -24,6 +27,7 @@ import {
   extractRoute,
   isCollectionPath,
   treatAllLinks,
+  treatAllImages,
 } from "./utils";
 import { getTranslations, writeTranslations } from "./translations";
 
@@ -32,6 +36,7 @@ type LoggerType = "info" | "error" | "warn";
 type Logger = (data: any, type?: LoggerType) => void;
 
 type SerializerConfig<T> = T & {
+  api?: ApiGithubConfig;
   debug?: boolean;
   root?: string;
   /** @default "settings/i18n/config.yml" */
@@ -42,6 +47,7 @@ type SerializerConfig<T> = T & {
 };
 
 export class Serializer<T = Record<string, unknown>> {
+  api: Api;
   config: T;
   /** Logger function */
   log: Logger;
@@ -71,6 +77,18 @@ export class Serializer<T = Record<string, unknown>> {
     const defaultLogger: Logger = (data, type = "info") => {
       console[type](data);
     };
+
+    // @see https://docs.github.com/en/actions/learn-github-actions/environment-variables
+    const [username, repo] = (process.env["GITHUB_REPOSITORY	"] || "").split(
+      "/"
+    );
+    const branch = process.env["GITHUB_REF_NAME"] || "main";
+    this.api = new ApiGithub({
+      username,
+      repo,
+      branch,
+      ...(config?.api || {}),
+    });
 
     const { log, debug, pathI18n, pathTranslations, root, ...restConfig } =
       config || {};
@@ -112,6 +130,8 @@ export class Serializer<T = Record<string, unknown>> {
     this.writeFile("routes", this.routes);
     this.writeFile("urls", this.urls);
     this.writeFile("slugs", this.slugs);
+    // this.writeFile("collections", this.collections);
+    // this.writeFile("entries", this.entries);
 
     this.translations = await getTranslations(
       join(this.root, this.pathTranslations),
@@ -245,7 +265,7 @@ export class Serializer<T = Record<string, unknown>> {
     for (let i = 0; i < markdownFiles.length; i++) {
       const pathParts = normalisePathname(markdownFiles[i]).split("/");
       let path = pathParts.slice(0, -1).join("/");
-      const isCollection = await isCollectionPath(join(this.root, path));
+      const isCollection = isCollectionPath(join(this.root, path));
       // pages collection is treated as if it was at the root level
       path = path.replace("pages/", "");
 
@@ -337,7 +357,7 @@ export class Serializer<T = Record<string, unknown>> {
 
   /** @private */
   private getSlugsForPath(path: string) {
-    const slugs: Kjam.Routes[string] = {};
+    const pathSlugs: Kjam.Routes[string] = {};
 
     for (let i = 0; i < this.i18n.locales.length; i++) {
       const locale = this.i18n.locales[i];
@@ -386,10 +406,10 @@ export class Serializer<T = Record<string, unknown>> {
         }
       }
 
-      slugs[locale] = "/" + normalisePathname(slug);
+      pathSlugs[locale] = "/" + normalisePathname(slug);
     }
 
-    return slugs;
+    return pathSlugs;
   }
 
   /**
@@ -448,13 +468,16 @@ export class Serializer<T = Record<string, unknown>> {
           return null;
         }
 
-        const entry = {
-          ...meta,
-          ...matter,
-          ...route,
-        };
+        const entry = treatAllLinks(
+          {
+            ...meta,
+            ...matter,
+            ...route,
+          },
+          this.urls
+        );
 
-        return treatAllLinks(entry, this.urls);
+        return treatAllImages(entry, this.api);
       })
     );
 
@@ -462,8 +485,8 @@ export class Serializer<T = Record<string, unknown>> {
       .filter((content) => !!content)
       .reduce((map, item) => {
         if (item) {
-          map[item.routeId] = map[item.routeId] || {};
-          map[item.routeId][item.locale] = item;
+          map[item.id] = map[item.id] || {};
+          map[item.id][item.locale] = item;
         }
         return map;
       }, {} as EntriesMapByRoute);
@@ -475,7 +498,7 @@ export class Serializer<T = Record<string, unknown>> {
     this.writeFile("byRoute", byRoute);
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    for (const [_routeId, routeLocales] of Object.entries(byRoute)) {
+    for (const [_id, routeLocales] of Object.entries(byRoute)) {
       for (const [routeLocale, entry] of Object.entries(routeLocales)) {
         const { templateSlug } = entry;
 

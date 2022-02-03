@@ -1,11 +1,11 @@
 {
-  "spaces": {
-    "en": "/spaces",
-    "it": "/spazi"
-  },
   "projects": {
     "en": "/projects",
     "it": "/progetti"
+  },
+  "spaces": {
+    "en": "/spaces",
+    "it": "/spazi"
   },
   "spaces/outdoor": {
     "en": "/spaces/living-outside",
@@ -15,13 +15,13 @@
     "en": "/spaces/living-outside/by-season",
     "it": "/spazi/all-aperto/stagioni"
   },
-  "home": {
-    "en": "/",
-    "it": "/"
+  "events/another-event": {
+    "en": "/events/another-event",
+    "it": "/eventi/another-event"
   },
-  "spaces/hospitality": {
-    "en": "/spaces/hospitality",
-    "it": "/spazi/ospitalita"
+  "events/event-name": {
+    "en": "/events/event-name",
+    "it": "/eventi/nome-evento"
   },
   "events": {
     "en": "/events",
@@ -31,25 +31,17 @@
     "en": "/about-us",
     "it": "/chi-siamo"
   },
-  "events/another-event": {
-    "en": "/events/another-event",
-    "it": "/eventi/another-event"
-  },
-  "events/event-name": {
-    "en": "/events/event-name",
-    "it": "/eventi/nome-evento"
+  "home": {
+    "en": "/",
+    "it": "/"
   },
   "projects/project-title": {
     "en": "/projects/project-title",
     "it": "/progetti/titolo-progetto"
   },
-  "spaces/indoor/kitchen": {
-    "en": "/spaces/indoor/the-kitchen",
-    "it": "/spazi/indoor/cucina"
-  },
-  "spaces/indoor/hall": {
-    "en": "/spaces/indoor/the-hall",
-    "it": "/spazi/indoor/sala"
+  "spaces/hospitality": {
+    "en": "/spaces/hospitality",
+    "it": "/spazi/ospitalita"
   },
   "spaces/outdoor/park": {
     "en": "/spaces/living-outside/park",
@@ -58,6 +50,14 @@
   "spaces/outdoor/playground": {
     "en": "/spaces/living-outside/playground",
     "it": "/spazi/all-aperto/area-giochi"
+  },
+  "spaces/indoor/hall": {
+    "en": "/spaces/indoor/the-hall",
+    "it": "/spazi/indoor/sala"
+  },
+  "spaces/indoor/kitchen": {
+    "en": "/spaces/indoor/the-kitchen",
+    "it": "/spazi/indoor/cucina"
   },
   "spaces/outdoor/by-season/summer": {
     "en": "/spaces/living-outside/by-season/summer",

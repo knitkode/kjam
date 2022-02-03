@@ -68,7 +68,9 @@ export class Img {
    */
   async toComponent() {
     const { width, height } = await this.getInfo();
-    const attributes = `src="${this.originalUrl}" alt="${this.alt}" width={${width}} height={${height}}`;
+    let attributes = `src="${this.originalUrl}" alt="${this.alt}"`;
+    attributes += width ? ` width={${width}}` : "";
+    attributes += height ? ` height={${height}}` : "";
 
     return `<Img ${attributes} />`;
   }
@@ -83,7 +85,9 @@ export class Img {
    */
   async toHtml() {
     const { width, height } = await this.getInfo();
-    const attributes = `src="${this.originalUrl}" alt="${this.alt}" width={${width}} height={${height}}`;
+    let attributes = `src="${this.originalUrl}" alt="${this.alt}"`;
+    attributes += width ? ` width={${width}}` : "";
+    attributes += height ? ` height={${height}}` : "";
 
     return `<img ${attributes} />`;
   }

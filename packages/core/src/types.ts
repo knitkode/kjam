@@ -93,7 +93,7 @@ export type EntryMeta = {
   // filename: string;
   /**
    * From  `/news/some-title/index.it.md` this value is `it` */
-  locale: string | "default";
+  locale: Kjam.Locale;
   /**
    * From  `/news/some-title/index.it.md` this value is `news` */
   // parentDirs: string;
@@ -102,11 +102,11 @@ export type EntryMeta = {
 /**
  * Parsed frontmatter section of an entry
  */
-export type EntryMatter<T extends {}> = {
+export type EntryMatter<Data extends {}> = {
   /**
    * Parsed frontmatter section of an entry, it represents its "structured" data
    */
-  data: EntryMatterData<T>;
+  data: EntryMatterData<Data>;
   /**
    * The rich/plain body content of an entry
    */
@@ -120,20 +120,18 @@ export type EntryMatter<T extends {}> = {
 /**
  * Some basic frontmatter data an entry should/could have
  */
-export type EntryMatterData<T extends {}> = {
+export type EntryMatterData<Data extends {}> = {
   draft?: boolean;
   slug?: string;
   template?: string;
-} & T;
+} & Data;
 
 /**
  * Routing related data of an entry
  */
 export type EntryRoute = {
   /** e.g. `news/some-title` */
-  routeId: string;
-  /** e.g. `it` */
-  locale: EntryMeta["locale"];
+  id: string;
   /** last portion of the entry pathname, e.g. from `novità/un-titolo` slug is 'un-titolo' */
   slug: string;
   /** full relative entry url, localised, e.g. `/news/title-not-the-same-as-folder-name` or `novità/un-titolo` */
@@ -145,14 +143,21 @@ export type EntryRoute = {
 /**
  * The full markdown file's Entry representation
  */
-export type Entry<T extends {} = {}> = EntryMatter<T> &
+export type Entry<Data extends {} = {}> = EntryMatter<Data> &
   EntryRoute & {} & EntryMeta;
 
-export type EntriesMap<T extends {} = {}> = {
-  byRoute: EntriesMapByRoute<T>;
+/**
+ * The lean markdown file's Entry representation, same as `Entry` but without body
+ * so no mdx serializing required, useful to display entries in index pages or
+ * previews of collection pages for instance.
+ */
+export type EntryLean<Data extends {} = {}> = Omit<Entry<Data>, "body">;
+
+export type EntriesMap<Data extends {} = {}> = {
+  byRoute: EntriesMapByRoute<Data>;
 };
 
-export type EntriesMapByRoute<T extends {} = {}> = Record<
+export type EntriesMapByRoute<Data extends {} = {}> = Record<
   Kjam.RouteId,
-  Record<Kjam.Locale, Entry<T>>
+  Record<Kjam.Locale, Entry<Data>>
 >;

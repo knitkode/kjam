@@ -22,7 +22,7 @@ describe("Serializer", () => {
   test("should find all the markdown files", async () => {
     const mdPaths = await serializer.getMarkdownPaths();
 
-    expect(mdPaths.length).toEqual(32);
+    expect(mdPaths.length).toEqual(33);
   });
 
   // test("should run without errors...", async () => {
@@ -36,7 +36,7 @@ describe("Serializer", () => {
   test("should fixes frontmatter 'verbose' slugs", async () => {
     const result = await serializer.run();
 
-    expect(result.byRoute["projects/project-title"]["it"]["data"].slug).toEqual(
+    expect(result.byRoute["projects/project-title"]["it"].slug).toEqual(
       "titolo-progetto"
     );
   });

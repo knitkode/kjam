@@ -1,12 +1,11 @@
-import { join } from "path";
 import type { Entry } from "../types";
 import { Api } from "../api/api";
 import { ApiGithub, ApiGithubConfig } from "../api/api-github";
-import { Img } from "../img";
-import { BaseConfig } from "..";
 import { normalisePathname } from "../helpers";
+import { BaseConfig } from "../config/types";
 
 export type ContentConfig = BaseConfig & {
+  debug?: boolean;
   api?: ApiGithubConfig;
 };
 
@@ -19,11 +18,11 @@ export class Content {
     this.api = new ApiGithub(config.api);
   }
 
-  async getByRoute<T>(routeId: string, locale?: string) {
+  async getById<T>(id: string, locale?: string) {
     const { byRoute } = await this.api.getMaps<T>();
 
-    if (locale && byRoute[routeId]?.[locale]) {
-      return byRoute[routeId]?.[locale];
+    if (locale && byRoute[id]?.[locale]) {
+      return byRoute[id]?.[locale];
     }
 
     return null;
@@ -68,7 +67,7 @@ export class Content {
       templateSlug = "";
     }
     if (this.debug) {
-      console.log(`kjam/content::get templateSlug: ${templateSlug}`);
+      console.log(`kjam/content::get templateSlug ${templateSlug}`);
     }
 
     const data = await this.api.getData<Entry<T>>(
@@ -77,81 +76,23 @@ export class Content {
     return data;
   }
 
-  async treatBody<T>(entry: Pick<Entry<T>, "dir" | "body">) {
-    const body = await this.treatBodyImages(entry);
+  async getMany<EntryData>(idStartingWith: string, locale: string) {
+    const { byRoute } = await this.api.getMaps<EntryData>();
 
-    return body;
-  }
-
-  /**
-   * Get entry's `body` managing images
-   */
-  async treatBodyImages<T>(entry: Pick<Entry<T>, "dir" | "body">) {
-    const { body } = entry;
-    const baseUrl = this.api.getUrl(entry.dir);
-    const regex = /!\[.+\]\(.+\)/gm;
-    const matches = body.match(regex);
-    let output = body;
-
-    // FIXME: disabled for fs problem in middleware
-    if (matches) {
-      for (let i = 0; i < matches.length; i++) {
-        const match = matches[i];
-        const img = new Img(match, baseUrl);
-        const replacement = await img.toComponent();
-        output = body.replace(match, replacement);
-      }
-    }
-
-    return output;
-  }
-
-  /**
-   * Get entry managing images in `data`
-   */
-  async treatDataImages<T>(entry: any) {
-    for (const key in entry.data) {
-      if (key !== "body") {
-        this.processDataSlice(entry.data, key, entry.dir);
-      }
-    }
-
-    return entry as Entry<T>;
-  }
-
-  /**
-   * Get entry managing all images both in` body` and `data`
-   */
-  async treatAllImages<T>(entry: any) {
-    entry = await this.treatDataImages(entry);
-    entry.body = await this.treatBodyImages(entry);
-
-    return entry as Entry<T>;
-  }
-
-  private processDataSlice(data: any, key: any, baseDir: string) {
-    if (typeof data[key] === "string") {
-      const currentValue = data[key];
-      if (
-        currentValue.endsWith(".jpg") ||
-        currentValue.endsWith(".jpeg") ||
-        currentValue.endsWith(".png")
-      ) {
-        data[key] = this.api.getUrl(join(baseDir, currentValue));
-        // console.log("transformed: ", data[key]);
-      }
-    } else if (Array.isArray(data[key])) {
-      // console.log("is array", key);
-      for (let i = 0; i < data[key].length; i++) {
-        this.processDataSlice(data[key], i, baseDir);
-      }
-    } else if (
-      Object.prototype.toString.call(data[key]).slice(8, -1) === "Object"
-    ) {
-      // console.log("is object", key);
-      for (const subkey in data[key]) {
-        this.processDataSlice(data[key], subkey, baseDir);
-      }
-    }
+    return Object.keys(byRoute)
+      .filter((id) => {
+        // add the ending slash so that we match not the folder index page, e.g.
+        // with argument "projects" we need to match here not "project/index.en.md"
+        // but the entries like "projects/a-title/..."
+        return (
+          id.startsWith(normalisePathname(idStartingWith) + "/") &&
+          !!byRoute[id]?.[locale]
+        );
+      })
+      .map((id) => {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const { body, ...entry } = byRoute[id][locale];
+        return entry;
+      });
   }
 }

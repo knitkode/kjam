@@ -1,10 +1,10 @@
 {
-  "/spaces": "/spazi",
   "/projects": "/progetti",
+  "/spaces": "/spazi",
   "/spaces/outdoor": "/spazi/all-aperto",
   "/spaces/outdoor/by-season": "/spazi/all-aperto/stagioni",
-  "/home": "/",
   "/events": "/eventi",
   "/about": "/chi-siamo",
+  "/home": "/",
   "/spaces/indoor": "/spazi/indoor"
 }
