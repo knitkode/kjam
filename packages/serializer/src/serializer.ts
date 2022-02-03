@@ -85,7 +85,7 @@ export class Serializer<T = Record<string, unknown>> {
     };
 
     // @see https://docs.github.com/en/actions/learn-github-actions/environment-variables
-    const [username, repo] = (process.env["GITHUB_REPOSITORY	"] || "").split(
+    const [username, repo] = (process.env["GITHUB_REPOSITORY"] || "").split(
       "/"
     );
     const branch = process.env["GITHUB_REF_NAME"] || "main";
