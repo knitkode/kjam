@@ -30,12 +30,18 @@ import {
   treatAllImages,
 } from "./utils";
 import { getTranslations, writeTranslations } from "./translations";
+import { Img } from "./img";
 
 type LoggerType = "info" | "error" | "warn";
 
 type Logger = (data: any, type?: LoggerType) => void;
 
-type SerializerConfig<T> = T & {
+export type SerializerBodyImgTransformer = (
+  markdownImg: string,
+  baseUrl: string
+) => Promise<string>;
+
+export type SerializerConfig<T> = T & {
   api?: ApiGithubConfig;
   debug?: boolean;
   root?: string;
@@ -477,7 +483,7 @@ export class Serializer<T = Record<string, unknown>> {
           this.urls
         );
 
-        return treatAllImages(entry, this.api);
+        return await treatAllImages(entry, this.api, this.transformBodyImage);
       })
     );
 
@@ -498,14 +504,27 @@ export class Serializer<T = Record<string, unknown>> {
     this.writeFile("byRoute", byRoute);
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    for (const [_id, routeLocales] of Object.entries(byRoute)) {
-      for (const [routeLocale, entry] of Object.entries(routeLocales)) {
-        const { templateSlug } = entry;
+    for (const [_id, locales] of Object.entries(byRoute)) {
+      for (const [locale, entry] of Object.entries(locales)) {
+        const { id, templateSlug } = entry;
 
-        this.writeFile(`entries/${templateSlug}__${routeLocale}`, entry);
+        this.writeFile(`entries/${id}__${locale}`, entry);
+
+        // FIXME: still not sure what is the best here, maybe the template slug
+        // is only needed for next.js routing system, maybe not, right now we
+        // are creating multiple endpoints for the same entry, which is probably
+        // not ideal
+        // if (!this.collections[id]) {
+        this.writeFile(`entries/${templateSlug}__${locale}`, entry);
+        // }
       }
     }
 
     return entriesMap;
+  }
+
+  async transformBodyImage(markdownImg: string, baseUrl: string) {
+    const img = new Img(markdownImg, baseUrl);
+    return await img.toComponent();
   }
 }

@@ -66,11 +66,14 @@ export class Img {
    * <Img alt="text" src="https://ciao.com/path-to-img.jpg"/>
    * ```
    */
-  async toComponent() {
+  async toComponent(attrs?: string) {
     const { width, height } = await this.getInfo();
     let attributes = `src="${this.originalUrl}" alt="${this.alt}"`;
     attributes += width ? ` width={${width}}` : "";
     attributes += height ? ` height={${height}}` : "";
+    if (attrs) {
+      attributes += ` ${attrs}`;
+    }
 
     return `<Img ${attributes} />`;
   }

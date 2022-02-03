@@ -1,7 +1,7 @@
 import type { Redirect, Rewrite } from "next/dist/lib/load-custom-routes";
 import type { Kjam } from "@kjam/core";
 import { encodePathname } from "../../core/src"; // @kjam/core
-import { Serializer } from "../../serializer/src"; // @kjam/serializer
+import { Serializer, Img } from "../../serializer/src"; // @kjam/serializer
 
 export type SerializerNextOutputConfig = {
   /**
@@ -19,6 +19,11 @@ export type SerializerNextOutputConfig = {
 };
 
 export class SerializerNext extends Serializer {
+  override async transformBodyImage(markdownImg: string, baseUrl: string) {
+    const img = new Img(markdownImg, baseUrl);
+    return await img.toComponent(`layout="fill"`);
+  }
+
   override async start() {
     this.writeFile("next.config", {
       i18n: {
@@ -124,8 +129,7 @@ export class SerializerNext extends Serializer {
     locale: string,
     localisedPathname: string,
     templateName: string,
-    dynamic?: boolean,
-    permanent?: boolean
+    dynamic?: boolean
   ) {
     const suffix = dynamic ? `/:slug*` : "";
     return {

@@ -58,20 +58,20 @@ export class Content {
       _locale = locale;
     }
 
-    let templateSlug = Array.isArray(_slug) ? _slug.join("/") : _slug;
-    // templateSlug = normalisePathname(`${localisedFolderPath}/${_slug}`);
-    templateSlug = normalisePathname(`${_folder}/${_slug}`);
+    let target = Array.isArray(_slug) ? _slug.join("/") : _slug;
+    // target = normalisePathname(`${localisedFolderPath}/${_slug}`);
+    target = normalisePathname(`${_folder}/${_slug}`);
 
     // homepage special case
-    if (templateSlug === "home") {
-      templateSlug = "";
+    if (target === "home") {
+      target = "";
     }
     if (this.debug) {
-      console.log(`kjam/content::get templateSlug ${templateSlug}`);
+      console.log(`kjam/content::get target ${target}`);
     }
 
     const data = await this.api.getData<Entry<T>>(
-      `entries/${templateSlug}__${_locale}`
+      `entries/${target}__${_locale}`
     );
     return data;
   }

@@ -10,8 +10,8 @@ import type {
   EntryMatter,
   EntryRoute,
 } from "@kjam/core";
+import type { SerializerBodyImgTransformer } from "./serializer";
 import { normalisePathname } from "../../core/src"; // @kjam/core
-import { Img } from "./img";
 
 /**
  * Only keep `.md` and `.mdx` files based on filename
@@ -75,7 +75,7 @@ export function extractMatter<T>(filepath: string): EntryMatter<T> {
     },
   });
   return {
-    body: "", //content,
+    body: content,
     excerpt: excerpt || getExcerpt(content),
     data: data as T,
   };
@@ -214,19 +214,18 @@ export function treatAllLinks<T>(entry: any, urls: Kjam.Urls) {
  */
 async function treatBodyImages<T>(
   entry: Pick<Entry<T>, "dir" | "body">,
-  api: Api
+  api: Api,
+  mdImgTransformer: SerializerBodyImgTransformer
 ) {
   const { body } = entry;
   const baseUrl = api.getUrl(entry.dir);
   const regex = /!\[.+\]\(.+\)/gm;
   const matches = body.match(regex);
   let output = body;
-
   if (matches) {
     for (let i = 0; i < matches.length; i++) {
       const match = matches[i];
-      const img = new Img(match, baseUrl);
-      const replacement = await img.toComponent();
+      const replacement = await mdImgTransformer(match, baseUrl);
       output = body.replace(match, replacement);
     }
   }
@@ -250,9 +249,13 @@ async function treatDataImages<T>(entry: any, api: Api) {
 /**
  * Get entry managing all images both in` body` and `data`
  */
-export async function treatAllImages<T>(entry: any, api: Api) {
+export async function treatAllImages<T>(
+  entry: any,
+  api: Api,
+  mdImgTransformer: SerializerBodyImgTransformer
+) {
   entry = await treatDataImages(entry, api);
-  entry.body = await treatBodyImages(entry, api);
+  entry.body = await treatBodyImages(entry, api, mdImgTransformer);
 
   return entry as Entry<T>;
 }
