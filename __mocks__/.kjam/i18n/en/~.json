@@ -4,7 +4,7 @@
   "/about": "/about-us",
   "/events": "/events",
   "/home": "/",
-  "/spaces/outdoor": "/spaces/living-outside",
   "/spaces/indoor": "/spaces/indoor",
+  "/spaces/outdoor": "/spaces/living-outside",
   "/spaces/outdoor/by-season": "/spaces/living-outside/by-season"
 }

@@ -11,7 +11,7 @@ export type SerializerNextOutputConfig = {
    * so it must be passed set here and it needs to match the remote content
    * one.
    *
-   * FIXME: implement a check if a mismatch happens and report to the user
+   * TODO: implement a check if a mismatch happens and report to the user
    */
   i18n: Kjam.I18n;
   redirects: Redirect[];
@@ -19,8 +19,8 @@ export type SerializerNextOutputConfig = {
 };
 
 export class SerializerNext extends Serializer {
-  override async transformBodyImage(markdownImg: string, baseUrl: string) {
-    const img = new Img(markdownImg, baseUrl);
+  override async transformBodyImage(markdownImg: string) {
+    const img = new Img(markdownImg);
     return await img.toComponent(`layout="fill"`);
   }
 

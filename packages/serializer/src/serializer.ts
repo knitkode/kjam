@@ -12,7 +12,6 @@ import { load } from "js-yaml";
 import {
   Kjam,
   EntriesMapById,
-  EntriesMap,
   normalisePathname,
   isTestEnv,
   ApiGithub,
@@ -25,9 +24,9 @@ import {
   extractMatter,
   extractRoute,
   isCollectionPath,
-  treatAllLinks,
-  treatAllImages,
 } from "./utils";
+import { treatAllImages } from "./images";
+import { treatAllLinks } from "./links";
 import { getTranslations, writeTranslations } from "./translations";
 import { Img } from "./img";
 
@@ -36,8 +35,7 @@ type LoggerType = "info" | "error" | "warn";
 type Logger = (data: any, type?: LoggerType) => void;
 
 export type SerializerBodyImgTransformer = (
-  markdownImg: string,
-  baseUrl: string
+  markdownImg: string
 ) => Promise<string>;
 
 export type SerializerConfig<T> = T & {
@@ -410,7 +408,7 @@ export class Serializer<T = Record<string, unknown>> {
       const locales = entries[id];
       for (const locale in locales) {
         let entry = locales[locale];
-        entry = treatAllLinks(entry, this.urls);
+        entry = treatAllLinks(entry, this.api, this.urls);
         promises.push(treatAllImages(entry, this.api, this.transformBodyImage));
       }
     }
@@ -518,76 +516,8 @@ export class Serializer<T = Record<string, unknown>> {
     }
   }
 
-  /** @private */
-  async getEntriesMap() {
-    const entries = await Promise.all(
-      this.mdPaths.map(async (mdPath) => {
-        const raw = this.getRawFile(mdPath);
-
-        if (raw === null) {
-          return null;
-        }
-
-        const meta = extractMeta(mdPath, this.i18n);
-        const matter = extractMatter<T>(join(this.root, mdPath));
-        const route = extractRoute<T>(meta, matter, this.urls);
-
-        // ability to filter out contents with conventional frontmatter flags
-        if (matter.data.draft) {
-          return null;
-        }
-
-        const entry = treatAllLinks(
-          {
-            ...meta,
-            ...matter,
-            ...route,
-          },
-          this.urls
-        );
-
-        return await treatAllImages(entry, this.api, this.transformBodyImage);
-      })
-    );
-
-    const byRoute = entries
-      .filter((content) => !!content)
-      .reduce((map, item) => {
-        if (item) {
-          map[item.id] = map[item.id] || {};
-          map[item.id][item.locale] = item;
-        }
-        return map;
-      }, {} as EntriesMapById);
-
-    const entriesMap = {
-      byRoute,
-    } as EntriesMap;
-
-    this.writeFile("byRoute", byRoute);
-
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    for (const [_id, locales] of Object.entries(byRoute)) {
-      for (const [locale, entry] of Object.entries(locales)) {
-        const { id, templateSlug } = entry;
-
-        this.writeFile(`entries/${id}__${locale}`, entry);
-
-        // FIXME: still not sure what is the best here, maybe the template slug
-        // is only needed for next.js routing system, maybe not, right now we
-        // are creating multiple endpoints for the same entry, which is probably
-        // not ideal
-        // if (!this.collections[id]) {
-        this.writeFile(`entries/${templateSlug}__${locale}`, entry);
-        // }
-      }
-    }
-
-    return entriesMap;
-  }
-
-  async transformBodyImage(markdownImg: string, baseUrl: string) {
-    const img = new Img(markdownImg, baseUrl);
+  async transformBodyImage(markdownImg: string) {
+    const img = new Img(markdownImg);
     return await img.toComponent();
   }
 }

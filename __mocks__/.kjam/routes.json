@@ -19,13 +19,13 @@
     "en": "/",
     "it": "/"
   },
-  "spaces/outdoor": {
-    "en": "/spaces/living-outside",
-    "it": "/spazi/all-aperto"
-  },
   "spaces/indoor": {
     "en": "/spaces/indoor",
     "it": "/spazi/indoor"
+  },
+  "spaces/outdoor": {
+    "en": "/spaces/living-outside",
+    "it": "/spazi/all-aperto"
   },
   "spaces/outdoor/by-season": {
     "en": "/spaces/living-outside/by-season",

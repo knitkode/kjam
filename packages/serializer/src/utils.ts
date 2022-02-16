@@ -1,16 +1,7 @@
-import { join } from "path";
 import { existsSync, readdirSync } from "fs-extra";
 import { read } from "gray-matter";
 import { load, JSON_SCHEMA } from "js-yaml";
-import type {
-  Api,
-  Kjam,
-  Entry,
-  EntryMeta,
-  EntryMatter,
-  EntryRoute,
-} from "@kjam/core";
-import type { SerializerBodyImgTransformer } from "./serializer";
+import type { Kjam, EntryMeta, EntryMatter, EntryRoute } from "@kjam/core";
 import { normalisePathname } from "../../core/src"; // @kjam/core
 
 /**
@@ -86,7 +77,7 @@ export function extractRoute<T>(
   matter: EntryMatter<T>,
   urls: Kjam.Urls
 ): EntryRoute {
-  const { dir, locale } = meta;
+  const { dir } = meta;
   const dirParts = dir.split("/");
   const matterSlugParts = matter.data?.slug?.split("/") ?? [];
   // pages ids get the `pages/` part stripped out to act as root level routes
@@ -100,7 +91,7 @@ export function extractRoute<T>(
   const slugFromMatter = matterSlugParts[matterSlugParts.length - 1];
   // use last portion of the directory/id as fallback slug
   const slugFromDir = dirParts[dirParts.length - 1];
-  // extract locale from frontmatter or use last portion of the directory
+  // normalize the slug
   let slug = normalisePathname(slugFromMatter || slugFromDir || "");
   // special homepage case
   slug = slug === "home" ? "" : slug;
@@ -109,16 +100,8 @@ export function extractRoute<T>(
 
   // const url = (urlPrepend ? `${urlPrepend}/` : urlPrepend) + slug;
 
-  // update the slug read from frontmatter too, as it might be wrongly defined
-  // as a nested path like /projects/my-project, `slug` inside frontmatter
-  // should instead just be a single pathname
-  // FIXME: xxx
-  // if (slugFromMatter) {
-  //   matter.data.slug = url.split("/")[url.split("/").length - 1];
-  // }
-
-  // remove the slug from frontmatter to avoid ambiguity, the one
-  // there is representing what is coming from the CMS 'database' but the one to
+  // remove the slug from frontmatter to avoid ambiguity, that one is
+  // just represents what is coming from the CMS 'database' but the one to
   // use is the `slug` at the root level of the entry object
   delete matter.data.slug;
 
@@ -150,68 +133,7 @@ export function isCollectionPath(fullpath: string) {
   );
 }
 
-/**
- * Get translated link
- *
- */
-function getTranslatedLink(raw: string, entry: Entry<any>, urls: Kjam.Urls) {
-  let id = "";
-  const isRelative = /^(?!\/\/)[.|/]/.test(raw);
-  if (!isRelative) {
-    return raw;
-  }
-  const startsWithDot = raw[0] === ".";
-  if (startsWithDot) {
-    const rawPath = raw.replace(/\/index\..+/, "");
-    id = join(entry.dir, rawPath);
-  } else {
-    id = raw;
-  }
-
-  return urls[id]?.[entry.locale] || raw;
-  // raw.match(/[\.|\/]*(.+)/)[1]
-}
-
-/**
- * Get entry's `body` managing links
- */
-function treatBodyLinks(entry: Entry<any>, urls: Kjam.Urls) {
-  // support for returns within title or href:
-  // const regex = /\[([\s|\S|.]*?)\][\s|\S]*?\(([\s|\S|.]+?)\)/gm;
-  const regex = /\[(.+)\][\s|\S]*?\((.+)\)/gm;
-  let { body } = entry;
-
-  body = body.replace(regex, (_match, text, url) => {
-    return `[${text}](${getTranslatedLink(url, entry, urls)})`;
-  });
-
-  return body;
-}
-
-/**
- * Get entry managing links in `data`
- */
-function treatDataLinks<T>(entry: any, urls: Kjam.Urls) {
-  for (const key in entry.data) {
-    if (key !== "body") {
-      treatDataLinksSlice(entry.data, key, entry, urls);
-    }
-  }
-
-  return entry as Entry<T>;
-}
-
-/**
- * Get entry managing all links both in` body` and `data`
- */
-export function treatAllLinks<T>(entry: any, urls: Kjam.Urls) {
-  entry = treatDataLinks(entry, urls);
-  entry.body = treatBodyLinks(entry, urls);
-
-  return entry as Entry<T>;
-}
-
-async function replaceAsync(
+export async function replaceAsync(
   str: string,
   regex: RegExp,
   asyncFn: (...args: any[]) => Promise<string>
@@ -226,100 +148,20 @@ async function replaceAsync(
   return str.replace(regex, () => data.shift());
 }
 
-/**
- * Get entry's `body` managing images
- */
-async function treatBodyImages<T>(
-  entry: Pick<Entry<T>, "dir" | "body">,
-  api: Api,
-  mdImgTransformer: SerializerBodyImgTransformer
+export function parseUrl<T extends Record<string, unknown> = {}>(
+  url = ""
 ) {
-  const baseUrl = api.getUrl(entry.dir);
-  const regex = /!\[(.+)\][\s|\S]*?\((.+)\)/gm;
-  let { body } = entry;
+  const [path, query] = url.split("?");
+  const params = Object.fromEntries(new URLSearchParams(query)) as T;
+  const relative = /^(?!\/\/)[.|/]/.test(path);
+  const ext = path.match(/.+(\.[a-zA-Z0-9]+)$/)?.[1];
 
-  body = await replaceAsync(body, regex, async (match) => {
-    return await mdImgTransformer(match, baseUrl);
-  });
-  return body;
-}
-
-/**
- * Get entry managing images in `data`
- */
-async function treatDataImages<T>(entry: any, api: Api) {
-  for (const key in entry.data) {
-    if (key !== "body") {
-      treatDataImagesSlice(entry.data, key, entry.dir, api);
-    }
-  }
-
-  return entry as Entry<T>;
-}
-
-/**
- * Get entry managing all images both in` body` and `data`
- */
-export async function treatAllImages<T>(
-  entry: any,
-  api: Api,
-  mdImgTransformer: SerializerBodyImgTransformer
-) {
-  entry = await treatDataImages(entry, api);
-  entry.body = await treatBodyImages(entry, api, mdImgTransformer);
-
-  return entry as Entry<T>;
-}
-
-function treatDataImagesSlice(data: any, key: any, baseDir: string, api: Api) {
-  if (typeof data[key] === "string") {
-    const currentValue = data[key];
-    if (
-      currentValue.endsWith(".jpg") ||
-      currentValue.endsWith(".jpeg") ||
-      currentValue.endsWith(".png")
-    ) {
-      data[key] = api.getUrl(join(baseDir, currentValue));
-      // console.log("transformed: ", data[key]);
-    }
-  } else if (Array.isArray(data[key])) {
-    // console.log("is array", key);
-    for (let i = 0; i < data[key].length; i++) {
-      treatDataImagesSlice(data[key], i, baseDir, api);
-    }
-  } else if (
-    Object.prototype.toString.call(data[key]).slice(8, -1) === "Object"
-  ) {
-    // console.log("is object", key);
-    for (const subkey in data[key]) {
-      treatDataImagesSlice(data[key], subkey, baseDir, api);
-    }
-  }
-}
-
-function treatDataLinksSlice(
-  data: any,
-  key: any,
-  entry: Entry<any>,
-  urls: Kjam.Urls
-) {
-  if (typeof data[key] === "string") {
-    const currentValue = data[key];
-    if (/^([\s|.]*\/)+/.test(currentValue)) {
-      data[key] = getTranslatedLink(currentValue, entry, urls);
-      // console.log("transformed: ", data[key]);
-    }
-  } else if (Array.isArray(data[key])) {
-    // console.log("is array", key);
-    for (let i = 0; i < data[key].length; i++) {
-      treatDataLinksSlice(data[key], i, entry, urls);
-    }
-  } else if (
-    Object.prototype.toString.call(data[key]).slice(8, -1) === "Object"
-  ) {
-    // console.log("is object", key);
-    for (const subkey in data[key]) {
-      treatDataLinksSlice(data[key], subkey, entry, urls);
-    }
-  }
+  return {
+    path,
+    query: query ? `?${query}` : "",
+    params,
+    relative,
+    file: !!ext,
+    ext,
+  };
 }

@@ -80,7 +80,7 @@ describe("Get second level content pages", () => {
   });
 
   test("with `folder path`, `slug` and other wrong `locale`", async () => {
-    const entry = await kjam.get("spaces/indoor", "kitchen", "it");
+    const entry = await kjam.get("events", "another-event", "it");
     expect(entry).toBeNull();
   });
 

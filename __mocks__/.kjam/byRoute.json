@@ -84,6 +84,54 @@
       "url": "/eventi/nome-evento"
     }
   },
+  "projects/project-title": {
+    "en": {
+      "dir": "projects/project-title",
+      "locale": "en",
+      "body": "",
+      "excerpt": "",
+      "data": {},
+      "id": "projects/project-title",
+      "templateSlug": "projects/project-title",
+      "slug": "project-title",
+      "url": "/projects/project-title"
+    },
+    "it": {
+      "dir": "projects/project-title",
+      "locale": "it",
+      "body": "\nthis `slug` is wrong, let's normalise this mistake, the `i-progetti` should not be declared here and automatically inferred by the parent folder markdown file\n",
+      "excerpt": "this `slug` is wrong, let's normalise this mistake, the `i-progetti` should not be declared here and automatically inferred by the parent folder markdown file",
+      "data": {},
+      "id": "projects/project-title",
+      "templateSlug": "projects/titolo-progetto",
+      "slug": "titolo-progetto",
+      "url": "/progetti/titolo-progetto"
+    }
+  },
+  "spaces/hospitality": {
+    "en": {
+      "dir": "spaces/hospitality",
+      "locale": "en",
+      "body": "",
+      "excerpt": "",
+      "data": {},
+      "id": "spaces/hospitality",
+      "templateSlug": "spaces/hospitality",
+      "slug": "hospitality",
+      "url": "/spaces/hospitality"
+    },
+    "it": {
+      "dir": "spaces/hospitality",
+      "locale": "it",
+      "body": "\n# Links\n\n- Test [link](/spazi/indoor/cucina)\n- Test [link](https://api.test/username/repo/branch/spaces/indoor/kitchen)\n- Test [link](/spazi/indoor/cucina)\n- Test [link](https://example.com)\n- Test [link](#hash-test)\n- Test [link](//example.com)\n- Test [link spanningon multiple lines](https://api.test/username/repo/branch/spaces/indoor/kitchen)\n",
+      "excerpt": "- Test link- Test link- Test link- Test link- Test link- Test link- Test link spanningon multiple lines",
+      "data": {},
+      "id": "spaces/hospitality",
+      "templateSlug": "spaces/ospitalita",
+      "slug": "ospitalita",
+      "url": "/spazi/ospitalita"
+    }
+  },
   "about": {
     "en": {
       "dir": "pages/about",
@@ -127,7 +175,11 @@
       "locale": "en",
       "body": "",
       "excerpt": "",
-      "data": {},
+      "data": {
+        "attachment": "https://api.test/username/repo/branch/some/relative/file.pdf",
+        "attachment2": "https://api.test/username/repo/branch/pages/home/another/file.ogg",
+        "attachment3": "https://api.test/username/repo/branch/pages/third/file.mp3"
+      },
       "id": "home",
       "templateSlug": "",
       "slug": "",
@@ -143,78 +195,6 @@
       "templateSlug": "",
       "slug": "",
       "url": ""
-    }
-  },
-  "projects/project-title": {
-    "en": {
-      "dir": "projects/project-title",
-      "locale": "en",
-      "body": "",
-      "excerpt": "",
-      "data": {},
-      "id": "projects/project-title",
-      "templateSlug": "projects/project-title",
-      "slug": "project-title",
-      "url": "/projects/project-title"
-    },
-    "it": {
-      "dir": "projects/project-title",
-      "locale": "it",
-      "body": "\nthis `slug` is wrong, let's normalise this mistake, the `i-progetti` should not be declared here and automatically inferred by the parent folder markdown file\n",
-      "excerpt": "this `slug` is wrong, let's normalise this mistake, the `i-progetti` should not be declared here and automatically inferred by the parent folder markdown file",
-      "data": {},
-      "id": "projects/project-title",
-      "templateSlug": "projects/titolo-progetto",
-      "slug": "titolo-progetto",
-      "url": "/progetti/titolo-progetto"
-    }
-  },
-  "spaces/hospitality": {
-    "en": {
-      "dir": "spaces/hospitality",
-      "locale": "en",
-      "body": "",
-      "excerpt": "",
-      "data": {},
-      "id": "spaces/hospitality",
-      "templateSlug": "spaces/hospitality",
-      "slug": "hospitality",
-      "url": "/spaces/hospitality"
-    },
-    "it": {
-      "dir": "spaces/hospitality",
-      "locale": "it",
-      "body": "\n# Links\n\n- Test [link](../indoor/kitchen)\n- Test [link](../indoor/kitchen/index.it.md)\n- Test [link](/spaces/indoor/kitchen)\n- Test [link](https://example.com)\n- Test [link](#hash-test)\n- Test [link](//example.com)\n- Test [link spanningon multiple lines](../indoor/kitchen/index.it.md)\n",
-      "excerpt": "- Test link- Test link- Test link- Test link- Test link- Test link- Test link spanningon multiple lines",
-      "data": {},
-      "id": "spaces/hospitality",
-      "templateSlug": "spaces/ospitalita",
-      "slug": "ospitalita",
-      "url": "/spazi/ospitalita"
-    }
-  },
-  "spaces/outdoor": {
-    "en": {
-      "dir": "spaces/outdoor",
-      "locale": "en",
-      "body": "",
-      "excerpt": "",
-      "data": {},
-      "id": "spaces/outdoor",
-      "templateSlug": "spaces/living-outside",
-      "slug": "living-outside",
-      "url": "/spaces/living-outside"
-    },
-    "it": {
-      "dir": "spaces/outdoor",
-      "locale": "it",
-      "body": "",
-      "excerpt": "",
-      "data": {},
-      "id": "spaces/outdoor",
-      "templateSlug": "spaces/all-aperto",
-      "slug": "all-aperto",
-      "url": "/spazi/all-aperto"
     }
   },
   "spaces/indoor/hall": {
@@ -263,6 +243,30 @@
       "templateSlug": "spaces/indoor/cucina",
       "slug": "cucina",
       "url": "/spazi/indoor/cucina"
+    }
+  },
+  "spaces/outdoor": {
+    "en": {
+      "dir": "spaces/outdoor",
+      "locale": "en",
+      "body": "",
+      "excerpt": "",
+      "data": {},
+      "id": "spaces/outdoor",
+      "templateSlug": "spaces/living-outside",
+      "slug": "living-outside",
+      "url": "/spaces/living-outside"
+    },
+    "it": {
+      "dir": "spaces/outdoor",
+      "locale": "it",
+      "body": "",
+      "excerpt": "",
+      "data": {},
+      "id": "spaces/outdoor",
+      "templateSlug": "spaces/all-aperto",
+      "slug": "all-aperto",
+      "url": "/spazi/all-aperto"
     }
   },
   "spaces/outdoor/by-season": {

@@ -1,18 +1,27 @@
 // import probe from "probe-image-size";
 
+import { parseUrl } from "./utils";
+
+export type ImgUrlParams = {
+  w?: string | number;
+  width?: string | number;
+  h?: string | number;
+  height?: string | number;
+  ratio?: string;
+};
+
 export class Img {
-  baseUrl: string;
+  // baseUrl: string;
   md: string;
 
   originalUrl: string;
   alt?: string;
   source?: string;
-  width?: number;
-  height?: number;
+  // width?: number;
+  // height?: number;
 
-  constructor(markdownString = "", baseUrl = "") {
+  constructor(markdownString = "") {
     this.md = markdownString;
-    this.baseUrl = baseUrl;
     this.originalUrl = "";
 
     this.parseMarkdown();
@@ -25,25 +34,24 @@ export class Img {
     if (matches) {
       const alt = matches[1];
       const source = matches[2];
-      const isRelative = source.startsWith(".");
-      const relativeUrl = isRelative ? source.replace(/^\./, "") : "";
-      this.originalUrl = relativeUrl ? this.baseUrl + relativeUrl : source;
+      // const isRelative = source.startsWith(".");
+      // const relativeUrl = isRelative ? source.replace(/^\./, "") : "";
+      // this.originalUrl = relativeUrl ? this.baseUrl + relativeUrl : source;
+      this.originalUrl = source;
       this.alt = alt;
     }
   }
 
-  async getInfo() {
-    // console.log("kjam/img::getInfo originalUrl is", this.originalUrl);
+  async getInfoFromParams() {
+    const { params } = parseUrl<ImgUrlParams>(this.originalUrl);
+    const width = Number(params.width || params.w) || 0;
+    const height = Number(params.height || params.h) || 0;
+    const ratio = params.ratio || "";
+    // console.log("kjam/img::getInfoFromParams originalUrl is", this.originalUrl);
     // const start = performance.now();
-    const width = 0;
-    const height = 0;
     // const { width, height } = await probe(this.originalUrl);
-    // console.log(`kjam/img:getInfo took ${performance.now() - start}ms for image at url ${this.originalUrl}`);
-
-    this.width = width;
-    this.height = height;
-
-    return { width, height };
+    // console.log(`kjam/img:getInfoFromParams took ${performance.now() - start}ms for image at url ${this.originalUrl}`);
+    return { width, height, ratio };
   }
 
   /**
@@ -52,13 +60,13 @@ export class Img {
    * ![text](https://ciao.com/path-to-img.jpg)
    * ```
    */
-  async toMarkdown() {
-    const imgRegex = /(!\[.+\])\((\.)(.+)\)/gm;
-    const imgSubst = `$1(${this.baseUrl}$3)`;
-    const output = this.md.replace(imgRegex, imgSubst);
+  // async toMarkdown() {
+  //   const imgRegex = /(!\[.+\])\((\.)(.+)\)/gm;
+  //   const imgSubst = `$1(${this.baseUrl}$3)`;
+  //   const output = this.md.replace(imgRegex, imgSubst);
 
-    return output;
-  }
+  //   return output;
+  // }
 
   /**
    * Expected output:
@@ -67,10 +75,12 @@ export class Img {
    * ```
    */
   async toComponent(attrs?: string) {
-    const { width, height } = await this.getInfo();
+    const { width, height, ratio } = await this.getInfoFromParams();
     let attributes = `src="${this.originalUrl}" alt="${this.alt}"`;
     attributes += width ? ` width={${width}}` : "";
     attributes += height ? ` height={${height}}` : "";
+    attributes += ratio ? ` ratio="${ratio}"` : "";
+
     if (attrs) {
       attributes += ` ${attrs}`;
     }
@@ -87,10 +97,11 @@ export class Img {
    * @see https://regex101.com/r/slDmIl/1
    */
   async toHtml() {
-    const { width, height } = await this.getInfo();
+    const { width, height, ratio } = await this.getInfoFromParams();
     let attributes = `src="${this.originalUrl}" alt="${this.alt}"`;
-    attributes += width ? ` width={${width}}` : "";
-    attributes += height ? ` height={${height}}` : "";
+    attributes += width ? ` width="${width}"` : "";
+    attributes += height ? ` height="${height}"` : "";
+    attributes += ratio ? ` data-ratio="${ratio}"` : "";
 
     return `<img ${attributes} />`;
   }

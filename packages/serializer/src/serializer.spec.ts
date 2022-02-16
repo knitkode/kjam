@@ -1,8 +1,15 @@
 import { resolve } from "path";
+import type { Entry } from "@kjam/core";
 import { Serializer } from "./serializer";
 
 const serializer = new Serializer({
   root: resolve(__dirname, "../../../__mocks__"),
+  api: {
+    domain: "api.test",
+    repo: "repo",
+    branch: "branch",
+    username: "username",
+  },
   // root: "ciao"
 });
 
@@ -38,6 +45,27 @@ describe("Serializer", () => {
 
     expect(result.byRoute["projects/project-title"]["it"].slug).toEqual(
       "titolo-progetto"
+    );
+  });
+
+  test("should treat relative file links correctly", async () => {
+    const result = await serializer.run();
+    const entry = result.byRoute["home"]["en"] as Entry<{
+      attachment: string;
+      attachment2: string;
+      attachment3: string;
+    }>;
+    // /some/relative/file.pdf
+    expect(entry.data.attachment).toEqual(
+      "https://api.test/username/repo/branch/some/relative/file.pdf"
+    );
+
+    expect(entry.data.attachment2).toEqual(
+      "https://api.test/username/repo/branch/pages/home/another/file.ogg"
+    );
+
+    expect(entry.data.attachment3).toEqual(
+      "https://api.test/username/repo/branch/pages/third/file.mp3"
     );
   });
 });
