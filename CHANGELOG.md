@@ -1,3 +1,14 @@
+## [1.4.26](https://github.com/knitkode/kjam/compare/v1.4.25...v1.4.26) (2022-02-16)
+
+### Bug Fixes
+
+- **build:** back to emptyDirSync ([b022ff7](https://github.com/knitkode/kjam/commit/b022ff786debe4d04bc04987b7c84e851c11f529))
+- **build:** trigger ([8c6736a](https://github.com/knitkode/kjam/commit/8c6736ac322c770f77f4a0bb17819311816134a2))
+
+### Other
+
+- Merge branch 'main' of github.com:knitkode/kjam into main ([6ef7fd9](https://github.com/knitkode/kjam/commit/6ef7fd9d1b474778cb9e8cc2332bdb62cb3de05b))
+
 ## [1.4.25](https://github.com/knitkode/kjam/compare/v1.4.24...v1.4.25) (2022-02-16)
 
 ### Bug Fixes
