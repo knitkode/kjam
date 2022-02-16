@@ -405,7 +405,6 @@ export class Serializer<T = Record<string, unknown>> {
       for (const locale in locales) {
         let entry = locales[locale];
         entry = treatAllLinks(entry, this.urls);
-        // entries[id][locale] = entry
         promises.push(treatAllImages(entry, this.api, this.transformBodyImage));
       }
     }
