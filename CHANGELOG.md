@@ -1,3 +1,9 @@
+## [1.4.23](https://github.com/knitkode/kjam/compare/v1.4.22...v1.4.23) (2022-02-16)
+
+### Bug Fixes
+
+- **build:** trigger ([d9223de](https://github.com/knitkode/kjam/commit/d9223de2426c68fae6fe384aa350a4ee5a16a7ca))
+
 ## [1.4.22](https://github.com/knitkode/kjam/compare/v1.4.21...v1.4.22) (2022-02-16)
 
 ### Bug Fixes
