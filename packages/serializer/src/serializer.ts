@@ -1,6 +1,6 @@
 // import { readFileSync, existsSync, writeFileSync, mkdirSync } from "fs";
 import {
-  rmSync,
+  emptyDirSync,
   readFileSync,
   existsSync,
   writeFileSync,
@@ -218,7 +218,7 @@ export class Serializer<T = Record<string, unknown>> {
    */
   private ensureMetaFolder() {
     const target = join(this.root, ".kjam");
-    rmSync(target, { recursive: true, force: true });
+    emptyDirSync(target);
     mkdirSync(target, { recursive: true });
   }
 
