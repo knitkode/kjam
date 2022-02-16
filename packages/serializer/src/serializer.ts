@@ -1,4 +1,5 @@
-import { rmSync, readFileSync, existsSync, writeFileSync, mkdirSync } from "fs";
+import { readFileSync, existsSync, writeFileSync, mkdirSync } from "fs";
+import { rmSync } from "fs-extra";
 import { join, relative, dirname } from "path";
 import { fdir } from "fdir";
 import { load } from "js-yaml";
