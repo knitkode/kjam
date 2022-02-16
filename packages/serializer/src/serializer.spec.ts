@@ -22,7 +22,7 @@ describe("Serializer", () => {
   test("should find all the markdown files", async () => {
     const mdPaths = await serializer.getMarkdownPaths();
 
-    expect(mdPaths.length).toEqual(33);
+    expect(mdPaths.length).toEqual(35);
   });
 
   // test("should run without errors...", async () => {

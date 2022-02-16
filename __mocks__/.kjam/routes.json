@@ -7,28 +7,28 @@
     "en": "/spaces",
     "it": "/spazi"
   },
-  "spaces/outdoor": {
-    "en": "/spaces/living-outside",
-    "it": "/spazi/all-aperto"
-  },
-  "spaces/outdoor/by-season": {
-    "en": "/spaces/living-outside/by-season",
-    "it": "/spazi/all-aperto/stagioni"
+  "about": {
+    "en": "/about-us",
+    "it": "/chi-siamo"
   },
   "events": {
     "en": "/events",
     "it": "/eventi"
   },
-  "about": {
-    "en": "/about-us",
-    "it": "/chi-siamo"
-  },
   "home": {
     "en": "/",
     "it": "/"
   },
+  "spaces/outdoor": {
+    "en": "/spaces/living-outside",
+    "it": "/spazi/all-aperto"
+  },
   "spaces/indoor": {
     "en": "/spaces/indoor",
     "it": "/spazi/indoor"
+  },
+  "spaces/outdoor/by-season": {
+    "en": "/spaces/living-outside/by-season",
+    "it": "/spazi/all-aperto/stagioni"
   }
 }

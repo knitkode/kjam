@@ -1,24 +1,17 @@
-import {
-  emptyDirSync,
-  writeFileSync,
-  ensureFileSync,
-  mkdirpSync,
-  existsSync,
-  readFileSync,
-  readFile,
-} from "fs-extra";
+import { rmSync, readFileSync, existsSync, writeFileSync, mkdirSync } from "fs";
+import { join, relative, dirname } from "path";
 import { fdir } from "fdir";
-import { join, relative } from "path";
 import { load } from "js-yaml";
 import {
   Kjam,
-  EntriesMapByRoute,
+  EntriesMapById,
   EntriesMap,
   normalisePathname,
   isTestEnv,
   ApiGithub,
   ApiGithubConfig,
   Api,
+  Entry,
 } from "../../core/src"; // @kjam/core
 import {
   filterMarkdownFiles,
@@ -72,7 +65,7 @@ export class Serializer<T = Record<string, unknown>> {
   slugs: Kjam.Slugs;
   translations: Kjam.Translations;
   collections: Record<Kjam.RouteId, true>;
-  entries: Record<Kjam.RouteId, true>;
+  entries: EntriesMapById;
 
   /**
    * All markdown files paths
@@ -127,6 +120,7 @@ export class Serializer<T = Record<string, unknown>> {
     const { routes, urls, slugs, collections, entries } = await this.getRouting(
       this.mdPaths
     );
+
     this.routes = routes;
     this.urls = urls;
     this.slugs = slugs;
@@ -148,11 +142,31 @@ export class Serializer<T = Record<string, unknown>> {
 
     writeTranslations(this.translations, this.writeFile.bind(this));
 
-    const map = await this.getEntriesMap();
+    this.writeFile("byRoute", this.entries);
+
+    // const map = await this.getEntriesMap();
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    for (const [id, locales] of Object.entries(this.entries)) {
+      // FIXME: using th following would help creating staticlly Untranslated Pages...
+      // for (const [locale, entry] of Object.entries(this.i18n.locales)) {
+      for (const [locale, entry] of Object.entries(locales)) {
+        const { templateSlug } = entry;
+
+        this.writeFile(`entries/${id}__${locale}`, entry);
+
+        // FIXME: still not sure what is the best here, maybe the template slug
+        // is only needed for next.js routing system, maybe not, right now we
+        // are creating multiple endpoints for the same entry, which is probably
+        // not ideal
+        // if (!this.collections[id]) {
+        this.writeFile(`entries/${templateSlug}__${locale}`, entry);
+        // }
+      }
+    }
 
     await this.start();
 
-    return map;
+    return { byRoute: this.entries };
   }
 
   /**
@@ -164,7 +178,6 @@ export class Serializer<T = Record<string, unknown>> {
   async start(): Promise<any> {
     return new Promise((resolve) => resolve(""));
   }
-  // abstract start(): Promise<any>;
 
   /**
    * Get all files' path recursively
@@ -199,21 +212,18 @@ export class Serializer<T = Record<string, unknown>> {
    */
   private ensureMetaFolder() {
     const target = join(this.root, ".kjam");
-    // empty folder: @see https://stackoverflow.com/a/42182416/1938970
-    // fs .rmSync(target, {recursive: true, force: true})
-    emptyDirSync(target);
-
-    // fs .mkdirSync(target)
-    mkdirpSync(target);
-    // if (fs .existsSync(target)) {
-    // }
+    rmSync(target, { recursive: true, force: true });
+    mkdirSync(target, { recursive: true });
   }
 
   protected writeFile(filepath = "", data: any) {
     const target = join(this.root, ".kjam", `${filepath}.json`);
+    const dir = dirname(target);
     const content = JSON.stringify(data, null, isTestEnv() ? 2 : 0);
 
-    ensureFileSync(target);
+    if (!existsSync(dir)) {
+      mkdirSync(dir, { recursive: true });
+    }
 
     writeFileSync(target, content);
   }
@@ -232,6 +242,25 @@ export class Serializer<T = Record<string, unknown>> {
       locales: ["en"],
       defaultLocale: "en",
     };
+  }
+
+  shouldExcludeFilePath(dirAsId: string) {
+    const BLACKLISTED = ["settings"];
+    let exclude = false;
+
+    // exclude e.g. `settings`
+    if (BLACKLISTED.indexOf(dirAsId) > -1) {
+      exclude = true;
+    } else {
+      // exclude e.g. `settings/categores`
+      for (let i = 0; i < BLACKLISTED.length; i++) {
+        if (dirAsId.startsWith(`${BLACKLISTED[i]}/`)) {
+          exclude = true;
+        }
+      }
+    }
+
+    return exclude;
   }
 
   /**
@@ -260,57 +289,65 @@ export class Serializer<T = Record<string, unknown>> {
    * @private
    */
   async getRouting(markdownFiles: string[]) {
-    // const folderPaths = await this.getAllFolderPaths(markdownFiles);
+    const ids: Record<string, true> = {};
+    const entries: EntriesMapById = {};
     const slugs: Kjam.Slugs = {};
     const urls: Kjam.Urls = {};
     const routes: Kjam.Routes = {};
     const collections: Record<string, true> = {};
-    const entries: Record<string, true> = {};
-    const BLACKLISTED_PATHS = ["settings"];
 
-    // Pass 1: divide all the markdown paths between `entries` and `collections`
+    // Pass 1: gather all the markdown paths and build the `entries` map flagging
+    // those that are `collections`
     for (let i = 0; i < markdownFiles.length; i++) {
-      const pathParts = normalisePathname(markdownFiles[i]).split("/");
-      let path = pathParts.slice(0, -1).join("/");
-      const isCollection = isCollectionPath(join(this.root, path));
+      const filepath = markdownFiles[i];
+      const meta = extractMeta(filepath, this.i18n);
       // pages collection is treated as if it was at the root level
-      path = path.replace("pages/", "");
-
-      let exclude = false;
-      // exclude e.g. `settings`
-      if (BLACKLISTED_PATHS.indexOf(path) > -1) {
-        exclude = true;
-      } else {
-        // exclude e.g. `settings/categores`
-        for (let i = 0; i < BLACKLISTED_PATHS.length; i++) {
-          if (path.startsWith(`${BLACKLISTED_PATHS[i]}/`)) {
-            exclude = true;
-          }
-        }
+      const id = meta.dir.replace("pages/", "");
+      const exclude = this.shouldExcludeFilePath(id);
+      if (exclude) {
+        continue;
       }
 
-      if (!exclude && path) {
-        if (isCollection) {
-          collections[path] = true;
-        } else {
-          entries[path] = true;
-        }
+      const matter = extractMatter<T>(join(this.root, filepath));
 
-        slugs[path] = this.getSlugsForPath(path);
+      // ability to filter out contents with conventional frontmatter flags
+      if (matter.data.draft) {
+        continue;
+      }
+      const isCollection = isCollectionPath(join(this.root, id));
+
+      const route = extractRoute<T>(meta, matter, this.urls);
+      const entry = {
+        ...meta,
+        ...matter,
+        ...route,
+      };
+      const entrySlugs = this.getSlugsForPath(id);
+      entry.slug = entrySlugs[entry.locale].replace(/\//g, "");
+      // entry.slug = entrySlugs[entry.locale].replace("/", "");
+
+      if (id) {
+        ids[id] = true;
+        slugs[id] = entrySlugs;
+
+        entries[id] = entries[id] || {};
+        entries[id][entry.locale] = entry;
+
+        if (isCollection) {
+          collections[id] = true;
+        }
       }
     }
 
-    const all = { ...collections, ...entries };
-
     // Pass 2: loop through each entry path and construct the output maps
-    for (const path in all) {
-      const pathParts = path.split("/");
-      const locales = slugs[path];
+    for (const id in ids) {
+      const pathParts = id.split("/");
+      const locales = slugs[id];
 
       // if it's a one level path we do not need to do anything more
       if (pathParts.length <= 1) {
-        routes[path] = locales;
-        urls[path] = locales;
+        routes[id] = locales;
+        urls[id] = locales;
       } else {
         // otherwise we need to loop through each portion of the route and pick
         // each segment's translation from the previously constructed map
@@ -348,16 +385,36 @@ export class Serializer<T = Record<string, unknown>> {
           }
 
           // add to the `routes` structure only the collections pages
-          if (collections[path]) {
-            routes[path] = routes[path] || {};
-            routes[path][locale] = url;
+          if (collections[id]) {
+            routes[id] = routes[id] || {};
+            routes[id][locale] = url;
           }
 
-          urls[path] = urls[path] || {};
-          urls[path][locale] = url;
+          urls[id] = urls[id] || {};
+          urls[id][locale] = url;
+
+          if (entries[id][locale]) entries[id][locale].url = url;
         }
       }
     }
+
+    const promises = [];
+
+    for (const id in entries) {
+      const locales = entries[id];
+      for (const locale in locales) {
+        let entry = locales[locale];
+        entry = treatAllLinks(entry, this.urls);
+        // entries[id][locale] = entry
+        promises.push(treatAllImages(entry, this.api, this.transformBodyImage));
+      }
+    }
+
+    const promisesEntries = await Promise.all(promises);
+
+    promisesEntries.forEach((entry) => {
+      entries[entry.id][entry.locale] = entry;
+    });
 
     return { routes, urls, slugs, collections, entries };
   }
@@ -442,9 +499,9 @@ export class Serializer<T = Record<string, unknown>> {
   }
 
   /** @private */
-  async getRawFile(filepath: string) {
+  getRawFile(filepath: string) {
     try {
-      return await readFile(join(this.root, filepath), "utf-8");
+      return readFileSync(join(this.root, filepath), "utf8");
     } catch (e) {
       if (this.debug) {
         console.warn(
@@ -460,7 +517,7 @@ export class Serializer<T = Record<string, unknown>> {
   async getEntriesMap() {
     const entries = await Promise.all(
       this.mdPaths.map(async (mdPath) => {
-        const raw = await this.getRawFile(mdPath);
+        const raw = this.getRawFile(mdPath);
 
         if (raw === null) {
           return null;
@@ -496,7 +553,7 @@ export class Serializer<T = Record<string, unknown>> {
           map[item.id][item.locale] = item;
         }
         return map;
-      }, {} as EntriesMapByRoute);
+      }, {} as EntriesMapById);
 
     const entriesMap = {
       byRoute,

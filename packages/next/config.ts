@@ -2,7 +2,7 @@ import "dotenv/config";
 import type { NextConfig } from "next";
 import type { Redirect, Rewrite } from "next/dist/lib/load-custom-routes";
 import type { I18nConfig } from "next-translate";
-import type { EntriesMapByRoute, Kjam } from "@kjam/core";
+import type { EntriesMapById, Kjam } from "@kjam/core";
 import { ApiGithub, normalisePathname } from "@kjam/core";
 // import type { SerializerNextOutputConfig } from "@kjam/serializer-next";
 
@@ -94,7 +94,7 @@ export function ConfigNext(
   }
 
   async function getPathMap() {
-    const byRoute = await api.getData<EntriesMapByRoute>("byRoute");
+    const byRoute = await api.getData<EntriesMapById>("byRoute");
     if (!byRoute) {
       return {};
     }
@@ -144,17 +144,40 @@ export const withKjam = (
   const config = ConfigNext(nextConfig, options);
 
   return {
-    ...nextConfig,
+    // first we set some overridable opinionated defaults
     // @see https://bit.ly/3c7BsAx
     pageExtensions: ["page.tsx", "page.ts"],
     i18n: config.i18n,
     reactStrictMode: true,
+    // @see https://nextjs.org/docs/api-reference/next.config.js
+    eslint: {
+      ignoreDuringBuilds: true, // we have this strict check on each commit
+    },
+    typescript: {
+      ignoreBuildErrors: true, // we have this strict check on each commit
+    },
+    swcMinify: true,
+    experimental: {
+      styledComponents: true,
+      scrollRestoration: true,
+      urlImports: [config.api.getUrl()],
+      // concurrentFeatures: true,
+      // serverComponents: true,
+      // reactRoot: true,
+    },
+    nx: {
+      // @see https://github.com/gregberge/svgr
+      svgr: true,
+    },
+    // from here below we manually merge the defaults with the next.js app config
+    ...nextConfig,
     images: {
-      domains: [config.api.domain],
+      domains: [config.api.domain, ...(nextConfig.images?.domains || [])],
     },
     env: {
       // KJAM_GIT: Object.keys(config.api.getConfig()).join("/"),
       KJAM_GIT: process.env["KJAM_GIT"] || "",
+      ...(nextConfig.env || {}),
     },
     // FIXME: this temporarily fixes a build problem related to @kjam/core
     // happening in the next.js app build process
@@ -170,29 +193,6 @@ export const withKjam = (
       // TODO: idea, use webpack DEFINE plugin to expose kjam within the scope
       // of getStaticProps/getStaticPaths/getServerSideProps
       return config;
-    },
-    // @see https://nextjs.org/docs/api-reference/next.config.js
-    eslint: {
-      // we have this strict check on each commit anyway
-      ignoreDuringBuilds: true,
-    },
-    typescript: {
-      // we have this strict check on each commit anyway
-      ignoreBuildErrors: true,
-    },
-    swcMinify: true,
-    experimental: {
-      styledComponents: true,
-      scrollRestoration: true,
-      // concurrentFeatures: true,
-      // serverComponents: true,
-      // reactRoot: true,
-      urlImports: [config.api.getUrl()],
-    },
-    nx: {
-      // Set this to true if you would like to to use SVGR
-      // See: https://github.com/gregberge/svgr
-      svgr: true,
     },
     async redirects() {
       const defaults = await config.getRedirects();

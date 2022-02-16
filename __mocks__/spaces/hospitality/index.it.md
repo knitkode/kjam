@@ -8,5 +8,6 @@ slug: ospitalita
 - Test [link](../indoor/kitchen/index.it.md)
 - Test [link](/spaces/indoor/kitchen)
 - Test [link](https://example.com)
+- Test [link](#hash-test)
 - Test [link](//example.com)
 - Test [link spanningon multiple lines](../indoor/kitchen/index.it.md)

@@ -1,8 +1,8 @@
 {
   "dir": "spaces/hospitality",
   "locale": "it",
-  "body": "",
-  "excerpt": "- Test link- Test link- Test link- Test link- Test link- Test link spanningon multiple lines",
+  "body": "\n# Links\n\n- Test [link](../indoor/kitchen)\n- Test [link](../indoor/kitchen/index.it.md)\n- Test [link](/spaces/indoor/kitchen)\n- Test [link](https://example.com)\n- Test [link](#hash-test)\n- Test [link](//example.com)\n- Test [link spanningon multiple lines](../indoor/kitchen/index.it.md)\n",
+  "excerpt": "- Test link- Test link- Test link- Test link- Test link- Test link- Test link spanningon multiple lines",
   "data": {},
   "id": "spaces/hospitality",
   "templateSlug": "spaces/ospitalita",

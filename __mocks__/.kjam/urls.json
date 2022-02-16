@@ -7,14 +7,6 @@
     "en": "/spaces",
     "it": "/spazi"
   },
-  "spaces/outdoor": {
-    "en": "/spaces/living-outside",
-    "it": "/spazi/all-aperto"
-  },
-  "spaces/outdoor/by-season": {
-    "en": "/spaces/living-outside/by-season",
-    "it": "/spazi/all-aperto/stagioni"
-  },
   "events/another-event": {
     "en": "/events/another-event",
     "it": "/eventi/another-event"
@@ -23,13 +15,13 @@
     "en": "/events/event-name",
     "it": "/eventi/nome-evento"
   },
-  "events": {
-    "en": "/events",
-    "it": "/eventi"
-  },
   "about": {
     "en": "/about-us",
     "it": "/chi-siamo"
+  },
+  "events": {
+    "en": "/events",
+    "it": "/eventi"
   },
   "home": {
     "en": "/",
@@ -43,13 +35,9 @@
     "en": "/spaces/hospitality",
     "it": "/spazi/ospitalita"
   },
-  "spaces/outdoor/park": {
-    "en": "/spaces/living-outside/park",
-    "it": "/spazi/all-aperto/parco"
-  },
-  "spaces/outdoor/playground": {
-    "en": "/spaces/living-outside/playground",
-    "it": "/spazi/all-aperto/area-giochi"
+  "spaces/outdoor": {
+    "en": "/spaces/living-outside",
+    "it": "/spazi/all-aperto"
   },
   "spaces/indoor/hall": {
     "en": "/spaces/indoor/the-hall",
@@ -58,6 +46,18 @@
   "spaces/indoor/kitchen": {
     "en": "/spaces/indoor/the-kitchen",
     "it": "/spazi/indoor/cucina"
+  },
+  "spaces/outdoor/by-season": {
+    "en": "/spaces/living-outside/by-season",
+    "it": "/spazi/all-aperto/stagioni"
+  },
+  "spaces/outdoor/park": {
+    "en": "/spaces/living-outside/park",
+    "it": "/spazi/all-aperto/parco"
+  },
+  "spaces/outdoor/playground": {
+    "en": "/spaces/living-outside/playground",
+    "it": "/spazi/all-aperto/area-giochi"
   },
   "spaces/outdoor/by-season/summer": {
     "en": "/spaces/living-outside/by-season/summer",

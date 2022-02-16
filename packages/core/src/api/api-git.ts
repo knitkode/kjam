@@ -1,6 +1,6 @@
 import { join, isAbsolute } from "path";
 import { readFileSync } from "fs";
-import type { EntriesMap, EntriesMapByRoute } from "../types";
+import type { EntriesMap, EntriesMapById } from "../types";
 import { Api, ApiConfig } from "./api";
 import { encodePathname } from "../helpers";
 
@@ -121,7 +121,7 @@ export class ApiGit extends Api {
   }
 
   async getMaps<T>() {
-    const byRoute = (await this.getData("byRoute")) as EntriesMapByRoute<T>;
+    const byRoute = (await this.getData("byRoute")) as EntriesMapById<T>;
 
     const entriesMap = {
       byRoute,

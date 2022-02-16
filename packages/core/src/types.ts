@@ -71,7 +71,10 @@ export declare namespace Kjam {
    */
   type Translations = Record<
     Locale,
-    Record<"*" | "~" | string, Record<string, string | Record<string, string>>>
+    Record<
+      "*" | "~" | string,
+      Record<string, string | { [key: string]: string }>
+    >
   >;
 }
 
@@ -132,19 +135,20 @@ export type EntryMatterData<Data extends {}> = {
 export type EntryRoute = {
   /** e.g. `news/some-title` */
   id: string;
+  /** static template folder path + localised slug, e.g. `news/un-titolo` */
+  templateSlug: string;
   /** last portion of the entry pathname, e.g. from `novità/un-titolo` slug is 'un-titolo' */
   slug: string;
   /** full relative entry url, localised, e.g. `/news/title-not-the-same-as-folder-name` or `novità/un-titolo` */
   url: string;
-  /** static template folder path + localised slug, e.g. `news/un-titolo` */
-  templateSlug: string;
 };
 
 /**
  * The full markdown file's Entry representation
  */
 export type Entry<Data extends {} = {}> = EntryMatter<Data> &
-  EntryRoute & {} & EntryMeta;
+  EntryRoute &
+  EntryMeta;
 
 /**
  * The lean markdown file's Entry representation, same as `Entry` but without body
@@ -154,10 +158,10 @@ export type Entry<Data extends {} = {}> = EntryMatter<Data> &
 export type EntryLean<Data extends {} = {}> = Omit<Entry<Data>, "body">;
 
 export type EntriesMap<Data extends {} = {}> = {
-  byRoute: EntriesMapByRoute<Data>;
+  byRoute: EntriesMapById<Data>;
 };
 
-export type EntriesMapByRoute<Data extends {} = {}> = Record<
+export type EntriesMapById<Data extends {} = {}> = Record<
   Kjam.RouteId,
   Record<Kjam.Locale, Entry<Data>>
 >;

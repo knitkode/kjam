@@ -1,5 +1,5 @@
 import { join } from "path";
-import { readdirSync } from "fs-extra";
+import { existsSync, readdirSync } from "fs-extra";
 import { read } from "gray-matter";
 import { load, JSON_SCHEMA } from "js-yaml";
 import type {
@@ -107,17 +107,16 @@ export function extractRoute<T>(
 
   const templateSlug = normalisePathname(`${parentDirs}/${slug}`);
 
-  // prepend the dynamic part of the slug (if any) by reading the routes structure
-  // which should match this entry's parent directories path.
-  const url = urls?.[id]?.[locale] || "";
   // const url = (urlPrepend ? `${urlPrepend}/` : urlPrepend) + slug;
 
   // update the slug read from frontmatter too, as it might be wrongly defined
   // as a nested path like /projects/my-project, `slug` inside frontmatter
   // should instead just be a single pathname
-  if (slugFromMatter) {
-    matter.data.slug = url.split("/")[url.split("/").length - 1];
-  }
+  // FIXME: xxx
+  // if (slugFromMatter) {
+  //   matter.data.slug = url.split("/")[url.split("/").length - 1];
+  // }
+
   // remove the slug from frontmatter to avoid ambiguity, the one
   // there is representing what is coming from the CMS 'database' but the one to
   // use is the `slug` at the root level of the entry object
@@ -126,8 +125,8 @@ export function extractRoute<T>(
   return {
     id,
     templateSlug,
-    slug,
-    url,
+    slug: "",
+    url: "",
   };
 }
 
@@ -135,6 +134,9 @@ export function extractRoute<T>(
  * Check if the given folder path is a folder containing a collection of entries
  */
 export function isCollectionPath(fullpath: string) {
+  if (!existsSync(fullpath)) {
+    return false;
+  }
   const children = readdirSync(fullpath, { withFileTypes: true });
 
   return (
@@ -209,6 +211,21 @@ export function treatAllLinks<T>(entry: any, urls: Kjam.Urls) {
   return entry as Entry<T>;
 }
 
+async function replaceAsync(
+  str: string,
+  regex: RegExp,
+  asyncFn: (...args: any[]) => Promise<string>
+) {
+  const promises: Promise<string>[] = [];
+  // @ts-expect-error FIXME: No time for this...
+  str.replace(regex, (...args) => {
+    promises.push(asyncFn(...args));
+  });
+  const data = await Promise.all(promises);
+  // @ts-expect-error FIXME: No time for this...
+  return str.replace(regex, () => data.shift());
+}
+
 /**
  * Get entry's `body` managing images
  */
@@ -217,20 +234,14 @@ async function treatBodyImages<T>(
   api: Api,
   mdImgTransformer: SerializerBodyImgTransformer
 ) {
-  const { body } = entry;
   const baseUrl = api.getUrl(entry.dir);
-  const regex = /!\[.+\]\(.+\)/gm;
-  const matches = body.match(regex);
-  let output = body;
-  if (matches) {
-    for (let i = 0; i < matches.length; i++) {
-      const match = matches[i];
-      const replacement = await mdImgTransformer(match, baseUrl);
-      output = body.replace(match, replacement);
-    }
-  }
+  const regex = /!\[(.+)\][\s|\S]*?\((.+)\)/gm;
+  let { body } = entry;
 
-  return output;
+  body = await replaceAsync(body, regex, async (match) => {
+    return await mdImgTransformer(match, baseUrl);
+  });
+  return body;
 }
 
 /**

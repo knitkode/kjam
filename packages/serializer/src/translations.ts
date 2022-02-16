@@ -27,6 +27,28 @@ export const TRANSLATIONS_REGEX = {
   route: /~/g,
 };
 
+function buildNestedTranslations(
+  outBuffer:
+    | Kjam.Translations[string][string][string]
+    | Kjam.Translations[string][string],
+  keyParts: string[],
+  value: string
+) {
+  for (let i = 0; i < keyParts.length; i++) {
+    const key = keyParts[i];
+    if (i === keyParts.length - 1) {
+      // @ts-expect-error nevermind...
+      outBuffer[key] = value;
+    } else {
+      // @ts-expect-error nevermind...
+      outBuffer[key] = outBuffer[key] || {};
+      keyParts.splice(i, 1);
+      // @ts-expect-error nevermind...
+      buildNestedTranslations(outBuffer[key], keyParts, value);
+    }
+  }
+}
+
 export async function getTranslations(
   folderPath: string,
   i18n: Kjam.I18n,
@@ -71,7 +93,7 @@ export async function getTranslations(
             out[locale][commonChar] = out[locale][scoped] || {};
             out[locale][commonChar][keyParts[0]] = value;
           }
-        } else if (keyParts.length === 2) {
+        } else if (keyParts.length >= 2) {
           const file = isCommon
             ? commonChar
             : keyParts[0].replace(routeReg, "");
@@ -79,19 +101,20 @@ export async function getTranslations(
           if (isCommon) {
             const scoped = keyParts[0];
             out[locale][file][scoped] = out[locale][file][scoped] || {};
-            // @ts-expect-error It does not matter...
-            out[locale][file][scoped][keyParts[1]] = value;
+            buildNestedTranslations(
+              out[locale][file][scoped],
+              keyParts.slice(1),
+              value
+            );
           } else {
             const file = keyParts[0].replace(routeReg, "");
             out[locale][file] = out[locale][file] || {};
-            out[locale][file][keyParts[1]] = value;
+            buildNestedTranslations(
+              out[locale][file],
+              keyParts.slice(1),
+              value
+            );
           }
-        } else {
-          // throw Error(
-          console.warn(
-            `kjam/serializer::getTranslations, too many levels of ` +
-              `depth of '${key}' in file '${target}', max 2 allowed (one dot!).\n`
-          );
         }
       }
     }
