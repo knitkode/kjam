@@ -1,5 +1,11 @@
-import { readFileSync, existsSync, writeFileSync, mkdirSync } from "fs";
-import { rmSync } from "fs-extra";
+// import { readFileSync, existsSync, writeFileSync, mkdirSync } from "fs";
+import {
+  rmSync,
+  readFileSync,
+  existsSync,
+  writeFileSync,
+  mkdirSync,
+} from "fs-extra";
 import { join, relative, dirname } from "path";
 import { fdir } from "fdir";
 import { load } from "js-yaml";
@@ -12,7 +18,6 @@ import {
   ApiGithub,
   ApiGithubConfig,
   Api,
-  Entry,
 } from "../../core/src"; // @kjam/core
 import {
   filterMarkdownFiles,
