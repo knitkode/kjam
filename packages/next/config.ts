@@ -58,6 +58,19 @@ export function ConfigNext(
   }
 
   /**
+   * Get images domain
+   *
+   * During local development we allow also `localhost` as the @kjam/cli will
+   * serve images from there
+   */
+  function getImagesDomains() {
+    if (process.env["NODE_ENV"] !== "production") {
+      return [api.domain, "localhost"];
+    }
+    return [api.domain];
+  }
+
+  /**
    * We rely on `next-translate` to grab the i18n info, assuming that we always
    * use it, even for a single language application.
    *
@@ -131,6 +144,7 @@ export function ConfigNext(
   return {
     api,
     i18n,
+    getImagesDomains,
     getRedirects,
     getRewrites,
     getPathMap,
@@ -174,7 +188,10 @@ export const withKjam = (
     // from here below we manually merge the defaults with the next.js app config
     ...nextConfig,
     images: {
-      domains: [config.api.domain, ...(nextConfig.images?.domains || [])],
+      domains: [
+        ...config.getImagesDomains(),
+        ...(nextConfig.images?.domains || []),
+      ],
     },
     env: {
       // KJAM_GIT: Object.keys(config.api.getConfig()).join("/"),

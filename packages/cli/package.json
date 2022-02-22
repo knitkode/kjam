@@ -1,5 +1,11 @@
 {
   "name": "@kjam/cli",
+  "description": "Client to run locally Kjam powered websites.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/knitkode/kjam.git",
+    "directory": "packages/cli"
+  },
   "bin": {
     "kjam": "./index.js"
   }

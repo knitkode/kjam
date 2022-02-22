@@ -2,11 +2,19 @@ import { BaseConfig } from "..";
 import type { EntriesMap } from "../types";
 
 export type ApiConfig = BaseConfig & {
+  /**
+   * A full URL to bypass the `username/repo/branch` URL construction.
+   * This configuration is mainly thought to be used by the `@kjam/cli` watch
+   * to serve local images from localhost URLs.
+   */
+  url?: string;
   domain?: string;
 };
 
 export abstract class Api {
   debug?: boolean;
+
+  url: string;
 
   /**
    * The domain of the API, without `https://` protocol
@@ -15,6 +23,7 @@ export abstract class Api {
 
   constructor(config: ApiConfig = {}) {
     this.debug = !!config?.debug;
+    this.url = config?.url || "";
     this.domain = config?.domain || "";
   }
 

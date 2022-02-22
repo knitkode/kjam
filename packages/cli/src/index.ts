@@ -12,5 +12,3 @@ program
   .action(watch);
 
 program.parse();
-
-watch();

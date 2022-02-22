@@ -61,8 +61,12 @@ export class ApiGit extends Api {
    * `https://api.github.com/repos/${username}/${repo}/${branch}`
    */
   getUrl(path?: string) {
-    const { username, repo, branch } = this.getConfig();
-    const baseUrl = `https://${this.domain}/${username}/${repo}/${branch}`;
+    let baseUrl = this.url;
+
+    if (!baseUrl) {
+      const { username, repo, branch } = this.getConfig();
+      baseUrl = `https://${this.domain}/${username}/${repo}/${branch}`;
+    }
 
     if (path) {
       return `${baseUrl}/${encodePathname(path)}`;
