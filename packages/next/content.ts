@@ -126,7 +126,6 @@ export class ContentNext extends Content {
     // ExtraData extends Record<string, any> = {}
   >(
     ctx: GetStaticPropsContext<Params>,
-    // mdxSerializer: null | undefined | typeof serialize,
     routeType = "",
     otherProps = {},
     options: Omit<GetStaticPropsResult<Params>, "props"> = {}
@@ -140,15 +139,12 @@ export class ContentNext extends Content {
       };
     }
 
-    const mdx = await this.getEntryMdx(entry /* , mdxSerializer */);
+    const mdx = await this.getEntryMdx(entry);
 
     return { props: { mdx, entry, ...otherProps }, ...options };
   }
 
-  async getEntryMdx<T>(
-    entry: Entry<T>
-    // mdxSerializer?: null | typeof serialize
-  ) {
+  async getEntryMdx<T>(entry: Entry<T>) {
     const mdx = serialize
       ? await serialize(entry.body, { scope: entry.data })
       : null;
