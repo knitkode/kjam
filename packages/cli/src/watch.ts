@@ -11,6 +11,9 @@ type WatchOptions = {
   root?: string;
 };
 
+/**
+ * @see https://github.com/paulmillr/chokidar
+ */
 export async function watch(opts: WatchOptions = {}) {
   const root =
     opts.root || join(process.cwd(), process.env["KJAM_FOLDER"] || ".");

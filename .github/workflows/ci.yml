@@ -176,7 +176,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        package: ['core', 'next', 'next-ui', 'action-next']
+        package: ['cli', 'core', 'next', 'next-ui', 'action-next']
     needs: [setup, execute, release]
     steps:
       - name: Checkout

@@ -20,6 +20,9 @@ const registerShutdown = (fn: () => void) => {
   process.on("exit", wrapper);
 };
 
+/**
+ * @see https://github.com/vercel/serve/blob/main/bin/serve.js
+ */
 export async function serve(rootPath: string, _port?: number) {
   const port = _port || (await getPort());
 
