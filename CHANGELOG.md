@@ -1,3 +1,17 @@
+# [1.5.0](https://github.com/knitkode/kjam/compare/v1.4.26...v1.5.0) (2022-02-16)
+
+### Bug Fixes
+
+- **trigger:** build ([7a9686d](https://github.com/knitkode/kjam/commit/7a9686d1334915650cab767acbf250ba73c93154))
+
+### Features
+
+- **many:** images attrs, more tests, all urls managed ([70f08e2](https://github.com/knitkode/kjam/commit/70f08e2a391d58984a0ce9798f6a8ff9ad7d6f8d))
+
+### Other
+
+- Merge branch 'main' of github.com:knitkode/kjam into main ([47b83d8](https://github.com/knitkode/kjam/commit/47b83d80455703ba492c7076da9e5953a4138652))
+
 ## [1.4.26](https://github.com/knitkode/kjam/compare/v1.4.25...v1.4.26) (2022-02-16)
 
 ### Bug Fixes
