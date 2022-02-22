@@ -1,3 +1,16 @@
+## [1.5.1](https://github.com/knitkode/kjam/compare/v1.5.0...v1.5.1) (2022-02-22)
+
+### Bug Fixes
+
+- **attempt:** remove serializer argument to next client ([98a0c7c](https://github.com/knitkode/kjam/commit/98a0c7c1cbf712b29694ab610f9b24625055b3ce))
+- **cli:** it watches and run serializer correctly, good start ([4a6c473](https://github.com/knitkode/kjam/commit/4a6c473a157358283faa32c1d0c22bf586f48b38))
+- **cli:** local serve ([fff8674](https://github.com/knitkode/kjam/commit/fff8674fdca58ff8f6fc5f61f7b7f8a4908e4c53))
+- **wip:** watch, serialize, etc ([4edfe6b](https://github.com/knitkode/kjam/commit/4edfe6b2be1204a84a5f328038cb0a97ddf30bc5))
+
+### Other
+
+- Merge branch 'main' of github.com:knitkode/kjam into main ([145558e](https://github.com/knitkode/kjam/commit/145558ea595c69b7c38cf4b77d5676e8bd811171))
+
 # [1.5.0](https://github.com/knitkode/kjam/compare/v1.4.26...v1.5.0) (2022-02-16)
 
 ### Bug Fixes
