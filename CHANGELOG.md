@@ -1,3 +1,9 @@
+## [1.5.2](https://github.com/knitkode/kjam/compare/v1.5.1...v1.5.2) (2022-02-22)
+
+### Bug Fixes
+
+- **trigger:** build and release of cli ([6da11ce](https://github.com/knitkode/kjam/commit/6da11ceb80a0659a32d9153a615ed57c6edce9ca))
+
 ## [1.5.1](https://github.com/knitkode/kjam/compare/v1.5.0...v1.5.1) (2022-02-22)
 
 ### Bug Fixes
