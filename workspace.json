@@ -3,6 +3,7 @@
   "projects": {
     "action": "packages/action",
     "action-next": "packages/action-next",
+    "cli": "packages/cli",
     "core": "packages/core",
     "next": "packages/next",
     "next-ui": "packages/next-ui",

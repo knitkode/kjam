@@ -1,6 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import React from "react";
-import type { FC, ReactNode } from "react";
+import type { FC } from "react";
+import type { MDXRemoteProps } from "next-mdx-remote";
 import { MDXRemote } from "next-mdx-remote";
 import type { KjamProps } from "@kjam/next";
 
@@ -8,7 +9,7 @@ export type PageDebugProps = Partial<
   KjamProps<{ title?: string; name?: string }, {}>
 > & {
   tpl?: string;
-  mdComponents?: Record<string, ReactNode>;
+  mdComponents?: MDXRemoteProps["components"];
 };
 
 export const PageDebug: FC<PageDebugProps> = ({

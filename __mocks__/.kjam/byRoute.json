@@ -47,43 +47,6 @@
       "url": ""
     }
   },
-  "events/another-event": {
-    "en": {
-      "dir": "events/another-event",
-      "locale": "en",
-      "body": "",
-      "excerpt": "",
-      "data": {},
-      "id": "events/another-event",
-      "templateSlug": "events/another-event",
-      "slug": "another-event",
-      "url": "/events/another-event"
-    }
-  },
-  "events/event-name": {
-    "en": {
-      "dir": "events/event-name",
-      "locale": "en",
-      "body": "",
-      "excerpt": "",
-      "data": {},
-      "id": "events/event-name",
-      "templateSlug": "events/event-name",
-      "slug": "event-name",
-      "url": "/events/event-name"
-    },
-    "it": {
-      "dir": "events/event-name",
-      "locale": "it",
-      "body": "",
-      "excerpt": "",
-      "data": {},
-      "id": "events/event-name",
-      "templateSlug": "events/nome-evento",
-      "slug": "nome-evento",
-      "url": "/eventi/nome-evento"
-    }
-  },
   "projects/project-title": {
     "en": {
       "dir": "projects/project-title",
@@ -130,119 +93,6 @@
       "templateSlug": "spaces/ospitalita",
       "slug": "ospitalita",
       "url": "/spazi/ospitalita"
-    }
-  },
-  "about": {
-    "en": {
-      "dir": "pages/about",
-      "locale": "en",
-      "body": "",
-      "excerpt": "",
-      "data": {},
-      "id": "about",
-      "templateSlug": "about-us",
-      "slug": "about-us",
-      "url": ""
-    }
-  },
-  "events": {
-    "en": {
-      "dir": "pages/events",
-      "locale": "en",
-      "body": "",
-      "excerpt": "",
-      "data": {},
-      "id": "events",
-      "templateSlug": "events",
-      "slug": "events",
-      "url": ""
-    },
-    "it": {
-      "dir": "pages/events",
-      "locale": "it",
-      "body": "",
-      "excerpt": "",
-      "data": {},
-      "id": "events",
-      "templateSlug": "eventi",
-      "slug": "eventi",
-      "url": ""
-    }
-  },
-  "home": {
-    "en": {
-      "dir": "pages/home",
-      "locale": "en",
-      "body": "",
-      "excerpt": "",
-      "data": {
-        "attachment": "https://api.test/username/repo/branch/some/relative/file.pdf",
-        "attachment2": "https://api.test/username/repo/branch/pages/home/another/file.ogg",
-        "attachment3": "https://api.test/username/repo/branch/pages/third/file.mp3"
-      },
-      "id": "home",
-      "templateSlug": "",
-      "slug": "",
-      "url": ""
-    },
-    "it": {
-      "dir": "pages/home",
-      "locale": "it",
-      "body": "",
-      "excerpt": "",
-      "data": {},
-      "id": "home",
-      "templateSlug": "",
-      "slug": "",
-      "url": ""
-    }
-  },
-  "spaces/indoor/hall": {
-    "en": {
-      "dir": "spaces/indoor/hall",
-      "locale": "en",
-      "body": "",
-      "excerpt": "",
-      "data": {},
-      "id": "spaces/indoor/hall",
-      "templateSlug": "spaces/indoor/the-hall",
-      "slug": "the-hall",
-      "url": "/spaces/indoor/the-hall"
-    },
-    "it": {
-      "dir": "spaces/indoor/hall",
-      "locale": "it",
-      "body": "",
-      "excerpt": "",
-      "data": {},
-      "id": "spaces/indoor/hall",
-      "templateSlug": "spaces/indoor/sala",
-      "slug": "sala",
-      "url": "/spazi/indoor/sala"
-    }
-  },
-  "spaces/indoor/kitchen": {
-    "en": {
-      "dir": "spaces/indoor/kitchen",
-      "locale": "en",
-      "body": "",
-      "excerpt": "",
-      "data": {},
-      "id": "spaces/indoor/kitchen",
-      "templateSlug": "spaces/indoor/the-kitchen",
-      "slug": "the-kitchen",
-      "url": "/spaces/indoor/the-kitchen"
-    },
-    "it": {
-      "dir": "spaces/indoor/kitchen",
-      "locale": "it",
-      "body": "",
-      "excerpt": "",
-      "data": {},
-      "id": "spaces/indoor/kitchen",
-      "templateSlug": "spaces/indoor/cucina",
-      "slug": "cucina",
-      "url": "/spazi/indoor/cucina"
     }
   },
   "spaces/outdoor": {
@@ -317,6 +167,30 @@
       "url": "/spazi/all-aperto/parco"
     }
   },
+  "spaces/indoor/hall": {
+    "en": {
+      "dir": "spaces/indoor/hall",
+      "locale": "en",
+      "body": "",
+      "excerpt": "",
+      "data": {},
+      "id": "spaces/indoor/hall",
+      "templateSlug": "spaces/indoor/the-hall",
+      "slug": "the-hall",
+      "url": "/spaces/indoor/the-hall"
+    },
+    "it": {
+      "dir": "spaces/indoor/hall",
+      "locale": "it",
+      "body": "",
+      "excerpt": "",
+      "data": {},
+      "id": "spaces/indoor/hall",
+      "templateSlug": "spaces/indoor/sala",
+      "slug": "sala",
+      "url": "/spazi/indoor/sala"
+    }
+  },
   "spaces/outdoor/playground": {
     "en": {
       "dir": "spaces/outdoor/playground",
@@ -341,30 +215,6 @@
       "url": "/spazi/all-aperto/area-giochi"
     }
   },
-  "spaces/outdoor/by-season/summer": {
-    "en": {
-      "dir": "spaces/outdoor/by-season/summer",
-      "locale": "en",
-      "body": "",
-      "excerpt": "",
-      "data": {},
-      "id": "spaces/outdoor/by-season/summer",
-      "templateSlug": "spaces/outdoor/by-season/summer",
-      "slug": "summer",
-      "url": "/spaces/living-outside/by-season/summer"
-    },
-    "it": {
-      "dir": "spaces/outdoor/by-season/summer",
-      "locale": "it",
-      "body": "",
-      "excerpt": "",
-      "data": {},
-      "id": "spaces/outdoor/by-season/summer",
-      "templateSlug": "spaces/outdoor/by-season/estate",
-      "slug": "estate",
-      "url": "/spazi/all-aperto/stagioni/estate"
-    }
-  },
   "spaces/outdoor/by-season/winter": {
     "en": {
       "dir": "spaces/outdoor/by-season/winter",
@@ -387,6 +237,156 @@
       "templateSlug": "spaces/outdoor/by-season/inverno",
       "slug": "inverno",
       "url": "/spazi/all-aperto/stagioni/inverno"
+    }
+  },
+  "events/event-name": {
+    "en": {
+      "dir": "events/event-name",
+      "locale": "en",
+      "body": "",
+      "excerpt": "",
+      "data": {},
+      "id": "events/event-name",
+      "templateSlug": "events/event-name",
+      "slug": "event-name",
+      "url": "/events/event-name"
+    },
+    "it": {
+      "dir": "events/event-name",
+      "locale": "it",
+      "body": "",
+      "excerpt": "",
+      "data": {},
+      "id": "events/event-name",
+      "templateSlug": "events/nome-evento",
+      "slug": "nome-evento",
+      "url": "/eventi/nome-evento"
+    }
+  },
+  "events/another-event": {
+    "en": {
+      "dir": "events/another-event",
+      "locale": "en",
+      "body": "",
+      "excerpt": "",
+      "data": {},
+      "id": "events/another-event",
+      "templateSlug": "events/another-event",
+      "slug": "another-event",
+      "url": "/events/another-event"
+    }
+  },
+  "about": {
+    "en": {
+      "dir": "pages/about",
+      "locale": "en",
+      "body": "",
+      "excerpt": "",
+      "data": {},
+      "id": "about",
+      "templateSlug": "about-us",
+      "slug": "about-us",
+      "url": ""
+    }
+  },
+  "events": {
+    "en": {
+      "dir": "pages/events",
+      "locale": "en",
+      "body": "",
+      "excerpt": "",
+      "data": {},
+      "id": "events",
+      "templateSlug": "events",
+      "slug": "events",
+      "url": ""
+    },
+    "it": {
+      "dir": "pages/events",
+      "locale": "it",
+      "body": "",
+      "excerpt": "",
+      "data": {},
+      "id": "events",
+      "templateSlug": "eventi",
+      "slug": "eventi",
+      "url": ""
+    }
+  },
+  "home": {
+    "en": {
+      "dir": "pages/home",
+      "locale": "en",
+      "body": "",
+      "excerpt": "",
+      "data": {
+        "attachment": "https://api.test/username/repo/branch/some/relative/file.pdf",
+        "attachment2": "https://api.test/username/repo/branch/pages/home/another/file.ogg",
+        "attachment3": "https://api.test/username/repo/branch/pages/third/file.mp3"
+      },
+      "id": "home",
+      "templateSlug": "",
+      "slug": "",
+      "url": ""
+    },
+    "it": {
+      "dir": "pages/home",
+      "locale": "it",
+      "body": "",
+      "excerpt": "",
+      "data": {},
+      "id": "home",
+      "templateSlug": "",
+      "slug": "",
+      "url": ""
+    }
+  },
+  "spaces/indoor/kitchen": {
+    "en": {
+      "dir": "spaces/indoor/kitchen",
+      "locale": "en",
+      "body": "",
+      "excerpt": "",
+      "data": {},
+      "id": "spaces/indoor/kitchen",
+      "templateSlug": "spaces/indoor/the-kitchen",
+      "slug": "the-kitchen",
+      "url": "/spaces/indoor/the-kitchen"
+    },
+    "it": {
+      "dir": "spaces/indoor/kitchen",
+      "locale": "it",
+      "body": "",
+      "excerpt": "",
+      "data": {},
+      "id": "spaces/indoor/kitchen",
+      "templateSlug": "spaces/indoor/cucina",
+      "slug": "cucina",
+      "url": "/spazi/indoor/cucina"
+    }
+  },
+  "spaces/outdoor/by-season/summer": {
+    "en": {
+      "dir": "spaces/outdoor/by-season/summer",
+      "locale": "en",
+      "body": "",
+      "excerpt": "",
+      "data": {},
+      "id": "spaces/outdoor/by-season/summer",
+      "templateSlug": "spaces/outdoor/by-season/summer",
+      "slug": "summer",
+      "url": "/spaces/living-outside/by-season/summer"
+    },
+    "it": {
+      "dir": "spaces/outdoor/by-season/summer",
+      "locale": "it",
+      "body": "",
+      "excerpt": "",
+      "data": {},
+      "id": "spaces/outdoor/by-season/summer",
+      "templateSlug": "spaces/outdoor/by-season/estate",
+      "slug": "estate",
+      "url": "/spazi/all-aperto/stagioni/estate"
     }
   }
 }

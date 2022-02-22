@@ -17,7 +17,7 @@ import {
   ApiGithub,
   ApiGithubConfig,
   Api,
-} from "../../core/src"; // @kjam/core
+} from "@kjam/core"; // ../../core/src
 import {
   filterMarkdownFiles,
   extractMeta,
@@ -197,7 +197,7 @@ export class Serializer<T = Record<string, unknown>> {
     const paths = await this.getPaths();
 
     if (!paths) {
-      this.log("Repository is empty", "error");
+      this.log("Repository is empty.", "error");
 
       throw Error("Repository is empty!");
     }

@@ -1,5 +1,10 @@
 {
   "name": "@kjam/serializer",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/knitkode/kjam.git",
+    "directory": "packages/serializer"
+  },
   "dependencies": {
     "fdir": "^5.1.0",
     "fs-extra": "^10.0.0",

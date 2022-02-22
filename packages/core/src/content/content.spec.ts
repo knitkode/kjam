@@ -64,10 +64,10 @@ describe("Get first level content pages", () => {
 });
 
 describe("Get second level content pages", () => {
-  // test("without `folder path`", async () => {
-  //   const entry = await kjam.get("spaces/indoor", "en");
-  //   expect(entry).toHaveProperty("id", "spaces");
-  // });
+  test("without `folder path`", async () => {
+    const entry = await kjam.get("spaces/outdoor", "it");
+    expect(entry).toHaveProperty("slug", "all-aperto");
+  });
 
   // test("with `folder path` and empty `slug`", async () => {
   //   const entry = await kjam.get("", "spaces", "en");

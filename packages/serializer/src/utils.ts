@@ -2,7 +2,7 @@ import { existsSync, readdirSync } from "fs-extra";
 import { read } from "gray-matter";
 import { load, JSON_SCHEMA } from "js-yaml";
 import type { Kjam, EntryMeta, EntryMatter, EntryRoute } from "@kjam/core";
-import { normalisePathname } from "../../core/src"; // @kjam/core
+import { normalisePathname } from "@kjam/core"; // ../../core/src
 
 /**
  * Only keep `.md` and `.mdx` files based on filename
@@ -148,9 +148,7 @@ export async function replaceAsync(
   return str.replace(regex, () => data.shift());
 }
 
-export function parseUrl<T extends Record<string, unknown> = {}>(
-  url = ""
-) {
+export function parseUrl<T extends Record<string, unknown> = {}>(url = "") {
   const [path, query] = url.split("?");
   const params = Object.fromEntries(new URLSearchParams(query)) as T;
   const relative = /^(?!\/\/)[.|/]/.test(path);

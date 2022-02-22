@@ -1,0 +1,39 @@
+{
+  "root": "packages/cli",
+  "sourceRoot": "packages/cli/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@e-square/nx-ncc:build",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/packages/cli",
+        "main": "packages/cli/src/index.ts",
+        "tsConfig": "packages/cli/tsconfig.lib.json",
+        "generatePackageJson": false,
+        "optimization": true,
+        "assets": [
+          "packages/cli/.gitignore",
+          "packages/cli/*.md",
+          "packages/cli/*.yml"
+        ]
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["packages/cli/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/packages/cli"],
+      "options": {
+        "jestConfig": "packages/cli/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}

@@ -5,10 +5,14 @@ import type {
   GetStaticPathsContext,
   GetStaticPathsResult,
 } from "next";
-import type { serialize } from "next-mdx-remote/serialize";
+import { serialize } from "next-mdx-remote/serialize";
 import { Entry, normalisePathname } from "@kjam/core";
 import { Content, ContentConfig } from "@kjam/core";
 import type { KjamProps } from "./index";
+
+// function serialize(a: string, b: object) {
+//   return ""
+// }
 
 type StaticPathsParams = {
   slug: string | string[];
@@ -122,7 +126,7 @@ export class ContentNext extends Content {
     // ExtraData extends Record<string, any> = {}
   >(
     ctx: GetStaticPropsContext<Params>,
-    mdxSerializer: null | undefined | typeof serialize,
+    // mdxSerializer: null | undefined | typeof serialize,
     routeType = "",
     otherProps = {},
     options: Omit<GetStaticPropsResult<Params>, "props"> = {}
@@ -136,16 +140,17 @@ export class ContentNext extends Content {
       };
     }
 
-    const mdx = await this.getEntryMdx(entry, mdxSerializer);
+    const mdx = await this.getEntryMdx(entry /* , mdxSerializer */);
+
     return { props: { mdx, entry, ...otherProps }, ...options };
   }
 
   async getEntryMdx<T>(
-    entry: Entry<T>,
-    mdxSerializer?: null | typeof serialize
+    entry: Entry<T>
+    // mdxSerializer?: null | typeof serialize
   ) {
-    const mdx = mdxSerializer
-      ? await mdxSerializer(entry.body, { scope: entry.data })
+    const mdx = serialize
+      ? await serialize(entry.body, { scope: entry.data })
       : null;
 
     return mdx;

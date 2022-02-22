@@ -157,8 +157,10 @@ export const withKjam = (
       ignoreBuildErrors: true, // we have this strict check on each commit
     },
     swcMinify: true,
-    experimental: {
+    compiler: {
       styledComponents: true,
+    },
+    experimental: {
       scrollRestoration: true,
       urlImports: [config.api.getUrl()],
       // concurrentFeatures: true,

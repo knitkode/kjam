@@ -24,6 +24,7 @@
     "paths": {
       "@kjam/action": ["packages/action/src/index.ts"],
       "@kjam/action-next": ["packages/action-next/src/index.ts"],
+      "@kjam/cli": ["packages/cli/src/index.ts"],
       "@kjam/core": ["packages/core/src/index.ts"],
       "@kjam/next": ["packages/next/index.ts"],
       "@kjam/next-ui": ["packages/next-ui/src/index.ts"],

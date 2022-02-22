@@ -4,6 +4,16 @@
   "projectType": "library",
   "tags": [],
   "targets": {
+    "build": {
+      "executor": "@nrwl/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/packages/serializer-next",
+        "main": "packages/serializer-next/src/index.ts",
+        "tsConfig": "packages/serializer-next/tsconfig.lib.json",
+        "assets": ["packages/serializer-next/*.md"]
+      }
+    },
     "lint": {
       "executor": "@nrwl/linter:eslint",
       "outputs": ["{options.outputFile}"],
