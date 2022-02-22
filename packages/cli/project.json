@@ -10,7 +10,7 @@
         "outputPath": "dist/packages/cli",
         "main": "packages/cli/src/index.ts",
         "tsConfig": "packages/cli/tsconfig.lib.json",
-        "generatePackageJson": false,
+        "generatePackageJson": true,
         "optimization": true,
         "assets": [
           "packages/cli/.gitignore",

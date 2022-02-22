@@ -1,6 +1,9 @@
 import { join } from "path";
 import type { Api, Kjam, Entry } from "@kjam/core";
-import { normalisePathname } from "@kjam/core"; // ../../core/src
+import {
+  normalisePathname,
+  // } from "@kjam/core";
+} from "../../core/src";
 import { parseUrl } from "./utils";
 
 /**

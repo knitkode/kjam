@@ -2,7 +2,10 @@ import { existsSync, readdirSync } from "fs-extra";
 import { read } from "gray-matter";
 import { load, JSON_SCHEMA } from "js-yaml";
 import type { Kjam, EntryMeta, EntryMatter, EntryRoute } from "@kjam/core";
-import { normalisePathname } from "@kjam/core"; // ../../core/src
+import {
+  normalisePathname,
+  // } from "@kjam/core";
+} from "../../core/src";
 
 /**
  * Only keep `.md` and `.mdx` files based on filename

@@ -1,6 +1,6 @@
 {
   "name": "@kjam/cli",
   "bin": {
-    "kjam": "./src/index.js"
+    "kjam": "./index.js"
   }
 }

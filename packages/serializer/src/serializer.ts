@@ -17,7 +17,8 @@ import {
   ApiGithub,
   ApiGithubConfig,
   Api,
-} from "@kjam/core"; // ../../core/src
+  // } from "@kjam/core";
+} from "../../core/src";
 import {
   filterMarkdownFiles,
   extractMeta,
