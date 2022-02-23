@@ -1,12 +1,13 @@
 import "dotenv/config";
+// import { resolve, relative, join } from "path";
+// import { sync } from "pkg-dir";
 import type { NextConfig } from "next";
 import type { Redirect, Rewrite } from "next/dist/lib/load-custom-routes";
 import type { I18nConfig } from "next-translate";
-import type { EntriesMapById, Kjam } from "@kjam/core";
-import { ApiGithub, normalisePathname } from "@kjam/core";
+import { EntriesMapById, Kjam, ApiGithub, normalisePathname } from "@kjam/core";
 // import type { SerializerNextOutputConfig } from "@kjam/serializer-next";
 
-// FIXME: using the above import of this type breaks the nx build,
+// FIXME: using the above import of this type breaks the nx  action build,
 // so we duplicate the type...
 type SerializerNextOutputConfig = {
   i18n: Kjam.I18n;
@@ -27,7 +28,7 @@ export type ConfigNextOptions = {
  * so no need to install it in the app consuming `kjam`.
  */
 export function ConfigNext(
-  nextConfig: NextConfig,
+  configNext: NextConfig,
   options?: ConfigNextOptions
 ) {
   const api: ApiGithub = new ApiGithub();
@@ -41,19 +42,45 @@ export function ConfigNext(
    * one (the `.kjam/i18n.json` file's content).
    */
   function getI18n(): Omit<NextConfig["i18n"], keyof Kjam.I18n> & Kjam.I18n {
+    // const i18nJsDir = resolve(
+    //   relative(pkgDir(), process.env["NEXT_TRANSLATE_PATH"] || ".")
+    // );
     // eslint-disable-next-line @typescript-eslint/no-var-requires
-    const path = require("path");
-    const i18nJsDir = path.resolve(
-      path.relative(pkgDir(), process.env["NEXT_TRANSLATE_PATH"] || ".")
-    );
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
-    const i18nJs = require(path.join(i18nJsDir, "i18n")) as I18nConfig;
+    // const i18nJs = import(join(i18nJsDir, "i18n")) as I18nConfig;
+    const { locales, defaultLocale } = configNext.i18n || {};
 
     return {
       localeDetection: false,
-      ...(nextConfig.i18n || {}),
-      locales: i18nJs.locales || ["en"],
-      defaultLocale: i18nJs.defaultLocale || "en",
+      locales: locales || ["en"],
+      defaultLocale: defaultLocale || "en",
+      ...(configNext.i18n || {}),
+    };
+  }
+
+  /**
+   * Default configuration for `next-translate`
+   *
+   * - Locale files are loaded from the github raw API
+   * - Support for `.page.tsx` pages extension
+   * - Do not log build at each request...
+   */
+  function getTranslate(): I18nConfig {
+    const { locales, defaultLocale } = i18n;
+
+    return {
+      locales,
+      defaultLocale,
+      // @see https://nextjs.org/docs/advanced-features/i18n-routing
+      // @ts-expect-error ISSUE: https://github.com/vinissimus/next-translate/issues/703#issuecomment-1048746067
+      extensionsRgx: /\.page\.(tsx|ts|js|mjs|jsx)$/,
+      logBuild: false,
+      // @see https://github.com/vinissimus/next-translate/issues/710#issuecomment-948489007
+      loadLocaleFrom: (locale?: string, namespace?: string) =>
+        api.getData(`i18n/${locale || "en"}/${namespace || "_"}`, {}),
+      // loadLocaleFrom: (locale, namespace) =>
+      //   import(`./public/locales/${locale}/${namespace}.json`).then(
+      //     (m) => m.default
+      //   ),
     };
   }
 
@@ -76,14 +103,14 @@ export function ConfigNext(
    *
    * @see https://github.com/vinissimus/next-translate/blob/master/src/plugin/index.ts#L93
    */
-  function pkgDir() {
-    try {
-      // eslint-disable-next-line @typescript-eslint/no-var-requires
-      return require("pkg-dir").sync() || process.cwd();
-    } catch (e) {
-      return process.cwd();
-    }
-  }
+  // function pkgDir() {
+  //   try {
+  //     // eslint-disable-next-line @typescript-eslint/no-var-requires
+  //     return sync() || process.cwd();
+  //   } catch (e) {
+  //     return process.cwd();
+  //   }
+  // }
 
   async function getRedirects() {
     const data = await api.getData<SerializerNextOutputConfig>("next.config");
@@ -144,6 +171,7 @@ export function ConfigNext(
   return {
     api,
     i18n,
+    getTranslate,
     getImagesDomains,
     getRedirects,
     getRewrites,
@@ -151,17 +179,15 @@ export function ConfigNext(
   };
 }
 
-export const withKjam = (
-  nextConfig: NextConfig = {},
-  options?: ConfigNextOptions
-): NextConfig => {
-  const config = ConfigNext(nextConfig, options);
+export const config = (next: NextConfig = {}, options?: ConfigNextOptions) => {
+  const configKjam = ConfigNext(next, options);
+  const configTranslate = configKjam.getTranslate();
 
-  return {
+  const configNext: NextConfig = {
     // first we set some overridable opinionated defaults
     // @see https://bit.ly/3c7BsAx
     pageExtensions: ["page.tsx", "page.ts"],
-    i18n: config.i18n,
+    i18n: configKjam.i18n,
     reactStrictMode: true,
     // @see https://nextjs.org/docs/api-reference/next.config.js
     eslint: {
@@ -176,7 +202,7 @@ export const withKjam = (
     },
     experimental: {
       scrollRestoration: true,
-      urlImports: [config.api.getUrl()],
+      urlImports: [configKjam.api.getUrl()],
       // concurrentFeatures: true,
       // serverComponents: true,
       // reactRoot: true,
@@ -186,24 +212,24 @@ export const withKjam = (
       svgr: true,
     },
     // from here below we manually merge the defaults with the next.js app config
-    ...nextConfig,
+    ...next,
     images: {
       domains: [
-        ...config.getImagesDomains(),
-        ...(nextConfig.images?.domains || []),
+        ...configKjam.getImagesDomains(),
+        ...(next.images?.domains || []),
       ],
     },
     env: {
       // KJAM_GIT: Object.keys(config.api.getConfig()).join("/"),
       KJAM_GIT: process.env["KJAM_GIT"] || "",
-      ...(nextConfig.env || {}),
+      ...(next.env || {}),
     },
     // FIXME: this temporarily fixes a build problem related to @kjam/core
     // happening in the next.js app build process
     webpack: (_config, options) => {
       const config =
-        typeof nextConfig.webpack === "function"
-          ? nextConfig.webpack(_config, options)
+        typeof next.webpack === "function"
+          ? next.webpack(_config, options)
           : _config;
       if (!options.isServer) {
         config.resolve.fallback.fs = false;
@@ -214,18 +240,18 @@ export const withKjam = (
       return config;
     },
     async redirects() {
-      const defaults = await config.getRedirects();
-      if (nextConfig.redirects) {
-        const customs = await nextConfig.redirects();
+      const defaults = await configKjam.getRedirects();
+      if (next.redirects) {
+        const customs = await next.redirects();
         return [...defaults, ...customs];
       }
       return [...defaults];
     },
     async rewrites() {
-      const defaults = await config.getRewrites();
+      const defaults = await configKjam.getRewrites();
 
-      if (nextConfig.rewrites) {
-        const customs = await nextConfig.rewrites();
+      if (next.rewrites) {
+        const customs = await next.rewrites();
 
         if (Array.isArray(customs)) {
           return {
@@ -247,6 +273,19 @@ export const withKjam = (
       };
     },
   };
+
+  return {
+    configNext,
+    configTranslate,
+  };
+};
+
+export const withKjam = (): // configNext: NextConfig = {},
+// options?: ConfigNextOptions
+NextConfig => {
+  const { configNext } = config();
+
+  return configNext;
 };
 
 export default withKjam;

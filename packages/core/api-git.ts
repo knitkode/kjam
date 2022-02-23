@@ -1,8 +1,8 @@
 import { join, isAbsolute } from "path";
 import { readFileSync } from "fs";
-import type { EntriesMap, EntriesMapById } from "../types";
-import { Api, ApiConfig } from "./api";
-import { encodePathname } from "../helpers";
+import type { EntriesMap, EntriesMapById } from "./types";
+import { Api, ApiConfig } from "./api.js";
+import { encodePathname } from "./helpers.js";
 
 export type ApiGitConfig = ApiConfig & {
   /**
@@ -79,8 +79,6 @@ export class ApiGit extends Api {
     const gitFolder = process.env["KJAM_FOLDER"] || this.folder;
 
     if (gitFolder) {
-      // const { readFileSync } = require("fs");
-      // const { join } = require("path");
       const filepath = join(
         isAbsolute(gitFolder) ? "" : process.cwd(),
         gitFolder,
@@ -117,7 +115,7 @@ export class ApiGit extends Api {
     } catch (_e) {
       if (this.debug) {
         console.error(
-          `kjam/core/ApiGit::getData failed parsing JSON '${path}'`
+          `kjam/core/ApiGit::getData failed parsing JSON at '${path}'`
         );
       }
       return failedReturn;

@@ -9,18 +9,9 @@
   },
   "exclude": [
     "**/*.spec.ts",
-    "**/*.test.ts",
     "**/*.spec.tsx",
-    "**/*.test.tsx",
     "../next/**/*.spec.ts",
     "../core/**/*.spec.ts"
   ],
-  "include": [
-    "**/*.ts",
-    "**/*.tsx",
-    "**/*.js",
-    "**/*.jsx",
-    "../next/**/*.ts",
-    "../core/**/*.ts"
-  ]
+  "include": ["**/*.ts", "**/*.tsx", "../next/**/*.ts", "../core/**/*.ts"]
 }

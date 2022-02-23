@@ -3,12 +3,12 @@ import type { Kjam } from "@kjam/core";
 import {
   encodePathname,
   // } from "@kjam/core";
-} from "../../core/src";
+} from "../core";
 import {
   Serializer,
   Img,
   // } from "@kjam/serializer";
-} from "../../serializer/src";
+} from "../serializer";
 
 export type SerializerNextOutputConfig = {
   /**

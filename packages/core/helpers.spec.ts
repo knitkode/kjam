@@ -1,4 +1,4 @@
-import { normalisePathname, encodePathname } from "./index";
+import { normalisePathname, encodePathname } from "./helpers";
 
 describe("normalisePathname", () => {
   it("normalises a complex malformed path", () => {

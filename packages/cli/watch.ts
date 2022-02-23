@@ -4,7 +4,7 @@ import { watch as chokidarWatch } from "chokidar";
 import {
   SerializerNext,
   // } from "@kjam/serializer-next";
-} from "../../serializer-next/src";
+} from "../serializer-next";
 import { serve } from "./serve";
 
 type WatchOptions = {

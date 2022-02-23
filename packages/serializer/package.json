@@ -5,6 +5,7 @@
     "url": "git+https://github.com/knitkode/kjam.git",
     "directory": "packages/serializer"
   },
+  "type": "commonjs",
   "dependencies": {
     "fdir": "^5.1.0",
     "fs-extra": "^10.0.0",

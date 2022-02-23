@@ -1,6 +1,6 @@
 {
   "root": "packages/cli",
-  "sourceRoot": "packages/cli/src",
+  "sourceRoot": "packages/cli",
   "projectType": "library",
   "targets": {
     "build": {
@@ -8,7 +8,7 @@
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/packages/cli",
-        "main": "packages/cli/src/index.ts",
+        "main": "packages/cli/index.ts",
         "tsConfig": "packages/cli/tsconfig.lib.json",
         "generatePackageJson": true,
         "optimization": true,

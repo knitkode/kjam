@@ -1,8 +1,8 @@
-import type { Entry } from "../types";
-import { Api } from "../api/api";
-import { ApiGithub, ApiGithubConfig } from "../api/api-github";
-import { normalisePathname } from "../helpers";
-import { BaseConfig } from "../config/types";
+import type { Entry } from "./types";
+import type { BaseConfig } from "./config-types";
+import { Api } from "./api.js";
+import { ApiGithub, ApiGithubConfig } from "./api-github.js";
+import { normalisePathname } from "./helpers.js";
 
 export type ContentConfig = BaseConfig & {
   debug?: boolean;

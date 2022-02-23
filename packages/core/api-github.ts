@@ -1,4 +1,4 @@
-import { ApiGit, ApiGitConfig } from "./api-git";
+import { ApiGit, ApiGitConfig } from "./api-git.js";
 
 export type ApiGithubConfig = ApiGitConfig & {};
 

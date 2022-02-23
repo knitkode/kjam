@@ -3,7 +3,7 @@ import type { Api, Kjam, Entry } from "@kjam/core";
 import {
   normalisePathname,
   // } from "@kjam/core";
-} from "../../core/src";
+} from "../core";
 import { parseUrl } from "./utils";
 
 /**

@@ -1,5 +1,5 @@
-import { BaseConfig } from "..";
-import type { EntriesMap } from "../types";
+import { BaseConfig } from "./config-types";
+import type { EntriesMap } from "./types";
 
 export type ApiConfig = BaseConfig & {
   /**

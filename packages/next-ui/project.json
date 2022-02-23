@@ -1,6 +1,6 @@
 {
   "root": "packages/next-ui",
-  "sourceRoot": "packages/next-ui/src",
+  "sourceRoot": "packages/next-ui",
   "projectType": "library",
   "tags": [],
   "targets": {
@@ -11,7 +11,7 @@
         "outputPath": "dist/packages/next-ui",
         "tsConfig": "packages/next-ui/tsconfig.lib.json",
         "project": "packages/next-ui/package.json",
-        "entryFile": "packages/next-ui/src/index.ts",
+        "entryFile": "packages/next-ui/index.ts",
         "external": ["react/jsx-runtime"],
         "rollupConfig": "@nrwl/react/plugins/bundle-rollup",
         "compiler": "swc",

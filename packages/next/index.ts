@@ -11,4 +11,4 @@ export type KjamEntry<T> = Entry<T>;
 
 export type KjamEntryLean<T> = EntryLean<T>;
 
-// export * from "./content";
+export { kjam, ContentNext, ContentNextConfig } from "./content";

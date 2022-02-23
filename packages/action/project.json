@@ -1,6 +1,6 @@
 {
   "root": "packages/action",
-  "sourceRoot": "packages/action/src",
+  "sourceRoot": "packages/action",
   "projectType": "library",
   "tags": [],
   "targets": {

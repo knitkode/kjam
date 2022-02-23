@@ -5,7 +5,7 @@ import type { Kjam, EntryMeta, EntryMatter, EntryRoute } from "@kjam/core";
 import {
   normalisePathname,
   // } from "@kjam/core";
-} from "../../core/src";
+} from "../core";
 
 /**
  * Only keep `.md` and `.mdx` files based on filename

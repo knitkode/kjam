@@ -1,6 +1,6 @@
 {
   "root": "packages/serializer",
-  "sourceRoot": "packages/serializer/src",
+  "sourceRoot": "packages/serializer",
   "projectType": "library",
   "tags": [],
   "targets": {

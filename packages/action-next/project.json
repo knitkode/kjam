@@ -1,6 +1,6 @@
 {
   "root": "packages/action-next",
-  "sourceRoot": "packages/action-next/src",
+  "sourceRoot": "packages/action-next",
   "projectType": "library",
   "tags": [],
   "targets": {
@@ -9,7 +9,7 @@
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/packages/action-next",
-        "main": "packages/action-next/src/index.ts",
+        "main": "packages/action-next/index.ts",
         "tsConfig": "packages/action-next/tsconfig.lib.json",
         "generatePackageJson": false,
         "optimization": true,

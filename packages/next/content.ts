@@ -5,14 +5,11 @@ import type {
   GetStaticPathsContext,
   GetStaticPathsResult,
 } from "next";
-import { serialize } from "next-mdx-remote/serialize";
+// import { serialize } from "next-mdx-remote/serialize";
 import { Entry, normalisePathname } from "@kjam/core";
 import { Content, ContentConfig } from "@kjam/core";
+import { serialize } from "./mdx";
 import type { KjamProps } from "./index";
-
-// function serialize(a: string, b: object) {
-//   return ""
-// }
 
 type StaticPathsParams = {
   slug: string | string[];
@@ -145,9 +142,7 @@ export class ContentNext extends Content {
   }
 
   async getEntryMdx<T>(entry: Entry<T>) {
-    const mdx = serialize
-      ? await serialize(entry.body, { scope: entry.data })
-      : null;
+    const mdx = await serialize(entry.body, { scope: entry.data });
 
     return mdx;
   }
