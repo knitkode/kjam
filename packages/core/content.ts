@@ -18,7 +18,7 @@ export class Content {
     this.api = new ApiGithub(config.api);
   }
 
-  async getById<T>(id: string, locale?: string) {
+  async getById<T extends {} = {}>(id: string, locale?: string) {
     const { byRoute } = await this.api.getMaps<T>();
 
     if (locale && byRoute[id]?.[locale]) {
@@ -28,16 +28,16 @@ export class Content {
     return null;
   }
 
-  async get<T>(
+  async get<T extends {} = {}>(
     slug: string | string[],
     locale: string
   ): Promise<Entry<T> | null>;
-  async get<T>(
+  async get<T extends {} = {}>(
     folderPath: string,
     slug: string | string[],
     locale?: string
   ): Promise<Entry<T> | null>;
-  async get<T>(
+  async get<T extends {} = {}>(
     ...args:
       | []
       | [slug: string | string[], locale: string]
@@ -76,7 +76,10 @@ export class Content {
     return data;
   }
 
-  async getMany<EntryData>(idStartingWith: string, locale: string) {
+  async getMany<EntryData extends {} = {}>(
+    idStartingWith: string,
+    locale: string
+  ) {
     const { byRoute } = await this.api.getMaps<EntryData>();
 
     return Object.keys(byRoute)

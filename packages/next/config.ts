@@ -1,13 +1,12 @@
 import "dotenv/config";
-// import { resolve, relative, join } from "path";
-// import { sync } from "pkg-dir";
 import type { NextConfig } from "next";
 import type { Redirect, Rewrite } from "next/dist/lib/load-custom-routes";
 import type { I18nConfig } from "next-translate";
-import { EntriesMapById, Kjam, ApiGithub, normalisePathname } from "@kjam/core";
+import type { EntriesMapById, Kjam } from "@kjam/core";
+import { ApiGithub, normalisePathname } from "@kjam/core";
 // import type { SerializerNextOutputConfig } from "@kjam/serializer-next";
 
-// FIXME: using the above import of this type breaks the nx  action build,
+// FIXME: using the above import of this type breaks the nx action build,
 // so we duplicate the type...
 type SerializerNextOutputConfig = {
   i18n: Kjam.I18n;
@@ -15,22 +14,20 @@ type SerializerNextOutputConfig = {
   rewrites: Rewrite[];
 };
 
-export type ConfigNextOptions = {
+export type KjamConfig = {
   permanentRedirects?: boolean;
 };
 
 /**
+ * With kjam next configuration
+ *
  * The `i18n` next configuration cannot be retrieved asynchronously
  * so it needs to match the remote content one.
- * For this we rely on `next-translate` to grab the i18n info from the `i18n.js`
- * file in the root, assuming that is always used, even for a single language
- * application. `next-translate` is used as a dependency too in this package,
- * so no need to install it in the app consuming `kjam`.
+ * We rely on `next-translate` assuming that is always used, even for a single
+ * language application. `next-translate` is used as a dependency too in this
+ * package, so no need to install it in the app consuming `kjam`.
  */
-export function ConfigNext(
-  configNext: NextConfig,
-  options?: ConfigNextOptions
-) {
+export const withKjam = (config: NextConfig & KjamConfig = {}) => {
   const api: ApiGithub = new ApiGithub();
   const i18n = getI18n();
 
@@ -42,18 +39,13 @@ export function ConfigNext(
    * one (the `.kjam/i18n.json` file's content).
    */
   function getI18n(): Omit<NextConfig["i18n"], keyof Kjam.I18n> & Kjam.I18n {
-    // const i18nJsDir = resolve(
-    //   relative(pkgDir(), process.env["NEXT_TRANSLATE_PATH"] || ".")
-    // );
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
-    // const i18nJs = import(join(i18nJsDir, "i18n")) as I18nConfig;
-    const { locales, defaultLocale } = configNext.i18n || {};
+    const { locales, defaultLocale } = config.i18n || {};
 
     return {
       localeDetection: false,
       locales: locales || ["en"],
       defaultLocale: defaultLocale || "en",
-      ...(configNext.i18n || {}),
+      ...(config.i18n || {}),
     };
   }
 
@@ -64,10 +56,20 @@ export function ConfigNext(
    * - Support for `.page.tsx` pages extension
    * - Do not log build at each request...
    */
-  function getTranslate(): I18nConfig {
+  function translateConfig(
+    i18nConfig: Omit<
+      I18nConfig,
+      | "locales"
+      | "defaultLocale"
+      | "extensionsRgx"
+      | "logBuild"
+      | "loadLocaleFrom"
+    > = {}
+  ): I18nConfig {
     const { locales, defaultLocale } = i18n;
 
     return {
+      ...i18nConfig,
       locales,
       defaultLocale,
       // @see https://nextjs.org/docs/advanced-features/i18n-routing
@@ -98,25 +100,13 @@ export function ConfigNext(
   }
 
   /**
-   * We rely on `next-translate` to grab the i18n info, assuming that we always
-   * use it, even for a single language application.
-   *
-   * @see https://github.com/vinissimus/next-translate/blob/master/src/plugin/index.ts#L93
+   * Get redirects
    */
-  // function pkgDir() {
-  //   try {
-  //     // eslint-disable-next-line @typescript-eslint/no-var-requires
-  //     return sync() || process.cwd();
-  //   } catch (e) {
-  //     return process.cwd();
-  //   }
-  // }
-
   async function getRedirects() {
     const data = await api.getData<SerializerNextOutputConfig>("next.config");
     let redirects = data?.redirects ?? [];
 
-    if (options?.permanentRedirects) {
+    if (config?.permanentRedirects) {
       redirects = redirects.map((redirect) => {
         return {
           ...redirect,
@@ -128,12 +118,20 @@ export function ConfigNext(
     return redirects;
   }
 
+  /**
+   * Get rewrites
+   */
   async function getRewrites() {
     const data = await api.getData<SerializerNextOutputConfig>("next.config");
     return data?.rewrites ?? [];
   }
 
-  async function getPathMap() {
+  /**
+   * Get path map
+   *
+   * @deprecated
+   */
+  async function _getPathMap() {
     const byRoute = await api.getData<EntriesMapById>("byRoute");
     if (!byRoute) {
       return {};
@@ -163,31 +161,13 @@ export function ConfigNext(
       }
     }
 
-    // console.log("kjam/config::getPathMap", pathMap);
-
     return pathMap;
   }
 
-  return {
-    api,
-    i18n,
-    getTranslate,
-    getImagesDomains,
-    getRedirects,
-    getRewrites,
-    getPathMap,
-  };
-}
-
-export const config = (next: NextConfig = {}, options?: ConfigNextOptions) => {
-  const configKjam = ConfigNext(next, options);
-  const configTranslate = configKjam.getTranslate();
-
-  const configNext: NextConfig = {
+  const nextConfig: NextConfig = {
     // first we set some overridable opinionated defaults
     // @see https://bit.ly/3c7BsAx
     pageExtensions: ["page.tsx", "page.ts"],
-    i18n: configKjam.i18n,
     reactStrictMode: true,
     // @see https://nextjs.org/docs/api-reference/next.config.js
     eslint: {
@@ -202,7 +182,7 @@ export const config = (next: NextConfig = {}, options?: ConfigNextOptions) => {
     },
     experimental: {
       scrollRestoration: true,
-      urlImports: [configKjam.api.getUrl()],
+      urlImports: [api.getUrl()],
       // concurrentFeatures: true,
       // serverComponents: true,
       // reactRoot: true,
@@ -212,46 +192,44 @@ export const config = (next: NextConfig = {}, options?: ConfigNextOptions) => {
       svgr: true,
     },
     // from here below we manually merge the defaults with the next.js app config
-    ...next,
+    ...config,
+    i18n,
     images: {
-      domains: [
-        ...configKjam.getImagesDomains(),
-        ...(next.images?.domains || []),
-      ],
+      domains: [...getImagesDomains(), ...(config.images?.domains || [])],
     },
     env: {
       // KJAM_GIT: Object.keys(config.api.getConfig()).join("/"),
       KJAM_GIT: process.env["KJAM_GIT"] || "",
-      ...(next.env || {}),
+      ...(config.env || {}),
     },
     // FIXME: this temporarily fixes a build problem related to @kjam/core
     // happening in the next.js app build process
     webpack: (_config, options) => {
-      const config =
-        typeof next.webpack === "function"
-          ? next.webpack(_config, options)
+      const webpackConfig =
+        typeof config.webpack === "function"
+          ? config.webpack(_config, options)
           : _config;
       if (!options.isServer) {
-        config.resolve.fallback.fs = false;
+        webpackConfig.resolve.fallback.fs = false;
       }
 
       // TODO: idea, use webpack DEFINE plugin to expose kjam within the scope
       // of getStaticProps/getStaticPaths/getServerSideProps
-      return config;
+      return webpackConfig;
     },
     async redirects() {
-      const defaults = await configKjam.getRedirects();
-      if (next.redirects) {
-        const customs = await next.redirects();
+      const defaults = await getRedirects();
+      if (config.redirects) {
+        const customs = await config.redirects();
         return [...defaults, ...customs];
       }
-      return [...defaults];
+      return defaults;
     },
     async rewrites() {
-      const defaults = await configKjam.getRewrites();
+      const defaults = await getRewrites();
 
-      if (next.rewrites) {
-        const customs = await next.rewrites();
+      if (config.rewrites) {
+        const customs = await config.rewrites();
 
         if (Array.isArray(customs)) {
           return {
@@ -275,17 +253,9 @@ export const config = (next: NextConfig = {}, options?: ConfigNextOptions) => {
   };
 
   return {
-    configNext,
-    configTranslate,
+    nextConfig,
+    translateConfig,
   };
-};
-
-export const withKjam = (): // configNext: NextConfig = {},
-// options?: ConfigNextOptions
-NextConfig => {
-  const { configNext } = config();
-
-  return configNext;
 };
 
 export default withKjam;

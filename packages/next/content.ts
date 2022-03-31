@@ -5,7 +5,6 @@ import type {
   GetStaticPathsContext,
   GetStaticPathsResult,
 } from "next";
-// import { serialize } from "next-mdx-remote/serialize";
 import { Entry, normalisePathname } from "@kjam/core";
 import { Content, ContentConfig } from "@kjam/core";
 import { serialize } from "./mdx";
@@ -141,11 +140,19 @@ export class ContentNext extends Content {
     return { props: { mdx, entry, ...otherProps }, ...options };
   }
 
-  async getEntryMdx<T>(entry: Entry<T>) {
+  async getEntryMdx<T extends {} = {}>(entry: Entry<T>) {
     const mdx = await serialize(entry.body, { scope: entry.data });
 
     return mdx;
   }
 }
 
+/**
+ * This allows to instantiate the Content class with custom options
+ */
+export const Kjam = (config?: ContentNextConfig) => new ContentNext(config);
+
+/**
+ * This provides a default Content class configuration instance
+ */
 export const kjam = new ContentNext();

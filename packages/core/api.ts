@@ -48,5 +48,5 @@ export abstract class Api {
    */
   abstract getUrl(path?: string): string;
 
-  abstract getMaps<T>(): Promise<EntriesMap<T>>;
+  abstract getMaps<T extends {} = {}>(): Promise<EntriesMap<T>>;
 }

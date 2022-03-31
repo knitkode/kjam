@@ -122,7 +122,7 @@ export class ApiGit extends Api {
     }
   }
 
-  async getMaps<T>() {
+  async getMaps<T extends {} = {}>() {
     const byRoute = (await this.getData("byRoute")) as EntriesMapById<T>;
 
     const entriesMap = {

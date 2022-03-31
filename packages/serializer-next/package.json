@@ -4,6 +4,5 @@
     "type": "git",
     "url": "git+https://github.com/knitkode/kjam.git",
     "directory": "packages/serializer-next"
-  },
-  "type": "commonjs"
+  }
 }

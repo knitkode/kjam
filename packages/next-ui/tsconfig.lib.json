@@ -13,5 +13,11 @@
     "../next/**/*.spec.ts",
     "../core/**/*.spec.ts"
   ],
-  "include": ["**/*.ts", "**/*.tsx", "../next/**/*.ts", "../core/**/*.ts"]
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    "../next/**/*.ts",
+    "../core/**/*.ts",
+    "ide-callback-polyfill.js"
+  ]
 }

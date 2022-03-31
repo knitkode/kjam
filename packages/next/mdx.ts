@@ -2,12 +2,15 @@
  * @file
  *
  * Totally copied from [next-mdx-remote](https://github.com/hashicorp/next-mdx-remote/tree/main/src)
+ *
+ * Probably migrate to `mdx-bundler` once [this PR](https://github.com/kentcdodds/mdx-bundler/issues/137) gets merged
  */
-import { compile, CompileOptions } from "@mdx-js/mdx";
-import { VFile } from "vfile";
-import { matter } from "vfile-matter";
-import { remove } from "unist-util-remove";
-import { Plugin } from "unified";
+// import { VFile } from "vfile";
+// import { matter } from "vfile-matter";
+// import { compile } from "@mdx-js/mdx";
+import type { CompileOptions } from "@mdx-js/mdx";
+import type { Plugin } from "unified";
+// import { remove } from "unist-util-remove";
 import { codeFrameColumns } from "@babel/code-frame";
 
 export interface SerializeOptions {
@@ -111,12 +114,15 @@ More information: https://mdxjs.com/docs/troubleshooting-mdx`);
 /**
  * remark plugin which removes all import and export statements
  */
-function removeImportsExportsPlugin(): Plugin {
+function removeImportsExportsPlugin(
+  remove: typeof import("unist-util-remove").remove
+): Plugin {
   return (tree) => remove(tree, "mdxjsEsm");
 }
 
 function getCompileOptions(
-  mdxOptions: SerializeOptions["mdxOptions"] = {}
+  mdxOptions: SerializeOptions["mdxOptions"] = {},
+  remove: typeof import("unist-util-remove").remove
 ): CompileOptions {
   const areImportsEnabled = mdxOptions?.useDynamicImport;
 
@@ -124,7 +130,7 @@ function getCompileOptions(
   // this allows code to reuse the same options object
   const remarkPlugins = [
     ...(mdxOptions.remarkPlugins || []),
-    ...(areImportsEnabled ? [] : [removeImportsExportsPlugin]),
+    ...(areImportsEnabled ? [] : [() => removeImportsExportsPlugin(remove)]),
   ];
 
   return {
@@ -147,27 +153,81 @@ export async function serialize(
     parseFrontmatter = false,
   }: SerializeOptions = {}
 ): Promise<MDXRemoteSerializeResult> {
-  const vfile = new VFile({ value: source });
+  // the following are native ESM, and we're running in a CJS context.
+  // This is the only way to import ESM within CJS
+
+  // const [{ VFile }, { matter }, { compile }, { remove }] = await Promise.all([
+  //   import("vfile"),
+  //   import("vfile-matter"),
+  //   import("@mdx-js/mdx"),
+  //   import("unist-util-remove")
+  // ]);
+
+  // const vfile = new VFile({ value: source });
+
+  // // makes frontmatter available via vfile.data.matter
+  // if (parseFrontmatter) {
+  //   matter(vfile, { strip: true });
+  // }
+
+  // let compiledMdx;
+
+  // try {
+  //   compiledMdx = await compile(vfile, getCompileOptions(mdxOptions, remove));
+  // } catch (error: any) {
+  //   throw createFormattedMDXError(error, String(vfile));
+  // }
+
+  // const compiledSource = String(compiledMdx);
+
+  // return {
+  //   compiledSource,
+  //   frontmatter:
+  //     (vfile.data["matter"] as Record<string, string> | undefined) ?? {},
+  //   scope,
+  // };
+
+  const [/* { read }, { load, JSON_SCHEMA }, */ { compile }, { remove }] =
+    await Promise.all([
+      // import("gray-matter"),
+      // import("js-yaml"),
+      // FIXME: hacky workaround, @see https://github.com/microsoft/TypeScript/issues/43329#issuecomment-1008361973
+      Function('return import("@mdx-js/mdx")')() as Promise<
+        typeof import("@mdx-js/mdx")
+      >,
+      Function('return import("unist-util-remove")')() as Promise<
+        typeof import("unist-util-remove")
+      >,
+      // import("@mdx-js/mdx"),
+      // import("unist-util-remove")
+    ]);
 
   // makes frontmatter available via vfile.data.matter
   if (parseFrontmatter) {
-    matter(vfile, { strip: true });
+    // const { content, excerpt, data } = read(source, {
+    //   excerpt: true,
+    //   engines: {
+    //     // turn off automatic date parsing
+    //     // @see https://github.com/jonschlinkert/gray-matter/issues/62#issuecomment-577628177
+    //     // @ts-expect-error I don't think this is important
+    //     yaml: (s) => load(s, { schema: JSON_SCHEMA }),
+    //   },
+    // });
   }
 
-  let compiledMdx: VFile;
+  let compiledMdx;
 
   try {
-    compiledMdx = await compile(vfile, getCompileOptions(mdxOptions));
+    compiledMdx = await compile(source, getCompileOptions(mdxOptions, remove));
   } catch (error: any) {
-    throw createFormattedMDXError(error, String(vfile));
+    throw createFormattedMDXError(error, String(source));
   }
 
   const compiledSource = String(compiledMdx);
 
   return {
     compiledSource,
-    frontmatter:
-      (vfile.data["matter"] as Record<string, string> | undefined) ?? {},
+    frontmatter: {},
     scope,
   };
 }

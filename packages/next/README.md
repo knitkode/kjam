@@ -4,37 +4,39 @@
 
 ## Usage
 
+In `kjam.js`
+
+```js
+module.exports = require("@kjam/next/config").withKjam({
+  i18n: {
+    locales: ["it", "en"],
+    defaultLocale: "it",
+  },
+  // any Next.js and/or kjam configuration option
+});
+```
+
 In `next.config.js`
 
 ```js
-const { withKjam } = require("@kjam/next/config");
+const withNx = require("@nrwl/next/plugins/with-nx");
 const withTranslate = require("next-translate");
-// const withNx = require("@nrwl/next/plugins/with-nx");
 
-let nextConfig = withKjam();
+let nextConfig = require("./kjam").nextConfig;
+
 nextConfig = withTranslate(nextConfig);
 nextConfig = withNx(nextConfig);
 
 module.exports = nextConfig;
-
 ```
 
 In `i18n.js`
 
 ```js
-module.exports = {
-  ...require('@kjam/next/translate').translate(),
-  locales: ['it', 'en'],
-  defaultLocale: 'it',
+module.exports = require("./kjam").translateConfig({
+  // any next-translate configuration option
   pages: {
     '*': ['_', '~'],
-    // "/": ["home", "ReadMore"],
-    // "/[slug]": ["ReadMore"],
-    // "rgx:^/articles": ["articles"],
-    // "/contact": ["ContactForm"],
-    // "/profile": ["profile", "CompanyForm"],
-    // "/signin": ["auth", "AuthFormLogin"],
-    // "/signup": ["auth", "AuthFormRegister"],
   },
 };
 
@@ -45,7 +47,6 @@ In one of your pages, e.g. `pages/[slug].ts`
 ```js
 import { kjam, KjamProps } from "@kjam/next";
 import { PageDebug } from "@kjam/next-ui";
-import { serialize } from "next-mdx-remote/serialize";
 // import { mdComponents } from "../md-components";
 
 type Data = {
@@ -77,7 +78,7 @@ export const getStaticPaths: DataStaticPaths<Params> = async (ctx) => {
 };
 
 export const getStaticProps: DataStatic<Props, Params> = async (ctx) => {
-  return await kjam.getStaticProps<Params, Data>(ctx, serialize, "");
+  return await kjam.getStaticProps<Params, Data>(ctx, "");
 };
 ```
 

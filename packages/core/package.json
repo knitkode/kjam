@@ -5,6 +5,5 @@
     "type": "git",
     "url": "git+https://github.com/knitkode/kjam.git",
     "directory": "packages/core"
-  },
-  "type": "commonjs"
+  }
 }
