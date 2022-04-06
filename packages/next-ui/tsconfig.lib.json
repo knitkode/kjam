@@ -5,19 +5,9 @@
     "types": ["node"],
     "jsx": "react-jsx",
     "esModuleInterop": true,
+    "module": "esnext",
     "allowSyntheticDefaultImports": true
   },
-  "exclude": [
-    "**/*.spec.ts",
-    "**/*.spec.tsx",
-    "../next/**/*.spec.ts",
-    "../core/**/*.spec.ts"
-  ],
-  "include": [
-    "**/*.ts",
-    "**/*.tsx",
-    "../next/**/*.ts",
-    "../core/**/*.ts",
-    "ide-callback-polyfill.js"
-  ]
+  "exclude": ["**/*.spec.ts", "**/*.spec.tsx"],
+  "include": ["**/*.ts", "**/*.tsx", "ide-callback-polyfill.js"]
 }

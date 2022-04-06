@@ -8,7 +8,7 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "importHelpers": true,
-    "target": "ES2019", // Node 12
+    "target": "ES2019",
     "module": "commonjs",
     "lib": ["es2019", "DOM", "DOM.Iterable"],
     "skipLibCheck": true,
