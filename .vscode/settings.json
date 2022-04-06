@@ -1,7 +1,7 @@
 {
   "files.exclude": {
     // @at root
-    ".github": true,
+    // ".github": true,
     ".husky": true,
     ".swc": true,
     "commitlint.config.js": true,
