@@ -33,9 +33,9 @@ jobs:
         uses: actions/cache@v2
         with:
           path: .npm
-          key: ${{ runner.os }}-npm_bump-${{ hashFiles('**/package-lock.json') }}
+          key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
-            ${{ runner.os }}-npm_bump-
+            ${{ runner.os }}-npm-
             ${{ runner.os }}-
       
       - name: Install Dependencies
@@ -69,9 +69,9 @@ jobs:
         uses: actions/cache@v2
         with:
           path: .npm
-          key: ${{ runner.os }}-npm_bump-${{ hashFiles('**/package-lock.json') }}
+          key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
-            ${{ runner.os }}-npm_bump-
+            ${{ runner.os }}-npm-
             ${{ runner.os }}-
 
       - name: Install Dependencies
@@ -102,10 +102,9 @@ jobs:
         uses: e-square-io/nx-distributed-task@v2
         id: run
         with:
-          # nxCloud: true
+          nxCloud: true
           target: ${{ matrix.target }}
           projects: ${{ matrix.projects }}
-          # args: '--with-deps=true'
 
   # coverage:
   #   name: Publish coverage

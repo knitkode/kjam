@@ -12,7 +12,13 @@
         "main": "packages/next/index.ts",
         "tsConfig": "packages/next/tsconfig.lib.json",
         "assets": ["packages/next/*.md"]
-      }
+      },
+      "dependsOn": [
+        {
+          "target": "build",
+          "projects": "dependencies"
+        }
+      ]
     },
     "lint": {
       "executor": "@nrwl/linter:eslint",
