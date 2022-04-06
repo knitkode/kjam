@@ -48,7 +48,6 @@ jobs:
           # targets: 'test,build'
           targets: 'build'
           maxDistribution: '10'
-          args: '--with-deps'
 
   execute:
     name: ${{ matrix.target }} (${{ matrix.distribution }})
@@ -106,6 +105,7 @@ jobs:
           nxCloud: true
           target: ${{ matrix.target }}
           projects: ${{ matrix.projects }}
+          args: '--with-deps'
 
   # coverage:
   #   name: Publish coverage
