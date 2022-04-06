@@ -102,10 +102,10 @@ jobs:
         uses: e-square-io/nx-distributed-task@v2
         id: run
         with:
-          nxCloud: true
+          # nxCloud: true
           target: ${{ matrix.target }}
           projects: ${{ matrix.projects }}
-          args: '--with-deps=true'
+          # args: '--with-deps=true'
 
   # coverage:
   #   name: Publish coverage
