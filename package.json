@@ -17,6 +17,7 @@
   "dependencies": {
     "@actions/core": "^1.6.0",
     "@babel/code-frame": "^7.16.7",
+    "@nrwl/nx-cloud": "^13.2.2",
     "@types/dotenv": "^8.2.0",
     "chokidar": "^3.5.3",
     "commander": "^9.1.0",
