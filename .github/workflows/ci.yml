@@ -105,7 +105,7 @@ jobs:
           nxCloud: true
           target: ${{ matrix.target }}
           projects: ${{ matrix.projects }}
-          args: '--with-deps'
+          args: '--with-deps=true'
 
   # coverage:
   #   name: Publish coverage
