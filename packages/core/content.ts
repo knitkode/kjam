@@ -67,7 +67,7 @@ export class Content {
       target = "";
     }
     if (this.debug) {
-      console.log(`[@kjam/core] Content::get target ${target}`);
+      console.log(`[@kjam/core]Content::get target ${target}`);
     }
 
     const data = await this.api.getData<Entry<T>>(
