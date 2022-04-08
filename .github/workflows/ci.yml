@@ -71,6 +71,12 @@ jobs:
         with:
           node-version: 14
 
+      # FIXME: this should not be needed, @see
+      # https://github.com/bahmutov/npm-install/issues/103#issuecomment-931226602
+      # https://github.com/vercel/next.js/issues/30731#issuecomment-983753570
+      - name: Upgrade NPM
+        run: npm install -g npm
+
       - name: Cache npm
         uses: actions/cache@v2
         with:
