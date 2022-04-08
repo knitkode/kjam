@@ -29,17 +29,17 @@ jobs:
         with:
           node-version: 14
       
-      - name: Cache npm
-        uses: actions/cache@v2
-        with:
-          path: .npm
-          key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-npm-
-            ${{ runner.os }}-
+      # - name: Cache npm
+      #   uses: actions/cache@v2
+      #   with:
+      #     path: .npm
+      #     key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
+      #     restore-keys: |
+      #       ${{ runner.os }}-npm-
+      #       ${{ runner.os }}-
       
       - name: Install Dependencies
-        run: npm install
+        run: npm ci --cache .npm
       
       - name: Calculate affected
         uses: e-square-io/nx-affected-matrix@v2
