@@ -1,3 +1,33 @@
+## [1.6.3](https://github.com/knitkode/kjam/compare/v1.6.2...v1.6.3) (2022-04-08)
+
+### Bug Fixes
+
+- **deps:** bumb react ([59bfb4e](https://github.com/knitkode/kjam/commit/59bfb4ed3c743524c5bbbf71b73791f5537c12e9))
+- **deps:** remove dependsOn ([3edae59](https://github.com/knitkode/kjam/commit/3edae59bbcd720af5a466f5c2b20f5cce8a7c161))
+- **deps:** trigger ([db4305d](https://github.com/knitkode/kjam/commit/db4305d1ee3a1f1956d1b993259502e52788f89b))
+- **deps:** update ([e6feaea](https://github.com/knitkode/kjam/commit/e6feaea3874a741703f6a76d04d5c3e0362f9cbc))
+- **deps:** update ([66915f3](https://github.com/knitkode/kjam/commit/66915f39f3df9c3533ccc50c1358889da1addfd6))
+- **deps:** update ([22c4cba](https://github.com/knitkode/kjam/commit/22c4cbac493e970504f443c07aaa33c9f9a7ebaa))
+- **deps:** update ci ([6a1b6fa](https://github.com/knitkode/kjam/commit/6a1b6fa94dadfaadd18719e2695795cdc5a2a36b))
+- **deps:** update ci ([df9aff5](https://github.com/knitkode/kjam/commit/df9aff5951e219477226fdc7d3e4470d58bfd219))
+- **deps:** update ci ([5ee2dc2](https://github.com/knitkode/kjam/commit/5ee2dc2879391c243119011832aee505b962465b))
+- **deps:** update ci ([c853544](https://github.com/knitkode/kjam/commit/c85354456396c7d03bc5603819dbc37e0ab53956))
+- **deps:** update ci ([a28ff82](https://github.com/knitkode/kjam/commit/a28ff82aceaf715b916e32bcd157eb1a7bb5df0f))
+- **deps:** update ci ([60c7645](https://github.com/knitkode/kjam/commit/60c7645c0182d37a3f59dca47057ea2cc1a9f06a))
+- **deps:** update ci ([822b875](https://github.com/knitkode/kjam/commit/822b875505675e761a22ad00e7c219f537d407fb))
+- **deps:** update ci ([45deff6](https://github.com/knitkode/kjam/commit/45deff695ebd4c8a89b533a4f8de582e8aa74ec6))
+- **deps:** update ci ([1dfd774](https://github.com/knitkode/kjam/commit/1dfd774014c6434bfab4fd6c75b47cc81d735c44))
+- **deps:** update ci ([5dbdb85](https://github.com/knitkode/kjam/commit/5dbdb853648e171b9fc04772337ac15339561d58))
+- **deps:** update ci ([28047e9](https://github.com/knitkode/kjam/commit/28047e9e815b72296aac07ecafbe9424174956af))
+- **deps:** update ci ([075d87e](https://github.com/knitkode/kjam/commit/075d87eaf7f65461ed3b1c2673dbde6506cbf726))
+- **deps:** update ci ([c9bc13a](https://github.com/knitkode/kjam/commit/c9bc13a33bc74076a9b86e4bfad8247a83a62964))
+- **deps:** update ci ([ac00773](https://github.com/knitkode/kjam/commit/ac0077389f8a4223645a4a28e98eef332673f150))
+- **deps:** update ci ([fda9610](https://github.com/knitkode/kjam/commit/fda96102f336a76e1552e3e2bf75aa441cab078a))
+
+### Other
+
+- Merge branch 'main' of github.com:knitkode/kjam into main ([7457207](https://github.com/knitkode/kjam/commit/7457207bd1166c06a875f18fbcf1597819b9d6d9))
+
 ## [1.6.2](https://github.com/knitkode/kjam/compare/v1.6.1...v1.6.2) (2022-04-08)
 
 ### Bug Fixes
