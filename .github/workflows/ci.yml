@@ -34,9 +34,6 @@ jobs:
         with:
           path: .npm
           key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-npm-
-            ${{ runner.os }}-
       
       - name: Install Dependencies
         run: npm ci --cache .npm
