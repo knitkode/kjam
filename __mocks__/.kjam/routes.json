@@ -1,23 +1,15 @@
 {
-  "projects": {
-    "en": "/projects",
-    "it": "/progetti"
-  },
   "spaces": {
     "en": "/spaces",
     "it": "/spazi"
   },
+  "projects": {
+    "en": "/projects",
+    "it": "/progetti"
+  },
   "spaces/outdoor": {
     "en": "/spaces/living-outside",
     "it": "/spazi/all-aperto"
-  },
-  "spaces/outdoor/by-season": {
-    "en": "/spaces/living-outside/by-season",
-    "it": "/spazi/all-aperto/stagioni"
-  },
-  "spaces/indoor": {
-    "en": "/spaces/indoor",
-    "it": "/spazi/indoor"
   },
   "about": {
     "en": "/about-us",
@@ -30,5 +22,13 @@
   "home": {
     "en": "/",
     "it": "/"
+  },
+  "spaces/indoor": {
+    "en": "/spaces/indoor",
+    "it": "/spazi/indoor"
+  },
+  "spaces/outdoor/by-season": {
+    "en": "/spaces/living-outside/by-season",
+    "it": "/spazi/all-aperto/stagioni"
   }
 }

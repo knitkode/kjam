@@ -2,7 +2,7 @@ import { resolve } from "path";
 import { SerializerNext } from "./serializer-next";
 
 const serializer = new SerializerNext({
-  root: resolve(__dirname, "../../../__mocks__"),
+  root: resolve(__dirname, "../../__mocks__"),
   // root: "ciao"
 });
 

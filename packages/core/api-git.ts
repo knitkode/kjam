@@ -1,8 +1,8 @@
 import { join, isAbsolute } from "path";
 import { readFileSync } from "fs";
 import type { EntriesMap, EntriesMapById } from "./types";
-import { Api, ApiConfig } from "./api.js";
-import { encodePathname } from "./helpers.js";
+import { Api, ApiConfig } from "./api";
+import { encodePathname } from "./helpers";
 
 export type ApiGitConfig = ApiConfig & {
   /**
@@ -84,6 +84,7 @@ export class ApiGit extends Api {
         gitFolder,
         path
       );
+
       try {
         return readFileSync(filepath, { encoding: "utf-8" });
       } catch (_e) {

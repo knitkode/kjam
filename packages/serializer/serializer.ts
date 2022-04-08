@@ -353,6 +353,9 @@ export class Serializer<T = Record<string, unknown>> {
       if (pathParts.length <= 1) {
         routes[id] = locales;
         urls[id] = locales;
+        for (const locale in locales) {
+          if (entries[id][locale]) entries[id][locale].url = locales[locale];
+        }
       } else {
         // otherwise we need to loop through each portion of the route and pick
         // each segment's translation from the previously constructed map

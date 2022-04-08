@@ -165,33 +165,7 @@ export const withKjam = (config: NextConfig & KjamConfig = {}) => {
   }
 
   const nextConfig: NextConfig = {
-    // first we set some overridable opinionated defaults
-    // @see https://bit.ly/3c7BsAx
-    pageExtensions: ["page.tsx", "page.ts"],
-    reactStrictMode: true,
-    // @see https://nextjs.org/docs/api-reference/next.config.js
-    eslint: {
-      ignoreDuringBuilds: true, // we have this strict check on each commit
-    },
-    typescript: {
-      ignoreBuildErrors: true, // we have this strict check on each commit
-    },
-    swcMinify: true,
-    compiler: {
-      styledComponents: true,
-    },
-    experimental: {
-      scrollRestoration: true,
-      urlImports: [api.getUrl()],
-      // concurrentFeatures: true,
-      // serverComponents: true,
-      // reactRoot: true,
-    },
-    nx: {
-      // @see https://github.com/gregberge/svgr
-      svgr: true,
-    },
-    // from here below we manually merge the defaults with the next.js app config
+    // we manually merge the defaults with the next.js app config
     ...config,
     i18n,
     images: {
@@ -200,6 +174,7 @@ export const withKjam = (config: NextConfig & KjamConfig = {}) => {
     env: {
       // KJAM_GIT: Object.keys(config.api.getConfig()).join("/"),
       KJAM_GIT: process.env["KJAM_GIT"] || "",
+      KJAM_FOLDER: process.env["KJAM_FOLDER"] || "",
       ...(config.env || {}),
     },
     // FIXME: this temporarily fixes a build problem related to @kjam/core

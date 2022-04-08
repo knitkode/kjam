@@ -3,7 +3,7 @@ import type { Entry } from "@kjam/core";
 import { Serializer } from "./serializer";
 
 const serializer = new Serializer({
-  root: resolve(__dirname, "../../../__mocks__"),
+  root: resolve(__dirname, "../../__mocks__"),
   api: {
     domain: "api.test",
     repo: "repo",

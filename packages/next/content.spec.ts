@@ -67,3 +67,16 @@ describe("get static paths", () => {
     expect(staticPaths.paths.length).toEqual(1);
   });
 });
+
+describe("get static props", () => {
+  test("one level deep dynamic page", async () => {
+    const ctx = { locale: "en", params: { slug: "about-us" } };
+    const { params, locale } = ctx;
+    const entry = await kjam.get("", params?.slug || "", locale);
+
+    expect(entry).toHaveProperty("data");
+    // const result = await kjam.getStaticProps(ctx);
+    // // console.log("staticPaths", staticPaths.paths.map(paths =>JSON.stringify(paths)));
+    // expect(result).toHaveProperty("props");
+  });
+});

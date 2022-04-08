@@ -1,9 +1,9 @@
-export { Api, ApiConfig } from "./api.js";
-export { ApiGit, ApiGitConfig } from "./api-git.js";
-export { ApiGithub, ApiGithubConfig } from "./api-github.js";
+export { Api, ApiConfig } from "./api";
+export { ApiGit, ApiGitConfig } from "./api-git";
+export { ApiGithub, ApiGithubConfig } from "./api-github";
 export type { BaseConfig } from "./config-types";
-export { Content, ContentConfig } from "./content.js";
-export { isTestEnv, encodePathname, normalisePathname } from "./helpers.js";
+export { Content, ContentConfig } from "./content";
+export { isTestEnv, encodePathname, normalisePathname } from "./helpers";
 export type {
   Kjam,
   EntriesMap,

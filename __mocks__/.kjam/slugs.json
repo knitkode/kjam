@@ -1,15 +1,19 @@
 {
-  "projects": {
-    "en": "/projects",
-    "it": "/progetti"
-  },
   "spaces": {
     "en": "/spaces",
     "it": "/spazi"
   },
-  "projects/project-title": {
-    "en": "/project-title",
-    "it": "/titolo-progetto"
+  "projects": {
+    "en": "/projects",
+    "it": "/progetti"
+  },
+  "events/another-event": {
+    "en": "/another-event",
+    "it": "/another-event"
+  },
+  "events/event-name": {
+    "en": "/event-name",
+    "it": "/nome-evento"
   },
   "spaces/hospitality": {
     "en": "/hospitality",
@@ -18,34 +22,6 @@
   "spaces/outdoor": {
     "en": "/living-outside",
     "it": "/all-aperto"
-  },
-  "spaces/outdoor/by-season": {
-    "en": "/by-season",
-    "it": "/stagioni"
-  },
-  "spaces/outdoor/park": {
-    "en": "/park",
-    "it": "/parco"
-  },
-  "spaces/indoor/hall": {
-    "en": "/the-hall",
-    "it": "/sala"
-  },
-  "spaces/outdoor/playground": {
-    "en": "/playground",
-    "it": "/area-giochi"
-  },
-  "spaces/outdoor/by-season/winter": {
-    "en": "/winter",
-    "it": "/inverno"
-  },
-  "events/event-name": {
-    "en": "/event-name",
-    "it": "/nome-evento"
-  },
-  "events/another-event": {
-    "en": "/another-event",
-    "it": "/another-event"
   },
   "about": {
     "en": "/about-us",
@@ -59,12 +35,36 @@
     "en": "/",
     "it": "/"
   },
+  "projects/project-title": {
+    "en": "/project-title",
+    "it": "/titolo-progetto"
+  },
+  "spaces/indoor/hall": {
+    "en": "/the-hall",
+    "it": "/sala"
+  },
   "spaces/indoor/kitchen": {
     "en": "/the-kitchen",
     "it": "/cucina"
   },
+  "spaces/outdoor/by-season": {
+    "en": "/by-season",
+    "it": "/stagioni"
+  },
+  "spaces/outdoor/park": {
+    "en": "/park",
+    "it": "/parco"
+  },
+  "spaces/outdoor/playground": {
+    "en": "/playground",
+    "it": "/area-giochi"
+  },
   "spaces/outdoor/by-season/summer": {
     "en": "/summer",
     "it": "/estate"
+  },
+  "spaces/outdoor/by-season/winter": {
+    "en": "/winter",
+    "it": "/inverno"
   }
 }

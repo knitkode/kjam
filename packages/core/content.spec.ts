@@ -3,7 +3,7 @@ import { Content } from "./content";
 
 const kjam = new Content({
   api: {
-    folder: resolve(__dirname, "../../../../__mocks__"),
+    folder: resolve(__dirname, "../../__mocks__"),
   },
 });
 

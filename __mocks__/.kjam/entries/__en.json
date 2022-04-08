@@ -4,12 +4,12 @@
   "body": "",
   "excerpt": "",
   "data": {
-    "attachment": "https://api.test/username/repo/branch/some/relative/file.pdf",
-    "attachment2": "https://api.test/username/repo/branch/pages/home/another/file.ogg",
-    "attachment3": "https://api.test/username/repo/branch/pages/third/file.mp3"
+    "attachment": "https://raw.githubusercontent.com///main/some/relative/file.pdf",
+    "attachment2": "https://raw.githubusercontent.com///main/pages/home/another/file.ogg",
+    "attachment3": "https://raw.githubusercontent.com///main/pages/third/file.mp3"
   },
   "id": "home",
   "templateSlug": "",
   "slug": "",
-  "url": ""
+  "url": "/"
 }
