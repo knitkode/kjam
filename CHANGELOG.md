@@ -1,3 +1,14 @@
+## [1.6.4](https://github.com/knitkode/kjam/compare/v1.6.3...v1.6.4) (2022-04-08)
+
+### Bug Fixes
+
+- **deps:** deps as deps no peer ([905028e](https://github.com/knitkode/kjam/commit/905028e504321bbefd9c45c6dd13271c66b93325))
+- **deps:** deps as deps no peer, trigger ([95a109e](https://github.com/knitkode/kjam/commit/95a109e00893ab28b498f82428486ea9a0b11b57))
+
+### Other
+
+- Merge branch 'main' of github.com:knitkode/kjam into main ([1363833](https://github.com/knitkode/kjam/commit/1363833739c0d0e9684b43a1d253d3200e0c7793))
+
 ## [1.6.3](https://github.com/knitkode/kjam/compare/v1.6.2...v1.6.3) (2022-04-08)
 
 ### Bug Fixes
