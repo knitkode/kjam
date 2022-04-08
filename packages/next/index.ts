@@ -1,8 +1,10 @@
-import type { MDXRemoteSerializeResult } from "next-mdx-remote";
 import type { Entry, EntryLean } from "@kjam/core";
+import type { MDXSerializeResult as _MDXSerializeResult } from "./mdx";
+
+export type MDXSerializeResult = _MDXSerializeResult;
 
 export type KjamProps<Data extends {} = {}, Params extends {} = {}> = {
-  mdx?: null | MDXRemoteSerializeResult;
+  mdx?: null | MDXSerializeResult;
   entry: Entry<Data>;
   params?: Params;
 };

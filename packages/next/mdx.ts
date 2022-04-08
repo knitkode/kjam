@@ -1,16 +1,12 @@
 /**
  * @file
  *
- * Totally copied from [next-mdx-remote](https://github.com/hashicorp/next-mdx-remote/tree/main/src)
+ * Shamelessly copied from [next-mdx-remote](https://github.com/hashicorp/next-mdx-remote/tree/main/src)
  *
  * Probably migrate to `mdx-bundler` once [this PR](https://github.com/kentcdodds/mdx-bundler/issues/137) gets merged
  */
-// import { VFile } from "vfile";
-// import { matter } from "vfile-matter";
-// import { compile } from "@mdx-js/mdx";
 import type { CompileOptions } from "@mdx-js/mdx";
 import type { Plugin } from "unified";
-// import { remove } from "unist-util-remove";
 import { codeFrameColumns } from "@babel/code-frame";
 
 export interface SerializeOptions {
@@ -32,7 +28,7 @@ export interface SerializeOptions {
 /**
  * Represents the return value of a call to serialize()
  */
-export type MDXRemoteSerializeResult<TScope = Record<string, unknown>> = {
+export type MDXSerializeResult<TScope = Record<string, unknown>> = {
   /**
    * The compiledSource, generated from next-mdx-remote/serialize
    */
@@ -152,7 +148,7 @@ export async function serialize(
     mdxOptions = {},
     parseFrontmatter = false,
   }: SerializeOptions = {}
-): Promise<MDXRemoteSerializeResult> {
+): Promise<MDXSerializeResult> {
   // the following are native ESM, and we're running in a CJS context.
   // This is the only way to import ESM within CJS
 

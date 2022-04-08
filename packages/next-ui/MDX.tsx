@@ -1,14 +1,3 @@
-// // eslint-disable-next-line @typescript-eslint/no-unused-vars
-// import React from "react";
-// import type { FC } from "react";
-// import { MDXRemote, MDXRemoteProps } from "next-mdx-remote";
-
-// export type MDXProps = MDXRemoteProps & {};
-
-// export const MDX: FC<MDXProps> = (props) => {
-//   return <MDXRemote {...props} />;
-// };
-
 /**
  * @file
  *
@@ -19,7 +8,7 @@ import "./idle-callback-polyfill";
 import React, { useEffect, useState, useMemo } from "react";
 import * as runtime from "react/jsx-runtime";
 import * as mdx from "@mdx-js/react";
-import type { MDXRemoteSerializeResult } from "next-mdx-remote";
+import type { MDXSerializeResult as _MDXSerializeResult } from "@kjam/next";
 
 // requestIdleCallback types found here: https://github.com/microsoft/TypeScript/issues/21309
 type RequestIdleCallbackHandle = number;
@@ -55,7 +44,7 @@ export type MDXProps = MDXSerializeResult & {
   lazy?: boolean;
 };
 
-export type MDXSerializeResult = MDXRemoteSerializeResult;
+export type MDXSerializeResult = _MDXSerializeResult;
 
 /**
  * Renders compiled source from next-mdx-remote/serialize.

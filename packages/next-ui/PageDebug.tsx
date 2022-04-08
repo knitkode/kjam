@@ -1,7 +1,6 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import React from "react";
 import type { FC } from "react";
-// import type { MDXRemoteProps } from "next-mdx-remote";
 import type { MDXProps } from "./MDX";
 import { MDX } from "./MDX";
 import type { KjamProps } from "@kjam/next";

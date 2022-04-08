@@ -6,8 +6,5 @@
     "url": "git+https://github.com/knitkode/kjam.git",
     "directory": "packages/next"
   },
-  "sideEffects": false,
-  "dependencies": {
-    "next-mdx-remote": "^4.0.0"
-  }
+  "sideEffects": false
 }
