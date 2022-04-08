@@ -1,7 +1,7 @@
 {
   "files.exclude": {
     ".github": true,
-    // ".husky": true,
+    ".husky": true,
     ".swc": true,
     ".commitlint.config.js": true,
     ".commitlintrc.json": true,
