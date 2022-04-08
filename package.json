@@ -11,7 +11,8 @@
     "lint": "clear && npx eslint --fix packages/**/*.{ts,tsx}",
     "clean": "rm -rf ./tmp && rm -rf ./dist && rm -rf ./node_modules/.cache/nx",
     "test-action-next": "nx run action-next:build && KJAM_GIT=amicidellaschola/content-www/main KJAM_FOLDER=../../LaSchola/content-www KJAM_SKIP_GIT=true node ./dist/packages/action-next/index.js",
-    "test-cli": "nx run cli:build && KJAM_GIT=amicidellaschola/content-www/main KJAM_FOLDER=../../LaSchola/content-www node ./dist/packages/cli watch"
+    "test-cli": "nx run cli:build && KJAM_GIT=amicidellaschola/content-www/main KJAM_FOLDER=../../LaSchola/content-www node ./dist/packages/cli watch",
+    "link": "cd ./dist/packages/cli && npm link && cd ../core && npm link && cd ../next && npm link  && cd ../next-ui && npm link"
   },
   "private": true,
   "dependencies": {
@@ -31,8 +32,8 @@
     "next-mdx-remote": "^4.0.2",
     "next-translate": "^1.3.5",
     "probe-image-size": "^7.2.3",
-    "react": "^17",
-    "react-dom": "^17",
+    "react": "^17.0.2 || ^18.0.0-0",
+    "react-dom": "^17.0.2 || ^18.0.0-0",
     "regenerator-runtime": "^0.13.9",
     "serve-handler": "^6.1.3",
     "simple-git": "^3.5.0",
@@ -81,7 +82,7 @@
     "jest": "^27.5.1",
     "lint-staged": "^12.3.7",
     "prettier": "^2.6.2",
-    "react-test-renderer": "17.0.2",
+    "react-test-renderer": "^17.0.2",
     "ts-jest": "^27.1.4",
     "typescript": "^4.6.3"
   },
