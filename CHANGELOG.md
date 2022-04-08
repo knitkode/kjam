@@ -1,3 +1,14 @@
+## [1.6.5](https://github.com/knitkode/kjam/compare/v1.6.4...v1.6.5) (2022-04-08)
+
+### Bug Fixes
+
+- **ci:** trigger ([f0bdce7](https://github.com/knitkode/kjam/commit/f0bdce7225d6a8b0f9c768da15a4cfbb6f589f99))
+- **setup:** correct rollup for next-ui ([b0aa93f](https://github.com/knitkode/kjam/commit/b0aa93fc8e245a0f778e54bace34cec405f01ad0))
+
+### Other
+
+- Merge branch 'main' of github.com:knitkode/kjam into main ([8e9b784](https://github.com/knitkode/kjam/commit/8e9b784e725d7d8464ca6acd80ce72623cfe60d8))
+
 ## [1.6.4](https://github.com/knitkode/kjam/compare/v1.6.3...v1.6.4) (2022-04-08)
 
 ### Bug Fixes
