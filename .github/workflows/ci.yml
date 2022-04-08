@@ -28,6 +28,9 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: 14
+
+      - name: Upgrade NPM
+        run: npm install -g npm
       
       - name: Cache npm
         uses: actions/cache@v2
