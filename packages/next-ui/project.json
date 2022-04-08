@@ -14,6 +14,7 @@
         "entryFile": "packages/next-ui/index.ts",
         "external": ["react/jsx-runtime"],
         "rollupConfig": "@nrwl/react/plugins/bundle-rollup",
+        "format": ["esm"],
         "assets": [
           {
             "glob": "packages/next-ui/README.md",

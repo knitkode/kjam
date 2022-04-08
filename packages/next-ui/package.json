@@ -6,5 +6,6 @@
     "url": "git+https://github.com/knitkode/kjam.git",
     "directory": "packages/next-ui"
   },
-  "sideEffects": false
+  "sideEffects": false,
+  "type": "module"
 }
