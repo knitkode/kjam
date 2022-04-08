@@ -21,13 +21,7 @@
             "output": "."
           }
         ]
-      },
-      "dependsOn": [
-        {
-          "target": "build",
-          "projects": "dependencies"
-        }
-      ]
+      }
     },
     "lint": {
       "executor": "@nrwl/linter:eslint",
