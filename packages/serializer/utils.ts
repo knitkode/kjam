@@ -1,7 +1,7 @@
 import { existsSync, readdirSync } from "fs-extra";
 import { read } from "gray-matter";
 import { load, JSON_SCHEMA } from "js-yaml";
-import type { Kjam, EntryMeta, EntryMatter, EntryRoute } from "@kjam/core";
+import type { Kjam, EntryMeta, EntryMatter, EntryMatterData, EntryRoute } from "@kjam/core";
 import {
   normalisePathname,
   // } from "@kjam/core";
@@ -71,14 +71,15 @@ export function extractMatter<T>(filepath: string): EntryMatter<T> {
   return {
     body: content,
     excerpt: excerpt || getExcerpt(content),
-    data: data as T,
+    data: data as EntryMatterData<T>,
   };
 }
 
 export function extractRoute<T>(
   meta: EntryMeta,
   matter: EntryMatter<T>,
-  urls: Kjam.Urls
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  _urls: Kjam.Urls
 ): EntryRoute {
   const { dir } = meta;
   const dirParts = dir.split("/");

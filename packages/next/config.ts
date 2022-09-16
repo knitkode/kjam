@@ -111,7 +111,7 @@ export const withKjam = (config: NextConfig & KjamConfig = {}) => {
         return {
           ...redirect,
           permanent: true,
-        };
+        } as Redirect;
       });
     }
 

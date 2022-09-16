@@ -105,7 +105,7 @@ export type EntryMeta = {
 /**
  * Parsed frontmatter section of an entry
  */
-export type EntryMatter<Data extends {}> = {
+export type EntryMatter<Data> = {
   /**
    * Parsed frontmatter section of an entry, it represents its "structured" data
    */
@@ -123,7 +123,7 @@ export type EntryMatter<Data extends {}> = {
 /**
  * Some basic frontmatter data an entry should/could have
  */
-export type EntryMatterData<Data extends {}> = {
+export type EntryMatterData<Data> = {
   draft?: boolean;
   slug?: string;
   template?: string;
@@ -146,7 +146,7 @@ export type EntryRoute = {
 /**
  * The full markdown file's Entry representation
  */
-export type Entry<Data extends {} = {}> = EntryMatter<Data> &
+export type Entry<Data = {}> = EntryMatter<Data> &
   EntryRoute &
   EntryMeta;
 
@@ -155,13 +155,13 @@ export type Entry<Data extends {} = {}> = EntryMatter<Data> &
  * so no mdx serializing required, useful to display entries in index pages or
  * previews of collection pages for instance.
  */
-export type EntryLean<Data extends {} = {}> = Omit<Entry<Data>, "body">;
+export type EntryLean<Data = {}> = Omit<Entry<Data>, "body">;
 
-export type EntriesMap<Data extends {} = {}> = {
+export type EntriesMap<Data = {}> = {
   byRoute: EntriesMapById<Data>;
 };
 
-export type EntriesMapById<Data extends {} = {}> = Record<
+export type EntriesMapById<Data = {}> = Record<
   Kjam.RouteId,
   Record<Kjam.Locale, Entry<Data>>
 >;

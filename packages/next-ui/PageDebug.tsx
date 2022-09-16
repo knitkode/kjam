@@ -1,24 +1,23 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import React from "react";
-import type { FC } from "react";
 import type { MDXProps } from "./MDX";
 import { MDX } from "./MDX";
 import type { KjamProps } from "@kjam/next";
 
-export type PageDebugProps = Partial<
-  KjamProps<{ title?: string; name?: string }, {}>
-> & {
-  tpl?: string;
-  mdComponents?: MDXProps["components"];
-};
+export type PageDebugProps = React.PropsWithChildren<
+  Partial<KjamProps<{ title?: string; name?: string }, {}>> & {
+    tpl?: string;
+    mdComponents?: MDXProps["components"];
+  }
+>;
 
-export const PageDebug: FC<PageDebugProps> = ({
+export const PageDebug = ({
   mdx,
   entry,
   mdComponents = {},
   tpl = "",
   children,
-}) => {
+}: PageDebugProps) => {
   return (
     <>
       <table className="kjam-PageDebug">

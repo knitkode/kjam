@@ -28,3 +28,10 @@
 //     "**/tsconfig.spec.json": true
 //   }
 // }
+{
+  "window.title": "${dirty} KnitKode/kjam - ${activeFolderMedium}",
+  "workbench.colorCustomizations": {
+    "activityBar.background": "#463055",
+    "activityBar.foreground": "#fff"
+  }
+}
