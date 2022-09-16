@@ -3,9 +3,6 @@
   "affected": {
     "defaultBase": "main"
   },
-  "cli": {
-    "defaultCollection": "@nrwl/react"
-  },
   "implicitDependencies": {
     "package.json": {
       "dependencies": "*",
@@ -29,6 +26,9 @@
         "accessToken": "OTAxMTE4OTItMzgyZi00NTM5LWFiNWQtMDI0YTNiZjMzMTI1fHJlYWQtd3JpdGU="
       }
     }
+  },
+  "cli": {
+    "defaultCollection": "@nrwl/react"
   },
   "generators": {
     "@nrwl/react": {
