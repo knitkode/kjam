@@ -1,3 +1,14 @@
+## [1.6.7](https://github.com/knitkode/kjam/compare/v1.6.6...v1.6.7) (2022-09-28)
+
+### Bug Fixes
+
+- **all:** pages handling, links and other serialization ([f009f03](https://github.com/knitkode/kjam/commit/f009f0333c16973e97907bf46285338999fb693d))
+- **style:** trigger CI ([7b7b05d](https://github.com/knitkode/kjam/commit/7b7b05d3c6252907cd044409395a7eea02f731bd))
+
+### Other
+
+- Merge branch 'main' of github.com:knitkode/kjam into main ([c353de9](https://github.com/knitkode/kjam/commit/c353de99521616e5cb5f0760b7bb37164a1fe093))
+
 ## [1.6.6](https://github.com/knitkode/kjam/compare/v1.6.5...v1.6.6) (2022-09-16)
 
 ### Bug Fixes
