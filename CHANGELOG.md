@@ -1,3 +1,19 @@
+## [1.6.6](https://github.com/knitkode/kjam/compare/v1.6.5...v1.6.6) (2022-09-16)
+
+### Bug Fixes
+
+- **release:** trigger ci ([97acb01](https://github.com/knitkode/kjam/commit/97acb012d693046b1b3cde1baaa818b7f9d18188))
+
+### Chores
+
+- **code:** move ([c0691d8](https://github.com/knitkode/kjam/commit/c0691d8aa6a5d0c689df01236896deb16fbb7060))
+- **release:** trigger ci ([62df071](https://github.com/knitkode/kjam/commit/62df0718222ac069f6a6a89f3594daac3b862742))
+- **update:** deps and types ([c748d35](https://github.com/knitkode/kjam/commit/c748d35138b2d5dc15ea81ed6f6670330e4b0bdb))
+
+### Other
+
+- Merge branch 'main' of github.com:knitkode/kjam into main ([1dbc26b](https://github.com/knitkode/kjam/commit/1dbc26b51907da41d3915209fdedaa732dc7aaa5))
+
 ## [1.6.5](https://github.com/knitkode/kjam/compare/v1.6.4...v1.6.5) (2022-04-08)
 
 ### Bug Fixes
