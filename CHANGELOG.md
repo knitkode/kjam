@@ -1,3 +1,14 @@
+## [1.6.8](https://github.com/knitkode/kjam/compare/v1.6.7...v1.6.8) (2022-09-28)
+
+### Bug Fixes
+
+- **pages:** hande get ([4c26e60](https://github.com/knitkode/kjam/commit/4c26e60a5222f4b2025536d4c710fbe8e5d6e854))
+- **pages:** trgger ci ([8dec1ad](https://github.com/knitkode/kjam/commit/8dec1add09a8793b0614ff303b1624650e395cfb))
+
+### Other
+
+- Merge branch 'main' of github.com:knitkode/kjam into main ([58237f8](https://github.com/knitkode/kjam/commit/58237f8029652215f131fd5c62a2964b64a4c79d))
+
 ## [1.6.7](https://github.com/knitkode/kjam/compare/v1.6.6...v1.6.7) (2022-09-28)
 
 ### Bug Fixes
