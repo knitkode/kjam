@@ -7,5 +7,5 @@
   "id": "events/event-name",
   "templateSlug": "events/nome-evento",
   "slug": "nome-evento",
-  "url": "/eventi/nome-evento"
+  "url": "/events/nome-evento"
 }

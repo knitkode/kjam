@@ -1,11 +1,11 @@
 {
-  "spaces": {
-    "en": "/spaces",
-    "it": "/spazi"
-  },
   "projects": {
     "en": "/projects",
     "it": "/progetti"
+  },
+  "spaces": {
+    "en": "/spaces",
+    "it": "/spazi"
   },
   "events/another-event": {
     "en": "/another-event",
@@ -15,6 +15,22 @@
     "en": "/event-name",
     "it": "/nome-evento"
   },
+  "pages/events": {
+    "en": "/events",
+    "it": "/eventi"
+  },
+  "pages/about": {
+    "en": "/about-us",
+    "it": "/chi-siamo"
+  },
+  "pages/home": {
+    "en": "/",
+    "it": "/"
+  },
+  "projects/project-title": {
+    "en": "/project-title",
+    "it": "/titolo-progetto"
+  },
   "spaces/hospitality": {
     "en": "/hospitality",
     "it": "/ospitalita"
@@ -22,22 +38,6 @@
   "spaces/outdoor": {
     "en": "/living-outside",
     "it": "/all-aperto"
-  },
-  "about": {
-    "en": "/about-us",
-    "it": "/chi-siamo"
-  },
-  "events": {
-    "en": "/events",
-    "it": "/eventi"
-  },
-  "home": {
-    "en": "/",
-    "it": "/"
-  },
-  "projects/project-title": {
-    "en": "/project-title",
-    "it": "/titolo-progetto"
   },
   "spaces/indoor/hall": {
     "en": "/the-hall",

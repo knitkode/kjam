@@ -69,20 +69,22 @@ export class ContentNext extends Content {
     const paths: GetStaticPathsResult<Params>["paths"] = [];
     const { byRoute } = await this.api.getMaps();
 
-    // FIXME:
-    // routeType = routeType === "pages" ? "" : "";
-
     // the ending slash ensures that we are not gathering the root level `index`
     // entry for the given `routeType` (usually a collection)
-    routeType = normalisePathname(routeType) + "/";
+    // PAGES:
+    // const normalisedRouteType =
+    //   normalisePathname(routeType === "pages" ? "" : routeType) + "/";
+    const normalisedRouteType = normalisePathname(routeType) + "/";
 
     for (const [id, locales] of Object.entries(byRoute)) {
-      if (id.startsWith(routeType)) {
+      if (id.startsWith(normalisedRouteType)) {
         for (const [locale, entry] of Object.entries(locales)) {
           const slugSegments = entry.templateSlug
-            .replace(routeType, "")
+            .replace(normalisedRouteType, "")
             .split("/")
-            .filter((segment) => segment);
+            .filter(
+              (segment, idx) => segment && !(idx === 0 && segment === "pages")
+            );
           let slug;
 
           if (ctxLocalesMap[locale]) {
@@ -94,7 +96,12 @@ export class ContentNext extends Content {
               slug = slugSegments as StaticPathSlug<false>;
             }
 
-            if (slug) {
+            // ensure that slug is not empty array or empty string, next.js does
+            // not want that
+            if (
+              (typeof slug === "string" && slug) ||
+              (Array.isArray(slug) && slug.length)
+            ) {
               paths.push({
                 // @ts-expect-error Not sure why this breaks
                 params: { slug },

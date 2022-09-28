@@ -152,17 +152,19 @@ export class Serializer<T = Record<string, unknown>> {
     // const map = await this.getEntriesMap();
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     for (const [id, locales] of Object.entries(this.entries)) {
-      // FIXME: using th following would help creating staticlly Untranslated Pages...
+      // FIXME: using the following would help creating staticlly Untranslated Pages...
       // for (const [locale, entry] of Object.entries(this.i18n.locales)) {
       for (const [locale, entry] of Object.entries(locales)) {
-        const { templateSlug } = entry;
-
-        this.writeFile(`entries/${id}__${locale}`, entry);
-
+        // PAGES:
+        // if (!id.startsWith("pages/")) {
+          this.writeFile(`entries/${id}__${locale}`, entry);
+        // }
+        
         // FIXME: still not sure what is the best here, maybe the template slug
         // is only needed for next.js routing system, maybe not, right now we
         // are creating multiple endpoints for the same entry, which is probably
         // not ideal
+        const { templateSlug } = entry;
         // if (!this.collections[id]) {
         this.writeFile(`entries/${templateSlug}__${locale}`, entry);
         // }
@@ -307,7 +309,9 @@ export class Serializer<T = Record<string, unknown>> {
       const filepath = markdownFiles[i];
       const meta = extractMeta(filepath, this.i18n);
       // pages collection is treated as if it was at the root level
-      const id = meta.dir.replace("pages/", "");
+      // PAGES: 
+      // const id = meta.dir.replace("pages/", "");
+      const id = meta.dir; 
       const exclude = this.shouldExcludeFilePath(id);
       if (exclude) {
         continue;
@@ -321,7 +325,7 @@ export class Serializer<T = Record<string, unknown>> {
       }
       const isCollection = isCollectionPath(join(this.root, id));
 
-      const route = extractRoute<T>(meta, matter, this.urls);
+      const route = extractRoute<T>(meta, matter);
       const entry = {
         ...meta,
         ...matter,
@@ -346,11 +350,15 @@ export class Serializer<T = Record<string, unknown>> {
 
     // Pass 2: loop through each entry path and construct the output maps
     for (const id in ids) {
-      const pathParts = id.split("/");
+      const idParts = id.split("/")
+        // PAGES:
+        .filter((part, idx) => {
+          return idx === 0 && part === "pages" ? false : true
+        });
       const locales = slugs[id];
 
       // if it's a one level path we do not need to do anything more
-      if (pathParts.length <= 1) {
+      if (idParts.length <= 1) {
         routes[id] = locales;
         urls[id] = locales;
         for (const locale in locales) {
@@ -365,16 +373,16 @@ export class Serializer<T = Record<string, unknown>> {
 
           // loop through each part of the route key (e.g. /spaces/outdoor/seasons)
           // and translate each segment
-          for (let j = 0; j < pathParts.length; j++) {
-            pathTarget = `${pathTarget ? pathTarget + "/" : ""}${pathParts[j]}`;
+          for (let j = 0; j < idParts.length; j++) {
+            pathTarget = `${pathTarget ? pathTarget + "/" : ""}${idParts[j]}`;
             // use the path part as fallback, which means that if a folder does
             // not have an entry we use its folder name as part of its children's
             // url pathnames
-            const folderBasedSlugSegment = `/${pathParts[j]}`;
+            const folderBasedSlugSegment = `/${idParts[j]}`;
             const existingSlugSegment = slugs[pathTarget]?.[locale];
-            const slugSegment = existingSlugSegment || folderBasedSlugSegment;
+            const slugSegment = typeof existingSlugSegment === "string" ? existingSlugSegment : folderBasedSlugSegment;
 
-            if (!existingSlugSegment) {
+            if (typeof existingSlugSegment !== "string") {
               // console.log("folderBasedSlugSegment", Object.keys(slugs), pathTarget);
               // add to the `routes` the url to construct links of the nested
               // entries, no need to add it to the `urls` map as it does not make
@@ -436,7 +444,9 @@ export class Serializer<T = Record<string, unknown>> {
       const filename = `index.${locale}.md`;
       const pageEntry = join(
         this.root,
-        path === "pages" ? `${path}` : `pages/${path}`,
+        // PAGES:
+        // path === "pages" ? `${path}` : `pages/${path}`,
+        path,
         filename
       );
       let existingEntry = "";
@@ -466,43 +476,60 @@ export class Serializer<T = Record<string, unknown>> {
       // have entries that are fine with using their folder name as slug and
       // have nested collections that are only meant for organizing the content
       // structure. So we just use the last portion of the `path`.
-      if (!slug) {
+      if (typeof slug !== "string") {
         // special case for homepage, if no slug is specified in the markdown
         // file (probably it should never be) we just hardcode the empty path
-        if (path === "home") {
-          slug = "/";
+        // PAGES:HOME:
+        if (path === "pages/home") {
+          slug = "";
         } else {
           const pathParts = path.split("/");
           slug = pathParts[pathParts.length - 1];
         }
       }
 
+      // PAGES:
+      slug = slug.startsWith("pages/") ? slug.replace("pages/", "") : slug,
       pathSlugs[locale] = "/" + normalisePathname(slug);
     }
-
+    
     return pathSlugs;
   }
 
   /**
    * We want to be quick here, just using a regex is fine for now avoiding
    * `frontmatter` parsing at this phase of the serialization
+   * 
+   * The `slug` regex allows the slug to be defined on the next line in the
+   * frontmatter data
    *
    * @private
    */
   private getSlugFromRawMdFile(filepath: string) {
     const content = readFileSync(filepath, "utf-8");
-    const regex = /slug:[\s|\n]+(.+)$/m;
-    const matches = content.match(regex);
+    
+    // check first if slug is defined, it might be defined but empty, hence
+    // the following regex would not work
+    if (/^slug:/m.test(content)) {
+      const regex = /slug:[\s\n]+((?!.+:).+)$/m;
+      const matches = content.match(regex);
+      
+      if (matches && matches[1]) {
+        // use the last bit only of the pathname, declaring a composed path is not
+        // allowed as each entry should just define its slug and not its ancestor's
+        // ones (which are inferred in the serialization phase).
+        const matchParts = matches[1].split("/");
+        const slug = matchParts[matchParts.length - 1];
+        // replace the quotes if the string is wrapped in it
+        return slug.replace(/"|'/g, "");
+      }
 
-    if (matches && matches[1]) {
-      // use the last bit only of the pathname, declaring a composed path is not
-      // allowed as each entry should just define its slug and not its ancestor's
-      // ones (which are inferred in the serialization phase).
-      const matchParts = matches[1].split("/");
-      return matchParts[matchParts.length - 1];
+      // if it is defined but empty we assume the slug is the one for the
+      // homepage
+      return "";
     }
 
-    return "";
+    return undefined;
   }
 
   /** @private */

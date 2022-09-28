@@ -18,6 +18,26 @@ describe("get static paths", () => {
     expect(staticPaths.paths.length).toEqual(2);
   });
 
+  test("one level deep collections (pages), 'pages/home' should not count", async () => {
+    const staticPaths = await kjam.getStaticPaths(
+      { locales: ["en"] },
+      "blocking",
+      "pages"
+    );
+// 
+    // console.log("staticPaths", staticPaths.paths.map(paths =>JSON.stringify(paths)));
+    expect(staticPaths.paths.length).toEqual(2);
+    
+    // check that we do not have empty static paths
+    staticPaths.paths.forEach(path => {
+      if (typeof path !== "string") {
+        expect(path.params.slug.length).toBeGreaterThan(0);
+      } else {
+        expect(path).not.toStrictEqual("");
+      }
+    })
+  });
+
   test("two level deep collections", async () => {
     const staticPaths = await kjam.getStaticPaths(
       { locales: ["en", "it"] },

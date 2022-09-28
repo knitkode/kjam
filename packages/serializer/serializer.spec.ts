@@ -48,9 +48,32 @@ describe("Serializer", () => {
     );
   });
 
+  test("should handle empty slug in entry frontmatter", async () => {
+    const result = await serializer.run();
+    const entry = result.byRoute["pages/home"]["en"];
+
+    expect(entry.slug).toEqual("");
+  });
+
+  test("should handle relative links by route id", async () => {
+    const result = await serializer.run();
+    const entry = result.byRoute["pages/about"]["en"] as Entry<{
+      link: string;
+      link2: string;
+    }>;
+
+    expect(entry.data.link).toEqual(
+      "/events"
+    );
+
+    expect(entry.data.link2).toEqual(
+      "[link](/events)"
+    );
+  });
+
   test("should treat relative file links correctly", async () => {
     const result = await serializer.run();
-    const entry = result.byRoute["home"]["en"] as Entry<{
+    const entry = result.byRoute["pages/home"]["en"] as Entry<{
       attachment: string;
       attachment2: string;
       attachment3: string;

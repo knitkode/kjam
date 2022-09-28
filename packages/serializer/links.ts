@@ -85,9 +85,26 @@ function treatDataLinksSlice(
 ) {
   if (typeof data[key] === "string") {
     const currentValue = data[key];
+
     if (/^([\s|.]*\/)+/.test(currentValue)) {
       data[key] = getTranslatedLink(currentValue, entry, api, urls);
       // console.log("transformed: ", data[key]);
+    } else {
+      const regex = /(\[[\s|\S]*?\])\(([\s\S]*?)\)/gm;
+      data[key] = currentValue.replace(
+        regex,
+        (_: string, text: string, url: string) => {
+          if (text && url) {
+            return `${text}(${getTranslatedLink(
+              url,
+              entry,
+              api,
+              urls
+            )})`;
+          }
+          return _;
+        }
+      );
     }
   } else if (Array.isArray(data[key])) {
     // console.log("is array", key);

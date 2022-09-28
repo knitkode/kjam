@@ -1,27 +1,31 @@
 {
-  "spaces": {
-    "en": "/spaces",
-    "it": "/spazi"
-  },
   "projects": {
     "en": "/projects",
     "it": "/progetti"
   },
-  "spaces/outdoor": {
-    "en": "/spaces/living-outside",
-    "it": "/spazi/all-aperto"
-  },
-  "about": {
-    "en": "/about-us",
-    "it": "/chi-siamo"
+  "spaces": {
+    "en": "/spaces",
+    "it": "/spazi"
   },
   "events": {
+    "en": "events",
+    "it": "events"
+  },
+  "pages/events": {
     "en": "/events",
     "it": "/eventi"
   },
-  "home": {
+  "pages/about": {
+    "en": "/about-us",
+    "it": "/chi-siamo"
+  },
+  "pages/home": {
     "en": "/",
     "it": "/"
+  },
+  "spaces/outdoor": {
+    "en": "/spaces/living-outside",
+    "it": "/spazi/all-aperto"
   },
   "spaces/indoor": {
     "en": "/spaces/indoor",

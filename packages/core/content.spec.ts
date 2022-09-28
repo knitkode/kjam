@@ -10,22 +10,22 @@ const kjam = new Content({
 describe("Get homepage (special page)", () => {
   test("without `folder path` and 'home' `slug`", async () => {
     const entry = await kjam.get("home", "en");
-    expect(entry).toHaveProperty("id", "home");
+    expect(entry).toHaveProperty("id", "pages/home");
   });
 
   test("with 'pages' `folder path` and empty `slug`", async () => {
     const entry = await kjam.get("pages", "", "en");
-    expect(entry).toHaveProperty("id", "home");
+    expect(entry).toHaveProperty("id", "pages/home");
   });
 
   test("with empty `folder path` and 'home' '`slug`", async () => {
     const entry = await kjam.get("", "home", "en");
-    expect(entry).toHaveProperty("id", "home");
+    expect(entry).toHaveProperty("id", "pages/home");
   });
 
   test("with 'pages' `folder path` and 'home' `slug`", async () => {
     const entry = await kjam.get("pages", "home", "en");
-    expect(entry).toHaveProperty("id", "home");
+    expect(entry).toHaveProperty("id", "pages/home");
   });
 });
 
@@ -49,17 +49,17 @@ describe("Return appropriate serializable response for empty content", () => {
 describe("Get first level content pages", () => {
   test("without `folder path`", async () => {
     const entry = await kjam.get("events", "en");
-    expect(entry).toHaveProperty("id", "events");
+    expect(entry).toHaveProperty("id", "pages/events");
   });
 
   test("with empty `folder path`", async () => {
     const entry = await kjam.get("", "events", "en");
-    expect(entry).toHaveProperty("id", "events");
+    expect(entry).toHaveProperty("id", "pages/events");
   });
 
   test("with 'pages' `folder path`", async () => {
     const entry = await kjam.get("pages", "events", "en");
-    expect(entry).toHaveProperty("id", "events");
+    expect(entry).toHaveProperty("id", "pages/events");
   });
 });
 

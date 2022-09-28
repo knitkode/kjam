@@ -54,11 +54,12 @@ export class SerializerNext extends Serializer {
     for (const [id, locales] of Object.entries(routes)) {
       for (const [locale, _url] of Object.entries(locales)) {
         let url = _url;
-        const templateAsUrl = `/${id}`;
+        const idNormalised = id.startsWith("pages/") ? id.replace("pages/", "") : id;
+        const templateAsUrl = `/${idNormalised}`;
 
         // only redirect if the template name of `/pages/${name}` is not the same
         // as the actual slug of this route
-        if (url !== templateAsUrl && id !== "home") {
+        if (url !== templateAsUrl && idNormalised !== "home") {
           // prepend locale if we need to redirect e.g. `/en/galleries` to `/en/gallery`
           // basically when the page template name does not match neither the
           // default language slug nor the translated slugs
@@ -69,7 +70,7 @@ export class SerializerNext extends Serializer {
           const redirect = this.getPathRedirect(locale, templateAsUrl, url);
           redirects.push(redirect);
 
-          if (this.collections[id]) {
+          if (this.collections[idNormalised]) {
             const redirectDynamic = this.getPathRedirect(
               locale,
               templateAsUrl,
@@ -99,13 +100,14 @@ export class SerializerNext extends Serializer {
     for (const [id, locales] of Object.entries(routes)) {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       for (const [_locale, url] of Object.entries(locales)) {
-        const templateAsUrl = `/${id}`;
+        const idNormalised = id.startsWith("pages/") ? id.replace("pages/", "") : id;
+        const templateAsUrl = `/${idNormalised}`;
 
-        if (url !== templateAsUrl && id !== "home") {
+        if (url !== templateAsUrl && idNormalised !== "home") {
           const rewrite = this.getPathRewrite(url, templateAsUrl);
           rewrites.push(rewrite);
 
-          if (this.collections[id]) {
+          if (this.collections[idNormalised]) {
             const rewriteDynamic = this.getPathRewrite(
               url,
               templateAsUrl,

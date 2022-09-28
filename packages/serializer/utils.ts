@@ -77,19 +77,20 @@ export function extractMatter<T>(filepath: string): EntryMatter<T> {
 
 export function extractRoute<T>(
   meta: EntryMeta,
-  matter: EntryMatter<T>,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  _urls: Kjam.Urls
+  matter: EntryMatter<T>
 ): EntryRoute {
   const { dir } = meta;
   const dirParts = dir.split("/");
   const matterSlugParts = matter.data?.slug?.split("/") ?? [];
   // pages ids get the `pages/` part stripped out to act as root level routes
-  const id = dir.replace("pages/", "");
+  // PAGES:
+  // const id = dir.replace("pages/", "");
+  const id = dir;
   // get the parent path of the entry's directory
   const parentDirs = dirParts
     .slice(0, -1)
     .join("/")
+    // PAGES: 
     .replace(/(pages\/*).*$/, "");
   // use last portion of the frontmatter defined `slug` key as priority slug
   const slugFromMatter = matterSlugParts[matterSlugParts.length - 1];
