@@ -62,13 +62,9 @@ describe("Serializer", () => {
       link2: string;
     }>;
 
-    expect(entry.data.link).toEqual(
-      "/events"
-    );
+    expect(entry.data.link).toEqual("/events");
 
-    expect(entry.data.link2).toEqual(
-      "[link](/events)"
-    );
+    expect(entry.data.link2).toEqual("[link](/events)");
   });
 
   test("should treat relative file links correctly", async () => {
