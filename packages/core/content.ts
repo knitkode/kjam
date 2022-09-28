@@ -54,8 +54,8 @@ export class Content {
     } else {
       const [folderPath, slug, locale] = args;
       // PAGES:
-      _folder = folderPath === "pages" ? "" : folderPath || "";
-      // _folder = folderPath || "";
+      // _folder = folderPath === "pages" ? "" : folderPath || "";
+      _folder = folderPath || "";
       _slug = slug;
       _locale = locale;
     }
