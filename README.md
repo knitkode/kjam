@@ -9,3 +9,5 @@ A set of tools to use github as a headless CMS in a JAM stack setup.
 #### Rewrites
 
 - [Duplicated content concerns](https://github.com/vercel/next.js/discussions/9081#discussioncomment-115466)
+
+TODO: rewrite tests after the `fix(routing): big changes, [remember]` commit.
