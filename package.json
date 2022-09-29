@@ -1,6 +1,6 @@
 {
   "name": "kjam",
-  "version": "1.6.8",
+  "version": "1.6.9",
   "license": "MIT",
   "scripts": {
     "start": "nx affected:test --all --parallel --maxParallel 10 --watch",
