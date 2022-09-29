@@ -1,3 +1,14 @@
+## [1.6.10](https://github.com/knitkode/kjam/compare/v1.6.9...v1.6.10) (2022-09-29)
+
+### Bug Fixes
+
+- **ci:** trigger ([8a61208](https://github.com/knitkode/kjam/commit/8a6120861bd8fec71b8e26bbdeb468c198beffc6))
+
+### Other
+
+- Merge branch 'main' of github.com:knitkode/kjam into main ([3773a13](https://github.com/knitkode/kjam/commit/3773a134930854b94d19d8672b63e35f304abce4))
+- Revert "fix(routing): big changes, [remember]" ([96e725f](https://github.com/knitkode/kjam/commit/96e725fc7e3570b0ac96f8a51d68147a4237aaf7))
+
 ## [1.6.9](https://github.com/knitkode/kjam/compare/v1.6.8...v1.6.9) (2022-09-29)
 
 ### Bug Fixes
