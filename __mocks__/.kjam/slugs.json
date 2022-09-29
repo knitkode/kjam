@@ -1,70 +1,69 @@
 {
   "projects": {
-    "en": "/projects",
-    "it": "/progetti"
+    "en": "projects",
+    "it": "progetti"
   },
   "spaces": {
-    "en": "/spaces",
-    "it": "/spazi"
-  },
-  "events/another-event": {
-    "en": "/another-event",
-    "it": "/another-event"
-  },
-  "events/event-name": {
-    "en": "/event-name",
-    "it": "/nome-evento"
-  },
-  "pages/events": {
-    "en": "/events",
-    "it": "/eventi"
-  },
-  "pages/about": {
-    "en": "/about-us",
-    "it": "/chi-siamo"
-  },
-  "pages/home": {
-    "en": "/",
-    "it": "/"
+    "en": "spaces",
+    "it": "spazi"
   },
   "projects/project-title": {
-    "en": "/project-title",
-    "it": "/titolo-progetto"
+    "en": "project-title",
+    "it": "titolo-progetto"
   },
   "spaces/hospitality": {
-    "en": "/hospitality",
-    "it": "/ospitalita"
+    "en": "hospitality",
+    "it": "ospitalita"
   },
   "spaces/outdoor": {
-    "en": "/living-outside",
-    "it": "/all-aperto"
+    "en": "living-outside",
+    "it": "all-aperto"
+  },
+  "events/another-event": {
+    "en": "yet-another-event"
+  },
+  "events/event-name": {
+    "en": "event-name",
+    "it": "nome-evento"
+  },
+  "pages/about": {
+    "en": "about-us",
+    "it": "chi-siamo"
+  },
+  "pages/events": {
+    "en": "events",
+    "it": "eventi"
+  },
+  "pages/home": {
+    "en": "",
+    "it": ""
   },
   "spaces/indoor/hall": {
-    "en": "/the-hall",
-    "it": "/sala"
+    "en": "the-hall",
+    "it": "sala"
   },
   "spaces/indoor/kitchen": {
-    "en": "/the-kitchen",
-    "it": "/cucina"
+    "en": "the-kitchen",
+    "it": "cucina"
   },
   "spaces/outdoor/by-season": {
-    "en": "/by-season",
-    "it": "/stagioni"
+    "en": "by-season",
+    "it": "stagioni"
   },
   "spaces/outdoor/park": {
-    "en": "/park",
-    "it": "/parco"
+    "en": "park",
+    "it": "parco"
   },
   "spaces/outdoor/playground": {
-    "en": "/playground",
-    "it": "/area-giochi"
+    "en": "playground",
+    "it": "area-giochi"
   },
   "spaces/outdoor/by-season/summer": {
-    "en": "/summer",
-    "it": "/estate"
+    "en": "summer",
+    "it": "estate"
   },
   "spaces/outdoor/by-season/winter": {
-    "en": "/winter",
-    "it": "/inverno"
+    "en": "winter",
+    "it": "inverno"
   }
 }

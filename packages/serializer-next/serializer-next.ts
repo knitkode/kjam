@@ -32,7 +32,7 @@ export class SerializerNext extends Serializer {
   }
 
   override async start() {
-    this.writeFile("next.config", {
+    this.writeFile("next/config", {
       i18n: {
         locales: this.i18n.locales,
         defaultLocale: this.i18n.defaultLocale,
@@ -40,6 +40,21 @@ export class SerializerNext extends Serializer {
       redirects: this.getRedirects(),
       rewrites: this.getRewrites(),
     });
+
+    // const map = await this.getEntriesMap();
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    for (const [id, locales] of Object.entries(this.entries)) {
+      // FIXME: using the following would help creating staticlly Untranslated Pages...
+      // for (const [locale, entry] of Object.entries(this.i18n.locales)) {
+      for (const [locale, entry] of Object.entries(locales)) {
+        // FIXME: still not sure what is the best here, maybe the template slug
+        // is only needed for next.js routing system, maybe not, right now we
+        // are creating multiple endpoints for the same entry, which is probably
+        // not ideal
+        const { templateSlug } = entry;
+        this.writeFile(`next/pages/${templateSlug}__${locale}`, entry);
+      }
+    }
 
     return;
   }
@@ -52,32 +67,51 @@ export class SerializerNext extends Serializer {
     const redirects = [];
 
     for (const [id, locales] of Object.entries(routes)) {
-      for (const [locale, _url] of Object.entries(locales)) {
-        let url = _url;
-        const idNormalised = id.startsWith("pages/") ? id.replace("pages/", "") : id;
-        const templateAsUrl = `/${idNormalised}`;
+      for (const [locale, url] of Object.entries(locales)) {
+        let localisedUrl = url;
+        const templateAsUrl = `/${id}`;
 
         // only redirect if the template name of `/pages/${name}` is not the same
         // as the actual slug of this route
-        if (url !== templateAsUrl && idNormalised !== "home") {
+        if (url !== templateAsUrl) {
           // prepend locale if we need to redirect e.g. `/en/galleries` to `/en/gallery`
           // basically when the page template name does not match neither the
           // default language slug nor the translated slugs
-          if (locale !== i18n.defaultLocale) {
-            url = `${locale}/${url}`;
+          if (
+            locale !== i18n.defaultLocale ||
+            (locale === i18n.defaultLocale && !i18n.hideDefaultLocaleInUrl)
+          ) {
+            localisedUrl = `${locale}/${url}`;
           }
 
-          const redirect = this.getPathRedirect(locale, templateAsUrl, url);
-          redirects.push(redirect);
-
-          if (this.collections[idNormalised]) {
-            const redirectDynamic = this.getPathRedirect(
-              locale,
-              templateAsUrl,
-              url,
-              true
+          if (localisedUrl !== templateAsUrl) {
+            // redirect /it/eventi to /pages/
+            redirects.push(
+              this.getPathRedirect(locale + templateAsUrl, localisedUrl)
             );
-            redirects.push(redirectDynamic);
+
+            // redirect /eventi to /it/eventi
+            if (url !== localisedUrl) {
+              redirects.push(this.getPathRedirect(url, localisedUrl));
+            }
+
+            if (this.collections[id]) {
+              // redirect /it/events/:slug* to /eventi/:slug*
+              redirects.push(this.getPathRedirect(
+                locale + templateAsUrl,
+                localisedUrl,
+                true
+              ));
+
+              if (locale === i18n.defaultLocale && i18n.hideDefaultLocaleInUrl) {
+                // redirect /it/eventi/:slug* to /eventi/:slug*
+                redirects.push(this.getPathRedirect(
+                  locale + localisedUrl,
+                  localisedUrl,
+                  true
+                ));
+              }
+            }
           }
         }
       }
@@ -100,14 +134,13 @@ export class SerializerNext extends Serializer {
     for (const [id, locales] of Object.entries(routes)) {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       for (const [_locale, url] of Object.entries(locales)) {
-        const idNormalised = id.startsWith("pages/") ? id.replace("pages/", "") : id;
-        const templateAsUrl = `/${idNormalised}`;
+        const templateAsUrl = `/${id}`;
 
-        if (url !== templateAsUrl && idNormalised !== "home") {
+        if (url !== templateAsUrl) {
           const rewrite = this.getPathRewrite(url, templateAsUrl);
           rewrites.push(rewrite);
 
-          if (this.collections[idNormalised]) {
+          if (this.collections[id]) {
             const rewriteDynamic = this.getPathRewrite(
               url,
               templateAsUrl,
@@ -134,16 +167,11 @@ export class SerializerNext extends Serializer {
     };
   }
 
-  getPathRedirect(
-    locale: string,
-    localisedPathname: string,
-    templateName: string,
-    dynamic?: boolean
-  ) {
+  getPathRedirect(source: string, destination: string, dynamic?: boolean) {
     const suffix = dynamic ? `/:slug*` : "";
     return {
-      source: `/${locale}/${encodePathname(localisedPathname)}${suffix}`,
-      destination: `/${encodePathname(templateName)}${suffix}`,
+      source: `/${encodePathname(source)}${suffix}`,
+      destination: `/${encodePathname(destination)}${suffix}`,
       permanent: false, // TODO: based on environment variable
       locale: false,
     };

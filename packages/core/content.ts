@@ -28,53 +28,17 @@ export class Content {
     return null;
   }
 
-  async get<T extends {} = {}>(
-    slug: string | string[],
-    locale: string
-  ): Promise<Entry<T> | null>;
-  async get<T extends {} = {}>(
-    folderPath: string,
-    slug: string | string[],
-    locale?: string
-  ): Promise<Entry<T> | null>;
-  async get<T extends {} = {}>(
-    ...args:
-      | []
-      | [slug: string | string[], locale: string]
-      | [folderPath: string, slug: string | string[], locale?: string]
-  ) {
-    let _folder = "";
-    let _slug;
-    let _locale;
-    if (args.length === 2) {
-      const [slug, locale] = args;
-      _folder;
-      _slug = slug;
-      _locale = locale;
-    } else {
-      const [folderPath, slug, locale] = args;
-      // PAGES:
-      // _folder = folderPath === "pages" ? "" : folderPath || "";
-      _folder = folderPath || "";
-      _slug = slug;
-      _locale = locale;
-    }
-
-    let target = Array.isArray(_slug) ? _slug.join("/") : _slug;
-    // target = normalisePathname(`${localisedFolderPath}/${_slug}`);
-    target = normalisePathname(`${_folder}/${_slug}`);
-
-    // homepage special case
-    if (target === "home") {
-      target = "";
-    }
+  async getBySlug<T extends {} = {}>(
+    slug: string,
+  ): Promise<Entry<T> | null> {
     if (this.debug) {
-      console.log(`[@kjam/core]Content::get target ${target}`);
+      console.log(`[@kjam/core:content] get slug ${slug}`);
     }
 
     const data = await this.api.getData<Entry<T>>(
-      `entries/${target}__${_locale}`
+      `urls/${slug}`
     );
+
     return data;
   }
 

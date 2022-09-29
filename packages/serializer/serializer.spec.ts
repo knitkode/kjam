@@ -18,7 +18,7 @@ describe("Serializer", () => {
     expect(serializer.root).toMatch(/\/kjam\/__mocks__$/);
   });
 
-  test("should find and parse the i18n files", () => {
+  test("should find and parse i18n files", () => {
     expect(serializer.getI18n()).toEqual({
       locales: ["en", "it"],
       defaultLocale: "en",
@@ -55,7 +55,7 @@ describe("Serializer", () => {
     expect(entry.slug).toEqual("");
   });
 
-  test("should handle relative links by route id", async () => {
+  test("should treat links by route id in frontmatter", async () => {
     const result = await serializer.run();
     const entry = result.byRoute["pages/about"]["en"] as Entry<{
       link: string;
@@ -67,7 +67,7 @@ describe("Serializer", () => {
     expect(entry.data.link2).toEqual("[link](/events)");
   });
 
-  test("should treat relative file links correctly", async () => {
+  test("should treat links to relative files in frontmatter", async () => {
     const result = await serializer.run();
     const entry = result.byRoute["pages/home"]["en"] as Entry<{
       attachment: string;

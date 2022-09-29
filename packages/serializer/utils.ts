@@ -1,7 +1,13 @@
 import { existsSync, readdirSync } from "fs-extra";
 import { read } from "gray-matter";
 import { load, JSON_SCHEMA } from "js-yaml";
-import type { Kjam, EntryMeta, EntryMatter, EntryMatterData, EntryRoute } from "@kjam/core";
+import type {
+  Kjam,
+  EntryMeta,
+  EntryMatter,
+  EntryMatterData,
+  EntryRoute,
+} from "@kjam/core";
 import {
   normalisePathname,
   // } from "@kjam/core";
@@ -75,47 +81,25 @@ export function extractMatter<T>(filepath: string): EntryMatter<T> {
   };
 }
 
-export function extractRoute<T>(
-  meta: EntryMeta,
-  matter: EntryMatter<T>
-): EntryRoute {
-  const { dir } = meta;
-  const dirParts = dir.split("/");
-  const matterSlugParts = matter.data?.slug?.split("/") ?? [];
-  // pages ids get the `pages/` part stripped out to act as root level routes
-  // PAGES:
-  // const id = dir.replace("pages/", "");
-  const id = dir;
-  // get the parent path of the entry's directory
-  const parentDirs = dirParts
-    .slice(0, -1)
-    .join("/")
-    // PAGES: 
-    .replace(/(pages\/*).*$/, "");
-  // use last portion of the frontmatter defined `slug` key as priority slug
-  const slugFromMatter = matterSlugParts[matterSlugParts.length - 1];
-  // use last portion of the directory/id as fallback slug
-  const slugFromDir = dirParts[dirParts.length - 1];
-  // normalize the slug
-  let slug = normalisePathname(slugFromMatter || slugFromDir || "");
-  // special homepage case
-  slug = slug === "home" ? "" : slug;
+export function getTemplateSlug(
+  dir: EntryMeta["dir"],
+  slug: EntryRoute["slug"],
+  isCollection?: boolean
+): EntryRoute["templateSlug"] {
+  // const dirParts = dir.split("/");
+  // // get the parent path of the entry's directory
+  // const parentDirs =
+  //   isCollection
+  //     ? dirParts.join("/")
+  //     : dirParts.slice(0, -1).join("/");
+  
+  //     const templateSlug = normalisePathname(
+  //   `${parentDirs}/${isCollection ? "index" : slug}`
+  // );
 
-  const templateSlug = normalisePathname(`${parentDirs}/${slug}`);
+  // return templateSlug;
 
-  // const url = (urlPrepend ? `${urlPrepend}/` : urlPrepend) + slug;
-
-  // remove the slug from frontmatter to avoid ambiguity, that one is
-  // just represents what is coming from the CMS 'database' but the one to
-  // use is the `slug` at the root level of the entry object
-  delete matter.data.slug;
-
-  return {
-    id,
-    templateSlug,
-    slug: "",
-    url: "",
-  };
+  return isCollection ? normalisePathname(dir + "/index") : dir;
 }
 
 /**

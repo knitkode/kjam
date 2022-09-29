@@ -1,394 +1,372 @@
 {
   "projects": {
     "en": {
-      "dir": "projects",
-      "locale": "en",
       "body": "",
       "excerpt": "",
       "data": {},
       "id": "projects",
-      "templateSlug": "projects",
+      "locale": "en",
       "slug": "projects",
+      "templateSlug": "projects/index",
       "url": "/projects"
     },
     "it": {
-      "dir": "projects",
-      "locale": "it",
       "body": "",
       "excerpt": "",
       "data": {},
       "id": "projects",
-      "templateSlug": "progetti",
+      "locale": "it",
       "slug": "progetti",
+      "templateSlug": "projects/index",
       "url": "/progetti"
     }
   },
   "spaces": {
     "en": {
-      "dir": "spaces",
-      "locale": "en",
       "body": "",
       "excerpt": "",
       "data": {},
       "id": "spaces",
-      "templateSlug": "spaces",
+      "locale": "en",
       "slug": "spaces",
+      "templateSlug": "spaces/index",
       "url": "/spaces"
     },
     "it": {
-      "dir": "spaces",
-      "locale": "it",
       "body": "",
       "excerpt": "",
       "data": {},
       "id": "spaces",
-      "templateSlug": "spazi",
+      "locale": "it",
       "slug": "spazi",
+      "templateSlug": "spaces/index",
       "url": "/spazi"
-    }
-  },
-  "events/another-event": {
-    "en": {
-      "dir": "events/another-event",
-      "locale": "en",
-      "body": "",
-      "excerpt": "",
-      "data": {},
-      "id": "events/another-event",
-      "templateSlug": "events/another-event",
-      "slug": "another-event",
-      "url": "/events/another-event"
-    }
-  },
-  "events/event-name": {
-    "en": {
-      "dir": "events/event-name",
-      "locale": "en",
-      "body": "",
-      "excerpt": "",
-      "data": {},
-      "id": "events/event-name",
-      "templateSlug": "events/event-name",
-      "slug": "event-name",
-      "url": "/events/event-name"
-    },
-    "it": {
-      "dir": "events/event-name",
-      "locale": "it",
-      "body": "",
-      "excerpt": "",
-      "data": {},
-      "id": "events/event-name",
-      "templateSlug": "events/nome-evento",
-      "slug": "nome-evento",
-      "url": "/events/nome-evento"
-    }
-  },
-  "pages/events": {
-    "en": {
-      "dir": "pages/events",
-      "locale": "en",
-      "body": "",
-      "excerpt": "",
-      "data": {},
-      "id": "pages/events",
-      "templateSlug": "events",
-      "slug": "events",
-      "url": "/events"
-    },
-    "it": {
-      "dir": "pages/events",
-      "locale": "it",
-      "body": "",
-      "excerpt": "",
-      "data": {},
-      "id": "pages/events",
-      "templateSlug": "eventi",
-      "slug": "eventi",
-      "url": "/eventi"
-    }
-  },
-  "pages/about": {
-    "en": {
-      "dir": "pages/about",
-      "locale": "en",
-      "body": "\n[A relative link to the events page](/events)\n",
-      "excerpt": "A relative link to the events page",
-      "data": {
-        "link": "/events",
-        "link2": "[link](/events)"
-      },
-      "id": "pages/about",
-      "templateSlug": "about-us",
-      "slug": "about-us",
-      "url": "/about-us"
-    }
-  },
-  "pages/home": {
-    "en": {
-      "dir": "pages/home",
-      "locale": "en",
-      "body": "",
-      "excerpt": "",
-      "data": {
-        "attachment": "https://api.test/username/repo/branch/some/relative/file.pdf",
-        "attachment2": "https://api.test/username/repo/branch/pages/home/another/file.ogg",
-        "attachment3": "https://api.test/username/repo/branch/pages/third/file.mp3"
-      },
-      "id": "pages/home",
-      "templateSlug": "",
-      "slug": "",
-      "url": "/"
-    },
-    "it": {
-      "dir": "pages/home",
-      "locale": "it",
-      "body": "",
-      "excerpt": "",
-      "data": {},
-      "id": "pages/home",
-      "templateSlug": "",
-      "slug": "",
-      "url": "/"
     }
   },
   "projects/project-title": {
     "en": {
-      "dir": "projects/project-title",
-      "locale": "en",
       "body": "",
       "excerpt": "",
       "data": {},
       "id": "projects/project-title",
-      "templateSlug": "projects/project-title",
+      "locale": "en",
       "slug": "project-title",
+      "templateSlug": "projects/project-title",
       "url": "/projects/project-title"
     },
     "it": {
-      "dir": "projects/project-title",
-      "locale": "it",
       "body": "\nthis `slug` is wrong, let's normalise this mistake, the `i-progetti` should not be declared here and automatically inferred by the parent folder markdown file\n",
       "excerpt": "this `slug` is wrong, let's normalise this mistake, the `i-progetti` should not be declared here and automatically inferred by the parent folder markdown file",
       "data": {},
       "id": "projects/project-title",
-      "templateSlug": "projects/titolo-progetto",
+      "locale": "it",
       "slug": "titolo-progetto",
+      "templateSlug": "projects/project-title",
       "url": "/progetti/titolo-progetto"
     }
   },
   "spaces/hospitality": {
     "en": {
-      "dir": "spaces/hospitality",
-      "locale": "en",
       "body": "",
       "excerpt": "",
       "data": {},
       "id": "spaces/hospitality",
-      "templateSlug": "spaces/hospitality",
+      "locale": "en",
       "slug": "hospitality",
+      "templateSlug": "spaces/hospitality",
       "url": "/spaces/hospitality"
     },
     "it": {
-      "dir": "spaces/hospitality",
-      "locale": "it",
-      "body": "\n# Links\n\n- Test [link](/spazi/indoor/cucina)\n- Test [link](https://api.test/username/repo/branch/spaces/indoor/kitchen)\n- Test [link](/spazi/indoor/cucina)\n- Test [link](https://example.com)\n- Test [link](#hash-test)\n- Test [link](//example.com)\n- Test [link spanningon multiple lines](https://api.test/username/repo/branch/spaces/indoor/kitchen)\n",
+      "body": "\n# Links\n\n- Test [link](../indoor/kitchen)\n- Test [link](https://raw.githubusercontent.com///main/spaces/indoor/kitchen)\n- Test [link](/spaces/indoor/kitchen)\n- Test [link](https://example.com)\n- Test [link](#hash-test)\n- Test [link](//example.com)\n- Test [link spanningon multiple lines](https://raw.githubusercontent.com///main/spaces/indoor/kitchen)\n",
       "excerpt": "- Test link- Test link- Test link- Test link- Test link- Test link- Test link spanningon multiple lines",
       "data": {},
       "id": "spaces/hospitality",
-      "templateSlug": "spaces/ospitalita",
+      "locale": "it",
       "slug": "ospitalita",
+      "templateSlug": "spaces/hospitality",
       "url": "/spazi/ospitalita"
     }
   },
   "spaces/outdoor": {
     "en": {
-      "dir": "spaces/outdoor",
-      "locale": "en",
       "body": "",
       "excerpt": "",
       "data": {},
       "id": "spaces/outdoor",
-      "templateSlug": "spaces/living-outside",
+      "locale": "en",
       "slug": "living-outside",
+      "templateSlug": "spaces/outdoor/index",
       "url": "/spaces/living-outside"
     },
     "it": {
-      "dir": "spaces/outdoor",
-      "locale": "it",
       "body": "",
       "excerpt": "",
       "data": {},
       "id": "spaces/outdoor",
-      "templateSlug": "spaces/all-aperto",
+      "locale": "it",
       "slug": "all-aperto",
+      "templateSlug": "spaces/outdoor/index",
       "url": "/spazi/all-aperto"
+    }
+  },
+  "events/another-event": {
+    "en": {
+      "body": "",
+      "excerpt": "",
+      "data": {},
+      "id": "events/another-event",
+      "locale": "en",
+      "slug": "yet-another-event",
+      "templateSlug": "events/another-event",
+      "url": "/events/yet-another-event"
+    }
+  },
+  "events/event-name": {
+    "en": {
+      "body": "",
+      "excerpt": "",
+      "data": {},
+      "id": "events/event-name",
+      "locale": "en",
+      "slug": "event-name",
+      "templateSlug": "events/event-name",
+      "url": "/events/event-name"
+    },
+    "it": {
+      "body": "",
+      "excerpt": "",
+      "data": {},
+      "id": "events/event-name",
+      "locale": "it",
+      "slug": "nome-evento",
+      "templateSlug": "events/event-name",
+      "url": "/events/nome-evento"
+    }
+  },
+  "pages/about": {
+    "en": {
+      "body": "\n[A relative link to the events page](/pages/events)\n",
+      "excerpt": "A relative link to the events page",
+      "data": {
+        "link": "/pages/events",
+        "link2": "[link](/pages/events)"
+      },
+      "id": "pages/about",
+      "locale": "en",
+      "slug": "about-us",
+      "templateSlug": "pages/about",
+      "url": "/about-us"
+    },
+    "it": {
+      "body": "",
+      "excerpt": "",
+      "data": {},
+      "id": "pages/about",
+      "locale": "it",
+      "slug": "chi-siamo",
+      "templateSlug": "pages/about",
+      "url": "/chi-siamo"
+    }
+  },
+  "pages/events": {
+    "en": {
+      "body": "",
+      "excerpt": "",
+      "data": {},
+      "id": "pages/events",
+      "locale": "en",
+      "slug": "events",
+      "templateSlug": "pages/events",
+      "url": "/events"
+    },
+    "it": {
+      "body": "",
+      "excerpt": "",
+      "data": {},
+      "id": "pages/events",
+      "locale": "it",
+      "slug": "eventi",
+      "templateSlug": "pages/events",
+      "url": "/eventi"
+    }
+  },
+  "pages/home": {
+    "en": {
+      "body": "",
+      "excerpt": "",
+      "data": {
+        "attachment": "https://raw.githubusercontent.com///main/some/relative/file.pdf",
+        "attachment2": "https://raw.githubusercontent.com///main/pages/home/another/file.ogg",
+        "attachment3": "https://raw.githubusercontent.com///main/pages/third/file.mp3"
+      },
+      "id": "pages/home",
+      "locale": "en",
+      "slug": "",
+      "templateSlug": "pages/home",
+      "url": "/"
+    },
+    "it": {
+      "body": "",
+      "excerpt": "",
+      "data": {},
+      "id": "pages/home",
+      "locale": "it",
+      "slug": "",
+      "templateSlug": "pages/home",
+      "url": "/"
     }
   },
   "spaces/indoor/hall": {
     "en": {
-      "dir": "spaces/indoor/hall",
-      "locale": "en",
       "body": "",
       "excerpt": "",
       "data": {},
       "id": "spaces/indoor/hall",
-      "templateSlug": "spaces/indoor/the-hall",
+      "locale": "en",
       "slug": "the-hall",
+      "templateSlug": "spaces/indoor/hall",
       "url": "/spaces/indoor/the-hall"
     },
     "it": {
-      "dir": "spaces/indoor/hall",
-      "locale": "it",
       "body": "",
       "excerpt": "",
       "data": {},
       "id": "spaces/indoor/hall",
-      "templateSlug": "spaces/indoor/sala",
+      "locale": "it",
       "slug": "sala",
+      "templateSlug": "spaces/indoor/hall",
       "url": "/spazi/indoor/sala"
     }
   },
   "spaces/indoor/kitchen": {
     "en": {
-      "dir": "spaces/indoor/kitchen",
-      "locale": "en",
       "body": "",
       "excerpt": "",
       "data": {},
       "id": "spaces/indoor/kitchen",
-      "templateSlug": "spaces/indoor/the-kitchen",
+      "locale": "en",
       "slug": "the-kitchen",
+      "templateSlug": "spaces/indoor/kitchen",
       "url": "/spaces/indoor/the-kitchen"
     },
     "it": {
-      "dir": "spaces/indoor/kitchen",
-      "locale": "it",
       "body": "",
       "excerpt": "",
       "data": {},
       "id": "spaces/indoor/kitchen",
-      "templateSlug": "spaces/indoor/cucina",
+      "locale": "it",
       "slug": "cucina",
+      "templateSlug": "spaces/indoor/kitchen",
       "url": "/spazi/indoor/cucina"
     }
   },
   "spaces/outdoor/by-season": {
     "en": {
-      "dir": "spaces/outdoor/by-season",
-      "locale": "en",
       "body": "",
       "excerpt": "",
       "data": {},
       "id": "spaces/outdoor/by-season",
-      "templateSlug": "spaces/outdoor/by-season",
+      "locale": "en",
       "slug": "by-season",
+      "templateSlug": "spaces/outdoor/by-season/index",
       "url": "/spaces/living-outside/by-season"
     },
     "it": {
-      "dir": "spaces/outdoor/by-season",
-      "locale": "it",
       "body": "",
       "excerpt": "",
       "data": {},
       "id": "spaces/outdoor/by-season",
-      "templateSlug": "spaces/outdoor/stagioni",
+      "locale": "it",
       "slug": "stagioni",
+      "templateSlug": "spaces/outdoor/by-season/index",
       "url": "/spazi/all-aperto/stagioni"
     }
   },
   "spaces/outdoor/park": {
     "en": {
-      "dir": "spaces/outdoor/park",
-      "locale": "en",
       "body": "",
       "excerpt": "",
       "data": {},
       "id": "spaces/outdoor/park",
-      "templateSlug": "spaces/outdoor/park",
+      "locale": "en",
       "slug": "park",
+      "templateSlug": "spaces/outdoor/park",
       "url": "/spaces/living-outside/park"
     },
     "it": {
-      "dir": "spaces/outdoor/park",
-      "locale": "it",
       "body": "",
       "excerpt": "",
       "data": {},
       "id": "spaces/outdoor/park",
-      "templateSlug": "spaces/outdoor/parco",
+      "locale": "it",
       "slug": "parco",
+      "templateSlug": "spaces/outdoor/park",
       "url": "/spazi/all-aperto/parco"
     }
   },
   "spaces/outdoor/playground": {
     "en": {
-      "dir": "spaces/outdoor/playground",
-      "locale": "en",
       "body": "",
       "excerpt": "",
       "data": {},
       "id": "spaces/outdoor/playground",
-      "templateSlug": "spaces/outdoor/playground",
+      "locale": "en",
       "slug": "playground",
+      "templateSlug": "spaces/outdoor/playground",
       "url": "/spaces/living-outside/playground"
     },
     "it": {
-      "dir": "spaces/outdoor/playground",
-      "locale": "it",
       "body": "",
       "excerpt": "",
       "data": {},
       "id": "spaces/outdoor/playground",
-      "templateSlug": "spaces/outdoor/area-giochi",
+      "locale": "it",
       "slug": "area-giochi",
+      "templateSlug": "spaces/outdoor/playground",
       "url": "/spazi/all-aperto/area-giochi"
     }
   },
   "spaces/outdoor/by-season/summer": {
     "en": {
-      "dir": "spaces/outdoor/by-season/summer",
-      "locale": "en",
       "body": "",
       "excerpt": "",
       "data": {},
       "id": "spaces/outdoor/by-season/summer",
-      "templateSlug": "spaces/outdoor/by-season/summer",
+      "locale": "en",
       "slug": "summer",
+      "templateSlug": "spaces/outdoor/by-season/summer",
       "url": "/spaces/living-outside/by-season/summer"
     },
     "it": {
-      "dir": "spaces/outdoor/by-season/summer",
-      "locale": "it",
       "body": "",
       "excerpt": "",
       "data": {},
       "id": "spaces/outdoor/by-season/summer",
-      "templateSlug": "spaces/outdoor/by-season/estate",
+      "locale": "it",
       "slug": "estate",
+      "templateSlug": "spaces/outdoor/by-season/summer",
       "url": "/spazi/all-aperto/stagioni/estate"
     }
   },
   "spaces/outdoor/by-season/winter": {
     "en": {
-      "dir": "spaces/outdoor/by-season/winter",
-      "locale": "en",
       "body": "This should simply infer the slug from the folder name",
       "excerpt": "This should simply infer the slug from the folder name",
       "data": {},
       "id": "spaces/outdoor/by-season/winter",
-      "templateSlug": "spaces/outdoor/by-season/winter",
+      "locale": "en",
       "slug": "winter",
+      "templateSlug": "spaces/outdoor/by-season/winter",
       "url": "/spaces/living-outside/by-season/winter"
     },
     "it": {
-      "dir": "spaces/outdoor/by-season/winter",
-      "locale": "it",
       "body": "",
       "excerpt": "",
       "data": {},
       "id": "spaces/outdoor/by-season/winter",
-      "templateSlug": "spaces/outdoor/by-season/inverno",
+      "locale": "it",
       "slug": "inverno",
+      "templateSlug": "spaces/outdoor/by-season/winter",
       "url": "/spazi/all-aperto/stagioni/inverno"
     }
   }

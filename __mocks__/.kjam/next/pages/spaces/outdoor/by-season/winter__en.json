@@ -1,0 +1,10 @@
+{
+  "body": "This should simply infer the slug from the folder name",
+  "excerpt": "This should simply infer the slug from the folder name",
+  "data": {},
+  "id": "spaces/outdoor/by-season/winter",
+  "locale": "en",
+  "slug": "winter",
+  "templateSlug": "spaces/outdoor/by-season/winter",
+  "url": "/spaces/living-outside/by-season/winter"
+}

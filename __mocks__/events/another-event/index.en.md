@@ -1,3 +1,3 @@
 ---
-slug: another-event
+slug: yet-another-event
 ---

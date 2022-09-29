@@ -17,14 +17,15 @@ import {
   ApiGithub,
   ApiGithubConfig,
   Api,
+  EntryMatter,
   // } from "@kjam/core";
 } from "../core";
 import {
   filterMarkdownFiles,
   extractMeta,
   extractMatter,
-  extractRoute,
   isCollectionPath,
+  getTemplateSlug,
 } from "./utils";
 import { treatAllImages } from "./images";
 import { treatAllLinks } from "./links";
@@ -149,25 +150,23 @@ export class Serializer<T = Record<string, unknown>> {
 
     this.writeFile("byRoute", this.entries);
 
+    const { hideDefaultLocaleInUrl, defaultLocale } = this.i18n;
+
     // const map = await this.getEntriesMap();
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     for (const [id, locales] of Object.entries(this.entries)) {
       // FIXME: using the following would help creating staticlly Untranslated Pages...
       // for (const [locale, entry] of Object.entries(this.i18n.locales)) {
       for (const [locale, entry] of Object.entries(locales)) {
-        // PAGES:
-        // if (!id.startsWith("pages/")) {
-          this.writeFile(`entries/${id}__${locale}`, entry);
-        // }
-        
-        // FIXME: still not sure what is the best here, maybe the template slug
-        // is only needed for next.js routing system, maybe not, right now we
-        // are creating multiple endpoints for the same entry, which is probably
-        // not ideal
-        const { templateSlug } = entry;
-        // if (!this.collections[id]) {
-        this.writeFile(`entries/${templateSlug}__${locale}`, entry);
-        // }
+        let entryUrl = entry.url === "/" ? `/home` : entry.url;
+        if (locale === defaultLocale && hideDefaultLocaleInUrl) {
+          // do not do anything
+          // entryUrl = entryUrl;
+        } else {
+          entryUrl = `/${locale}${entryUrl}`;
+        }
+
+        this.writeFile(`urls/${entryUrl}`, entry);
       }
     }
 
@@ -235,7 +234,11 @@ export class Serializer<T = Record<string, unknown>> {
     writeFileSync(target, content);
   }
 
-  /** @protected */
+  /**
+   * We keep it public as otherwise we cannot test this method.
+   *
+   * @protected
+   */
   getI18n() {
     const target = join(this.root, this.pathI18n);
 
@@ -251,7 +254,7 @@ export class Serializer<T = Record<string, unknown>> {
     };
   }
 
-  shouldExcludeFilePath(dirAsId: string) {
+  protected shouldExcludeFilePath(dirAsId: string) {
     const BLACKLISTED = ["settings"];
     let exclude = false;
 
@@ -307,16 +310,14 @@ export class Serializer<T = Record<string, unknown>> {
     // those that are `collections`
     for (let i = 0; i < markdownFiles.length; i++) {
       const filepath = markdownFiles[i];
-      const meta = extractMeta(filepath, this.i18n);
-      // pages collection is treated as if it was at the root level
-      // PAGES: 
-      // const id = meta.dir.replace("pages/", "");
-      const id = meta.dir; 
-      const exclude = this.shouldExcludeFilePath(id);
-      if (exclude) {
+      const { dir, locale } = extractMeta(filepath, this.i18n);
+      const exclude = this.shouldExcludeFilePath(dir);
+
+      if (exclude || !dir) {
         continue;
       }
 
+      const id = dir;
       const matter = extractMatter<T>(join(this.root, filepath));
 
       // ability to filter out contents with conventional frontmatter flags
@@ -324,50 +325,51 @@ export class Serializer<T = Record<string, unknown>> {
         continue;
       }
       const isCollection = isCollectionPath(join(this.root, id));
-
-      const route = extractRoute<T>(meta, matter);
+      const slug = this.getSlugForPath<T>(dir, matter);
+      const normalisedSlug = id === "pages/home" ? "" : slug;
       const entry = {
-        ...meta,
         ...matter,
-        ...route,
+        id,
+        locale,
+        // HOME:
+        slug: normalisedSlug,
+        templateSlug: getTemplateSlug(dir, slug, isCollection),
+        url: "", // we assign it later
       };
-      const entrySlugs = this.getSlugsForPath(id);
-      entry.slug = entrySlugs[entry.locale].replace(/\//g, "");
-      // entry.slug = entrySlugs[entry.locale].replace("/", "");
 
-      if (id) {
-        ids[id] = true;
-        slugs[id] = entrySlugs;
+      ids[id] = true;
+      slugs[id] = slugs[id] || {};
+      slugs[id][locale] = normalisedSlug;
+      urls[id] = urls[id] || {};
+      urls[id][locale] = `/${normalisedSlug}`;
+      entries[id] = entries[id] || {};
+      entries[id][locale] = entry;
 
-        entries[id] = entries[id] || {};
-        entries[id][entry.locale] = entry;
-
-        if (isCollection) {
-          collections[id] = true;
-        }
+      if (isCollection) {
+        collections[id] = true;
       }
     }
 
     // Pass 2: loop through each entry path and construct the output maps
     for (const id in ids) {
-      const idParts = id.split("/")
-        // PAGES:
-        .filter((part, idx) => {
-          return idx === 0 && part === "pages" ? false : true
-        });
-      const locales = slugs[id];
+      const idParts = id.split("/");
+      // PAGES:
+      // .filter((part, idx) => {
+      //   return idx === 0 && part === "pages" ? false : true
+      // });
+      const localisedUrls = urls[id];
 
       // if it's a one level path we do not need to do anything more
       if (idParts.length <= 1) {
-        routes[id] = locales;
-        urls[id] = locales;
-        for (const locale in locales) {
-          if (entries[id][locale]) entries[id][locale].url = locales[locale];
+        routes[id] = localisedUrls;
+        for (const locale in localisedUrls) {
+          if (entries[id][locale])
+            entries[id][locale].url = localisedUrls[locale];
         }
       } else {
         // otherwise we need to loop through each portion of the route and pick
         // each segment's translation from the previously constructed map
-        for (const locale in locales) {
+        for (const locale in localisedUrls) {
           let pathTarget = "";
           let url = "";
 
@@ -380,7 +382,11 @@ export class Serializer<T = Record<string, unknown>> {
             // url pathnames
             const folderBasedSlugSegment = `/${idParts[j]}`;
             const existingSlugSegment = slugs[pathTarget]?.[locale];
-            const slugSegment = typeof existingSlugSegment === "string" ? existingSlugSegment : folderBasedSlugSegment;
+
+            const slugSegment =
+              typeof existingSlugSegment === "string"
+                ? existingSlugSegment
+                : folderBasedSlugSegment;
 
             if (typeof existingSlugSegment !== "string") {
               // console.log("folderBasedSlugSegment", Object.keys(slugs), pathTarget);
@@ -393,15 +399,27 @@ export class Serializer<T = Record<string, unknown>> {
                 .split("/")
                 .map((path) => slugs?.[path]?.[locale] || path)
                 .join("/");
-              routes[routeWithoutEntry] = routes[routeWithoutEntry] || {};
-              routes[routeWithoutEntry][locale] = urlWithoutEntry;
+              
+              // PAGES:
+              if (routeWithoutEntry !== "pages") {
+                routes[routeWithoutEntry] = routes[routeWithoutEntry] || {};
+                routes[routeWithoutEntry][locale] = `/${urlWithoutEntry}`;
+              }
             }
 
-            url += slugSegment;
+            url += "/" + normalisePathname(slugSegment);
           }
 
-          // add to the `routes` structure only the collections pages
-          if (collections[id]) {
+          // PAGES:
+          if (url.startsWith("/pages")) {
+            url = url.replace("/pages", "");
+            // HOME:
+            url = url === "/home" ? "/" : url;
+          }
+
+          // add to the `routes` structure only the collections index pages and
+          // the special `pages` collection
+          if (collections[id] || (id.startsWith("pages/"))) {
             routes[id] = routes[id] || {};
             routes[id][locale] = url;
           }
@@ -435,71 +453,88 @@ export class Serializer<T = Record<string, unknown>> {
   }
 
   /** @private */
-  private getSlugsForPath(path: string) {
-    const pathSlugs: Kjam.Routes[string] = {};
+  private getSlugForPath<T>(dir: string, matter: EntryMatter<T>) {
+    const dirParts = dir.split("/");
 
-    for (let i = 0; i < this.i18n.locales.length; i++) {
-      const locale = this.i18n.locales[i];
-      // Should we check `mdx` too? I don't think so...
-      const filename = `index.${locale}.md`;
-      const pageEntry = join(
-        this.root,
-        // PAGES:
-        // path === "pages" ? `${path}` : `pages/${path}`,
-        path,
-        filename
-      );
-      let existingEntry = "";
-      let slug;
+    const matterSlugParts = matter.data?.slug?.split("/") ?? [];
+    // use last portion of the frontmatter defined `slug` key as priority slug
+    const slugFromMatter = matterSlugParts[matterSlugParts.length - 1];
+    // use last portion of the directory/id as fallback slug
+    const slugFromDir = dirParts[dirParts.length - 1];
+    // normalize the slug
+    const slug = normalisePathname(slugFromMatter || slugFromDir || "");
 
-      // first check if we have a specific page entry for this path in
-      // `pages` folder
-      if (existsSync(pageEntry)) {
-        existingEntry = pageEntry;
-      } else {
-        // otherwise check if we have a specific page entry for this path in
-        // its `{path}` collection folder
-        const collectionEntry = join(this.root, path, filename);
-        if (existsSync(collectionEntry)) {
-          existingEntry = collectionEntry;
-        }
-      }
+    // remove the slug from frontmatter to avoid ambiguity, that one is
+    // just represents what is coming from the CMS 'database' but the one to
+    // use is the `slug` at the root level of the entry object
+    delete matter.data.slug;
 
-      // if we have an entry we try to read the slug from the raw file
-      if (existingEntry) {
-        slug = this.getSlugFromRawMdFile(existingEntry);
-      }
+    return slug;
 
-      // it might be that the entry markdown file does not specify a slug or that
-      // a collection folder might not have an `index` file, in these case URLS
-      // will be constructed by simply using the folder name as it is, as we can
-      // have entries that are fine with using their folder name as slug and
-      // have nested collections that are only meant for organizing the content
-      // structure. So we just use the last portion of the `path`.
-      if (typeof slug !== "string") {
-        // special case for homepage, if no slug is specified in the markdown
-        // file (probably it should never be) we just hardcode the empty path
-        // PAGES:HOME:
-        if (path === "pages/home") {
-          slug = "";
-        } else {
-          const pathParts = path.split("/");
-          slug = pathParts[pathParts.length - 1];
-        }
-      }
+    // const pathSlugs: Kjam.Routes[string] = {};
 
-      // PAGES:
-      slug = slug.startsWith("pages/") ? slug.replace("pages/", "") : slug,
-      pathSlugs[locale] = "/" + normalisePathname(slug);
-    }
-    
-    return pathSlugs;
+    // for (let i = 0; i < this.i18n.locales.length; i++) {
+    //   const locale = this.i18n.locales[i];
+    //   // Should we check `mdx` too? I don't think so...
+    //   const filename = `index.${locale}.md`;
+    //   const pageEntry = join(
+    //     this.root,
+    //     // PAGES:
+    //     // path === "pages" ? `${path}` : `pages/${path}`,
+    //     path,
+    //     filename
+    //   );
+    //   let existingEntry = "";
+    //   let slug;
+
+    //   // first check if we have a specific page entry for this path in
+    //   // `pages` folder
+    //   if (existsSync(pageEntry)) {
+    //     existingEntry = pageEntry;
+    //   } else {
+    //     // otherwise check if we have a specific page entry for this path in
+    //     // its `{path}` collection folder
+    //     const collectionEntry = join(this.root, path, filename);
+    //     if (existsSync(collectionEntry)) {
+    //       existingEntry = collectionEntry;
+    //     }
+    //   }
+
+    //   // if we have an entry we try to read the slug from the frontmatter
+    //   if (existingEntry) {
+    //     slug = this.getSlugFromRawMdFile(existingEntry);
+    //   }
+
+    //   // it might be that the entry markdown file does not specify a slug or that
+    //   // a collection folder might not have an `index` file, in these case URLS
+    //   // will be constructed by simply using the folder name as it is, as we can
+    //   // have entries that are fine with using their folder name as slug and
+    //   // have nested collections that are only meant for organizing the content
+    //   // structure. So we just use the last portion of the `path`.
+    //   if (typeof slug !== "string") {
+    //     // special case for homepage, if no slug is specified in the markdown
+    //     // file (probably it should never be) we just hardcode the empty path
+    //     // PAGES:HOME:
+    //     if (path === "pages/home") {
+    //       slug = "";
+    //     } else {
+    //       const pathParts = path.split("/");
+    //       slug = pathParts[pathParts.length - 1];
+    //     }
+    //   }
+
+    //   // PAGES:
+    //   slug = slug.startsWith("pages/") ? slug.replace("pages/", "") : slug,
+    //   pathSlugs[locale] = "/" + normalisePathname(slug);
+    // }
+
+    // return pathSlugs;
   }
 
   /**
    * We want to be quick here, just using a regex is fine for now avoiding
    * `frontmatter` parsing at this phase of the serialization
-   * 
+   *
    * The `slug` regex allows the slug to be defined on the next line in the
    * frontmatter data
    *
@@ -507,13 +542,13 @@ export class Serializer<T = Record<string, unknown>> {
    */
   private getSlugFromRawMdFile(filepath: string) {
     const content = readFileSync(filepath, "utf-8");
-    
+
     // check first if slug is defined, it might be defined but empty, hence
     // the following regex would not work
     if (/^slug:/m.test(content)) {
       const regex = /slug:[\s\n]+((?!.+:).+)$/m;
       const matches = content.match(regex);
-      
+
       if (matches && matches[1]) {
         // use the last bit only of the pathname, declaring a composed path is not
         // allowed as each entry should just define its slug and not its ancestor's

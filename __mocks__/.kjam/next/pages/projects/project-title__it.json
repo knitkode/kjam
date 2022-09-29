@@ -1,0 +1,10 @@
+{
+  "body": "\nthis `slug` is wrong, let's normalise this mistake, the `i-progetti` should not be declared here and automatically inferred by the parent folder markdown file\n",
+  "excerpt": "this `slug` is wrong, let's normalise this mistake, the `i-progetti` should not be declared here and automatically inferred by the parent folder markdown file",
+  "data": {},
+  "id": "projects/project-title",
+  "locale": "it",
+  "slug": "titolo-progetto",
+  "templateSlug": "projects/project-title",
+  "url": "/progetti/titolo-progetto"
+}

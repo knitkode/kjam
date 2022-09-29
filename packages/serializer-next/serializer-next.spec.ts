@@ -7,7 +7,7 @@ const serializer = new SerializerNext({
 });
 
 describe("Next Serializer", () => {
-  test("should run without errors...", async () => {
+  test("should run without errors", async () => {
     const result = await serializer.run();
 
     expect(result).toHaveProperty("byRoute"); // FIXME: dummy, use snapshots...
