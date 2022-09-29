@@ -24,7 +24,7 @@ function getTranslatedLink(
   const startsWithDot = path[0] === ".";
   if (startsWithDot) {
     const relativePath = path.replace(/\/index\..+/, "");
-    id = join(entry.id, relativePath);
+    id = join(entry.dir, relativePath);
   } else {
     id = normalisePathname(path);
   }

@@ -7,25 +7,25 @@
     "en": "/spaces",
     "it": "/spazi"
   },
-  "spaces/outdoor": {
-    "en": "/spaces/living-outside",
-    "it": "/spazi/all-aperto"
-  },
   "events": {
-    "en": "/events",
-    "it": "/events"
-  },
-  "pages/about": {
-    "en": "/about-us",
-    "it": "/chi-siamo"
+    "en": "events",
+    "it": "events"
   },
   "pages/events": {
     "en": "/events",
     "it": "/eventi"
   },
+  "pages/about": {
+    "en": "/about-us",
+    "it": "/chi-siamo"
+  },
   "pages/home": {
     "en": "/",
     "it": "/"
+  },
+  "spaces/outdoor": {
+    "en": "/spaces/living-outside",
+    "it": "/spazi/all-aperto"
   },
   "spaces/indoor": {
     "en": "/spaces/indoor",

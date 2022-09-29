@@ -1,0 +1,11 @@
+{
+  "dir": "events/event-name",
+  "locale": "it",
+  "body": "",
+  "excerpt": "",
+  "data": {},
+  "id": "events/event-name",
+  "templateSlug": "events/nome-evento",
+  "slug": "nome-evento",
+  "url": "/events/nome-evento"
+}

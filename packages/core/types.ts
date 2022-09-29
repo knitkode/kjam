@@ -148,7 +148,7 @@ export type EntryRoute = {
  */
 export type Entry<Data = {}> = EntryMatter<Data> &
   EntryRoute &
-  Pick<EntryMeta, "locale">;
+  EntryMeta;
 
 /**
  * The lean markdown file's Entry representation, same as `Entry` but without body

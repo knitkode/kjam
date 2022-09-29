@@ -1,11 +1,11 @@
 {
   "/projects": "/projects",
   "/spaces": "/spaces",
-  "/spaces/outdoor": "/spaces/living-outside",
-  "/events": "/events",
-  "/pages/about": "/about-us",
+  "/events": "events",
   "/pages/events": "/events",
+  "/pages/about": "/about-us",
   "/pages/home": "/",
+  "/spaces/outdoor": "/spaces/living-outside",
   "/spaces/indoor": "/spaces/indoor",
   "/spaces/outdoor/by-season": "/spaces/living-outside/by-season"
 }

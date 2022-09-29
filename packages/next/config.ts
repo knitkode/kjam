@@ -103,7 +103,7 @@ export const withKjam = (config: NextConfig & KjamConfig = {}) => {
    * Get redirects
    */
   async function getRedirects() {
-    const data = await api.getData<SerializerNextOutputConfig>("next/config");
+    const data = await api.getData<SerializerNextOutputConfig>("next.config");
     let redirects = data?.redirects ?? [];
 
     if (config?.permanentRedirects) {
@@ -122,7 +122,7 @@ export const withKjam = (config: NextConfig & KjamConfig = {}) => {
    * Get rewrites
    */
   async function getRewrites() {
-    const data = await api.getData<SerializerNextOutputConfig>("next/config");
+    const data = await api.getData<SerializerNextOutputConfig>("next.config");
     return data?.rewrites ?? [];
   }
 

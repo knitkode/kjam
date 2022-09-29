@@ -1,0 +1,11 @@
+{
+  "dir": "spaces/hospitality",
+  "locale": "it",
+  "body": "\n# Links\n\n- Test [link](/spazi/indoor/cucina)\n- Test [link](https://api.test/username/repo/branch/spaces/indoor/kitchen)\n- Test [link](/spazi/indoor/cucina)\n- Test [link](https://example.com)\n- Test [link](#hash-test)\n- Test [link](//example.com)\n- Test [link spanningon multiple lines](https://api.test/username/repo/branch/spaces/indoor/kitchen)\n",
+  "excerpt": "- Test link- Test link- Test link- Test link- Test link- Test link- Test link spanningon multiple lines",
+  "data": {},
+  "id": "spaces/hospitality",
+  "templateSlug": "spaces/ospitalita",
+  "slug": "ospitalita",
+  "url": "/spazi/ospitalita"
+}

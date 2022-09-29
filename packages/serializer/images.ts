@@ -7,7 +7,7 @@ import { replaceAsync } from "./utils";
  * Get entry's `body` managing images
  */
 async function treatBodyImages<T>(
-  entry: Pick<Entry<T>, "body">,
+  entry: Pick<Entry<T>, "dir" | "body">,
   api: Api,
   mdImgTransformer: SerializerBodyImgTransformer
 ) {

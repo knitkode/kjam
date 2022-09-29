@@ -45,55 +45,6 @@ type StaticPathSlug<SlugAsString> = SlugAsString extends true
 export type ContentNextConfig = ContentConfig & {};
 
 export class ContentNext extends Content {
-
-  async get<T extends {} = {}>(
-    folderPath: string,
-    locale: string
-  ): Promise<Entry<T> | null>;
-  async get<T extends {} = {}>(
-    folderPath: string,
-    slug: string | string[],
-    locale?: string
-  ): Promise<Entry<T> | null>;
-  async get<T extends {} = {}>(
-    ...args:
-      | []
-      | [folderPath: string, locale: string]
-      | [folderPath: string, slug: string | string[], locale?: string]
-  ) {
-    let _folder = "";
-    let _slug;
-    let _locale;
-    if (args.length === 2) {
-      const [folderPath, locale] = args;
-      _folder = folderPath;
-      _slug = "index";
-      _locale = locale;
-    } else {
-      const [folderPath, slug, locale] = args;
-      _folder = folderPath || "";
-      _slug = slug;
-      _locale = locale;
-    }
-
-    let target = Array.isArray(_slug) ? _slug.join("/") : _slug;
-    // target = normalisePathname(`${localisedFolderPath}/${_slug}`);
-    target = normalisePathname(`${_folder}/${_slug}`);
-
-    // homepage special case
-    // if (target === "home") {
-    //   target = "";
-    // }
-    if (this.debug) {
-      console.log(`[@kjam/next:content] get target ${target}`);
-    }
-
-    const data = await this.api.getData<Entry<T>>(
-      `next/pages/${target}__${_locale}`
-    );
-    return data;
-  }
-
   /**
    * @param context We grab the `locales` from this
    * @param fallback Defaults to `"blocking"`
@@ -120,6 +71,9 @@ export class ContentNext extends Content {
 
     // the ending slash ensures that we are not gathering the root level `index`
     // entry for the given `routeType` (usually a collection)
+    // PAGES:
+    // const normalisedRouteType =
+    //   normalisePathname(routeType === "pages" ? "" : routeType) + "/";
     const normalisedRouteType = normalisePathname(routeType) + "/";
 
     for (const [id, locales] of Object.entries(byRoute)) {

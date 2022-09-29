@@ -14,4 +14,4 @@ export type KjamEntry<T extends {} = {}> = Entry<T>;
 export type KjamEntryLean<T extends {} = {}> = EntryLean<T>;
 
 export type { ContentNextConfig } from "./content";
-export { kjam, Kjam, ContentNext } from "./content";
+export { kjam, ContentNext } from "./content";

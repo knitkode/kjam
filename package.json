@@ -5,7 +5,7 @@
   "scripts": {
     "start": "nx affected:test --all --parallel --maxParallel 10 --watch",
     "build": "nx run-many --target=build --all=true",
-    "test": "nx run-many --target=test --all=true",
+    "test": "nx test",
     "format": "nx format:write",
     "lint": "clear && npx eslint --fix packages/**/*.{ts,tsx}",
     "clean": "rm -rf ./tmp && rm -rf ./dist && rm -rf ./node_modules/.cache/nx",
