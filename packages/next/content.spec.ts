@@ -57,7 +57,7 @@ describe("get static paths", () => {
     expect(staticPaths.paths.length).toEqual(18);
   });
 
-  test("finds just the first level of entries of a multilevel collection when asked to treat the slug as a simple string", async () => {
+  test("finds only the first level of entries of a multilevel collection when asked to treat the slug as a simple string", async () => {
     const staticPaths = await kjam.getStaticPaths(
       { locales: ["en", "it"] },
       undefined,
