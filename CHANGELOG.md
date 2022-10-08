@@ -1,3 +1,14 @@
+## [1.6.11](https://github.com/knitkode/kjam/compare/v1.6.10...v1.6.11) (2022-10-08)
+
+### Bug Fixes
+
+- **getMayn:** add withbody option ([7800363](https://github.com/knitkode/kjam/commit/7800363a383b0c0a13354fb8d10a58b35ceaf3e7))
+- **getMayn:** add withbody option ([cc773b6](https://github.com/knitkode/kjam/commit/cc773b61a1f2aaef8b5b491513228a1effebecfe))
+
+### Other
+
+- Merge branch 'main' of github.com:knitkode/kjam into main ([3be56aa](https://github.com/knitkode/kjam/commit/3be56aa955416cd36e0bcdc627056fddaaa5d5a3))
+
 ## [1.6.10](https://github.com/knitkode/kjam/compare/v1.6.9...v1.6.10) (2022-09-29)
 
 ### Bug Fixes
