@@ -80,7 +80,8 @@ export class Content {
 
   async getMany<EntryData extends {} = {}>(
     idStartingWith: string,
-    locale: string
+    locale: string,
+    withBody?: boolean
   ) {
     const { byRoute } = await this.api.getMaps<EntryData>();
 
@@ -95,9 +96,8 @@ export class Content {
         );
       })
       .map((id) => {
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const { body, ...entry } = byRoute[id][locale];
-        return entry;
+        return withBody ? { body, ...entry } : entry;
       });
   }
 }
