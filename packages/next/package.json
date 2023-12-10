@@ -6,5 +6,8 @@
     "url": "git+https://github.com/knitkode/kjam.git",
     "directory": "packages/next"
   },
-  "sideEffects": false
+  "sideEffects": false,
+  "devDependencies": {
+    "unified": "^11.0.3"
+  }
 }

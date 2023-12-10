@@ -22,6 +22,12 @@
     "default": {
       "runner": "@nrwl/workspace/tasks-runners/default",
       "options": {
+        "cacheableOperations": ["build", "lint", "test", "e2e"]
+      }
+    },
+    "_default": {
+      "runner": "@nrwl/workspace/tasks-runners/default",
+      "options": {
         "cacheableOperations": ["build", "lint", "test", "e2e"],
         "accessToken": "OTAxMTE4OTItMzgyZi00NTM5LWFiNWQtMDI0YTNiZjMzMTI1fHJlYWQtd3JpdGU="
       }
