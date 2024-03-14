@@ -1,6 +1,0 @@
-Bundling serializer...
-"Api" is imported from external module "@kjam/core" but never used in "packages/serializer/utils.ts", "packages/serializer/links.ts" and "packages/serializer/serializer.ts".
-  [1mindex.cjs.js[22m [36m35.448 KB[39m
-"Api" is imported from external module "@kjam/core" but never used in "packages/serializer/utils.ts", "packages/serializer/links.ts" and "packages/serializer/serializer.ts".
-  [1mindex.esm.js[22m [36m35.205 KB[39m
-⚡ Done in 5.92s
