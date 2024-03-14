@@ -1,0 +1,26 @@
+{
+  "name": "@kjam/next-ui",
+  "description": "Components to use in Kjam + Next.js powered websites.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/knitkode/kjam.git",
+    "directory": "packages/next-ui"
+  },
+  "sideEffects": false,
+  "type": "module",
+  "peerDependencies": {
+    "@mdx-js/react": "^3.0.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.65",
+    "@types/react-dom": "^18.2.21"
+  },
+  "exports": {
+    "./package.json": "./package.json",
+    ".": "./index.esm.js"
+  },
+  "module": "./index.esm.js",
+  "main": "./index.esm.js"
+}

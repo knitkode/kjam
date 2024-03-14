@@ -1,46 +1,76 @@
 {
-  "npmScope": "@kjam",
-  "affected": {
-    "defaultBase": "main"
+  "$schema": "./node_modules/nx/schemas/nx-schema.json",
+  "workspaceLayout": {
+    "libsDir": "packages"
   },
-  "implicitDependencies": {
-    "package.json": {
-      "dependencies": "*",
-      "devDependencies": "*"
-    },
-    ".eslintrc.json": "*"
-  },
-  "targetDependencies": {
-    "build": [
-      {
-        "target": "build",
-        "projects": "dependencies"
-      }
-    ]
-  },
-  "tasksRunnerOptions": {
-    "default": {
-      "runner": "@nrwl/workspace/tasks-runners/default",
+  "targetDefaults": {
+    "build": {
+      "executor": "@nx/rollup:rollup",
+      "outputs": ["{options.outputPath}"],
       "options": {
-        "cacheableOperations": ["build", "lint", "test", "e2e"]
-      }
+        "outputPath": "dist/packages/{projectName}",
+        "tsConfig": "packages/{projectName}/tsconfig.lib.json",
+        "project": "packages/{projectName}/package.json",
+        "main": "packages/{projectName}/index.ts",
+        "buildableProjectDepsInPackageJsonType": "peerDependencies",
+        "updateBuildableProjectDepsInPackageJson": true,
+        "generateExportsField": true,
+        "deleteOutputPath": true,
+        "external": "all",
+        "format": ["cjs", "esm"],
+        // FIXME: find out why with `swc` the type check fails
+        "compiler": "tsc",
+        "assets": [
+          {
+            "input": "packages/{projectName}",
+            "glob": "/*.{md,d.ts}",
+            "output": "./"
+          }
+        ]
+      },
+      "dependsOn": ["^build"],
+      "inputs": ["production", "^production"],
+      "cache": true
     },
-    "_default": {
-      "runner": "@nrwl/workspace/tasks-runners/default",
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"],
       "options": {
-        "cacheableOperations": ["build", "lint", "test", "e2e"],
-        "accessToken": "OTAxMTE4OTItMzgyZi00NTM5LWFiNWQtMDI0YTNiZjMzMTI1fHJlYWQtd3JpdGU="
+        "eslintConfig": "eslint.config.js",
+        "lintFilePatterns": [
+          "packages/{projectName}/**/*.{ts,tsx,js,jsx}",
+          "packages/{projectName}/package.json"
+        ]
+      },
+      "cache": true
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/packages/{projectName}"],
+      "options": {
+        "jestConfig": "packages/{projectName}/jest.config.js",
+        "passWithNoTests": true
       }
     }
   },
-  "cli": {
-    "defaultCollection": "@nrwl/react"
-  },
-  "generators": {
-    "@nrwl/react": {
-      "application": {
-        "babel": true
-      }
-    }
+  "namedInputs": {
+    "default": ["{projectRoot}/**/*", "sharedGlobals"],
+    "sharedGlobals": [],
+    "production": ["default"]
   }
+  // "tasksRunnerOptions": {
+  //   "default": {
+  //     "runner": "@nrwl/workspace/tasks-runners/default",
+  //     "options": {
+  //       "cacheableOperations": ["build", "lint", "test", "e2e"]
+  //     }
+  //   },
+  //   "_default": {
+  //     "runner": "@nrwl/workspace/tasks-runners/default",
+  //     "options": {
+  //       "cacheableOperations": ["build", "lint", "test", "e2e"],
+  //       "accessToken": "OTAxMTE4OTItMzgyZi00NTM5LWFiNWQtMDI0YTNiZjMzMTI1fHJlYWQtd3JpdGU="
+  //     }
+  //   }
+  // }
 }

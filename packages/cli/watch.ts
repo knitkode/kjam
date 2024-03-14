@@ -1,10 +1,7 @@
 import "dotenv/config";
 import { join } from "path";
 import { watch as chokidarWatch } from "chokidar";
-import {
-  SerializerNext,
-  // } from "@kjam/serializer-next";
-} from "../serializer-next";
+import { SerializerNext } from "@kjam/serializer-next";
 import { serve } from "./serve";
 
 type WatchOptions = {

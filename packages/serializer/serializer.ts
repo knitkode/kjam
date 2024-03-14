@@ -10,15 +10,15 @@ import { join, relative, dirname } from "path";
 import { fdir } from "fdir";
 import { load } from "js-yaml";
 import {
-  Kjam,
-  EntriesMapById,
+  type Kjam,
+  type EntriesMapById,
   normalisePathname,
   isTestEnv,
   ApiGithub,
-  ApiGithubConfig,
+  type ApiGithubConfig,
   Api,
-  // } from "@kjam/core";
-} from "../core";
+  type Entry,
+} from "@kjam/core";
 import {
   filterMarkdownFiles,
   extractMeta,
@@ -36,7 +36,7 @@ type LoggerType = "info" | "error" | "warn";
 type Logger = (data: any, type?: LoggerType) => void;
 
 export type SerializerBodyImgTransformer = (
-  markdownImg: string
+  markdownImg: string,
 ) => Promise<string>;
 
 export type SerializerConfig<T> = T & {
@@ -84,7 +84,7 @@ export class Serializer<T = Record<string, unknown>> {
 
     // @see https://docs.github.com/en/actions/learn-github-actions/environment-variables
     const [username, repo] = (process.env["GITHUB_REPOSITORY"] || "").split(
-      "/"
+      "/",
     );
     // TODO: check if I can use GITHUB_REF_NAME
     const branch = process.env["GITHUB_REF"]?.substring(11) || "main";
@@ -123,7 +123,7 @@ export class Serializer<T = Record<string, unknown>> {
     this.log(`> Found ${this.mdPaths.length} markdown files.`);
 
     const { routes, urls, slugs, collections, entries } = await this.getRouting(
-      this.mdPaths
+      this.mdPaths,
     );
 
     this.routes = routes;
@@ -142,7 +142,7 @@ export class Serializer<T = Record<string, unknown>> {
     this.translations = await getTranslations(
       join(this.root, this.pathTranslations),
       this.i18n,
-      this.routes
+      this.routes,
     );
 
     writeTranslations(this.translations, this.writeFile.bind(this));
@@ -157,14 +157,14 @@ export class Serializer<T = Record<string, unknown>> {
       for (const [locale, entry] of Object.entries(locales)) {
         // PAGES:
         // if (!id.startsWith("pages/")) {
-          this.writeFile(`entries/${id}__${locale}`, entry);
+        this.writeFile(`entries/${id}__${locale}`, entry);
         // }
-        
+
         // FIXME: still not sure what is the best here, maybe the template slug
         // is only needed for next.js routing system, maybe not, right now we
         // are creating multiple endpoints for the same entry, which is probably
         // not ideal
-        const { templateSlug } = entry;
+        const { templateSlug } = entry as Entry<{}>;
         // if (!this.collections[id]) {
         this.writeFile(`entries/${templateSlug}__${locale}`, entry);
         // }
@@ -248,7 +248,7 @@ export class Serializer<T = Record<string, unknown>> {
     return {
       locales: ["en"],
       defaultLocale: "en",
-    };
+    } as Kjam.I18n;
   }
 
   shouldExcludeFilePath(dirAsId: string) {
@@ -309,9 +309,9 @@ export class Serializer<T = Record<string, unknown>> {
       const filepath = markdownFiles[i];
       const meta = extractMeta(filepath, this.i18n);
       // pages collection is treated as if it was at the root level
-      // PAGES: 
+      // PAGES:
       // const id = meta.dir.replace("pages/", "");
-      const id = meta.dir; 
+      const id = meta.dir as Kjam.RouteId;
       const exclude = this.shouldExcludeFilePath(id);
       if (exclude) {
         continue;
@@ -349,38 +349,47 @@ export class Serializer<T = Record<string, unknown>> {
     }
 
     // Pass 2: loop through each entry path and construct the output maps
-    for (const id in ids) {
-      const idParts = id.split("/")
+    for (const _id in ids) {
+      const id = _id as Kjam.RouteId;
+      const idParts = id
+        .split("/")
         // PAGES:
         .filter((part, idx) => {
-          return idx === 0 && part === "pages" ? false : true
+          return idx === 0 && part === "pages" ? false : true;
         });
       const locales = slugs[id];
 
       // if it's a one level path we do not need to do anything more
       if (idParts.length <= 1) {
-        routes[id] = locales;
-        urls[id] = locales;
-        for (const locale in locales) {
+        routes[id] = locales as unknown as Record<Kjam.Locale, Kjam.Url>;
+        urls[id] = locales as unknown as Record<Kjam.Locale, Kjam.Url>;
+
+        for (const _locale in locales) {
+          const locale = _locale as keyof typeof locales;
           if (entries[id][locale]) entries[id][locale].url = locales[locale];
         }
       } else {
         // otherwise we need to loop through each portion of the route and pick
         // each segment's translation from the previously constructed map
-        for (const locale in locales) {
-          let pathTarget = "";
+        for (const _locale in locales) {
+          const locale = _locale as keyof typeof locales;
+          let pathTarget = "" as Kjam.RouteId;
           let url = "";
 
           // loop through each part of the route key (e.g. /spaces/outdoor/seasons)
           // and translate each segment
           for (let j = 0; j < idParts.length; j++) {
-            pathTarget = `${pathTarget ? pathTarget + "/" : ""}${idParts[j]}`;
+            pathTarget =
+              `${pathTarget ? pathTarget + "/" : ""}${idParts[j]}` as Kjam.RouteId;
             // use the path part as fallback, which means that if a folder does
             // not have an entry we use its folder name as part of its children's
             // url pathnames
             const folderBasedSlugSegment = `/${idParts[j]}`;
             const existingSlugSegment = slugs[pathTarget]?.[locale];
-            const slugSegment = typeof existingSlugSegment === "string" ? existingSlugSegment : folderBasedSlugSegment;
+            const slugSegment =
+              typeof existingSlugSegment === "string"
+                ? existingSlugSegment
+                : folderBasedSlugSegment;
 
             if (typeof existingSlugSegment !== "string") {
               // console.log("folderBasedSlugSegment", Object.keys(slugs), pathTarget);
@@ -391,10 +400,10 @@ export class Serializer<T = Record<string, unknown>> {
               const routeWithoutEntry = pathTarget;
               const urlWithoutEntry = routeWithoutEntry
                 .split("/")
-                .map((path) => slugs?.[path]?.[locale] || path)
+                .map((path) => slugs?.[path as Kjam.RouteId]?.[locale] || path)
                 .join("/");
               routes[routeWithoutEntry] = routes[routeWithoutEntry] || {};
-              routes[routeWithoutEntry][locale] = urlWithoutEntry;
+              routes[routeWithoutEntry][locale] = urlWithoutEntry as Kjam.Url;
             }
 
             url += slugSegment;
@@ -403,11 +412,11 @@ export class Serializer<T = Record<string, unknown>> {
           // add to the `routes` structure only the collections pages
           if (collections[id]) {
             routes[id] = routes[id] || {};
-            routes[id][locale] = url;
+            routes[id][locale] = url as Kjam.Url;
           }
 
           urls[id] = urls[id] || {};
-          urls[id][locale] = url;
+          urls[id][locale] = url as Kjam.Url;
 
           if (entries[id][locale]) entries[id][locale].url = url;
         }
@@ -416,9 +425,11 @@ export class Serializer<T = Record<string, unknown>> {
 
     const promises = [];
 
-    for (const id in entries) {
+    for (const _id in entries) {
+      const id = _id as keyof typeof entries;
       const locales = entries[id];
-      for (const locale in locales) {
+      for (const _locale in locales) {
+        const locale = _locale as keyof typeof locales;
         let entry = locales[locale];
         entry = treatAllLinks(entry, this.api, this.urls);
         promises.push(treatAllImages(entry, this.api, this.transformBodyImage));
@@ -428,7 +439,7 @@ export class Serializer<T = Record<string, unknown>> {
     const promisesEntries = await Promise.all(promises);
 
     promisesEntries.forEach((entry) => {
-      entries[entry.id][entry.locale] = entry;
+      entries[entry.id as Kjam.RouteId][entry.locale] = entry;
     });
 
     return { routes, urls, slugs, collections, entries };
@@ -436,7 +447,7 @@ export class Serializer<T = Record<string, unknown>> {
 
   /** @private */
   private getSlugsForPath(path: string) {
-    const pathSlugs: Kjam.Routes[string] = {};
+    const pathSlugs: Kjam.Slugs[Kjam.RouteId] = {};
 
     for (let i = 0; i < this.i18n.locales.length; i++) {
       const locale = this.i18n.locales[i];
@@ -447,7 +458,7 @@ export class Serializer<T = Record<string, unknown>> {
         // PAGES:
         // path === "pages" ? `${path}` : `pages/${path}`,
         path,
-        filename
+        filename,
       );
       let existingEntry = "";
       let slug;
@@ -489,17 +500,17 @@ export class Serializer<T = Record<string, unknown>> {
       }
 
       // PAGES:
-      slug = slug.startsWith("pages/") ? slug.replace("pages/", "") : slug,
-      pathSlugs[locale] = "/" + normalisePathname(slug);
+      (slug = slug.startsWith("pages/") ? slug.replace("pages/", "") : slug),
+        (pathSlugs[locale] = ("/" + normalisePathname(slug)) as Kjam.Slug);
     }
-    
+
     return pathSlugs;
   }
 
   /**
    * We want to be quick here, just using a regex is fine for now avoiding
    * `frontmatter` parsing at this phase of the serialization
-   * 
+   *
    * The `slug` regex allows the slug to be defined on the next line in the
    * frontmatter data
    *
@@ -507,13 +518,13 @@ export class Serializer<T = Record<string, unknown>> {
    */
   private getSlugFromRawMdFile(filepath: string) {
     const content = readFileSync(filepath, "utf-8");
-    
+
     // check first if slug is defined, it might be defined but empty, hence
     // the following regex would not work
     if (/^slug:/m.test(content)) {
       const regex = /slug:[\s\n]+((?!.+:).+)$/m;
       const matches = content.match(regex);
-      
+
       if (matches && matches[1]) {
         // use the last bit only of the pathname, declaring a composed path is not
         // allowed as each entry should just define its slug and not its ancestor's
@@ -540,7 +551,7 @@ export class Serializer<T = Record<string, unknown>> {
       if (this.debug) {
         console.warn(
           `kjam/serializer::getRawFile failed to read ${filepath}`,
-          e
+          e,
         );
       }
       return null;

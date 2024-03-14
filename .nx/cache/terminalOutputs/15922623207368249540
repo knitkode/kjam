@@ -1,0 +1,6 @@
+Bundling cli...
+Error when using sourcemap for reporting an error: Can't resolve original location of error.
+[1m[31mError during bundle: Error: Unexpected character '!' (Note that you need plugins to import files that are not JavaScript)[39m[22m
+Error when using sourcemap for reporting an error: Can't resolve original location of error.
+[1m[31mError during bundle: Error: Unexpected character '!' (Note that you need plugins to import files that are not JavaScript)[39m[22m
+[1m[31mBundle failed: cli[39m[22m

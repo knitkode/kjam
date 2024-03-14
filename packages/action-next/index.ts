@@ -1,11 +1,9 @@
 import {
   SerializerNext,
-  // } from "@kjam/serializer-next";
-} from "../serializer-next";
+} from "@kjam/serializer-next";
 import {
   Git,
-  // } from "@kjam/action";
-} from "../action";
+} from "@kjam/action";
 
 // TODO: pass config from @action.core and use its logger?
 const serializer = new SerializerNext();

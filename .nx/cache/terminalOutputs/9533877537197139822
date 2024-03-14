@@ -1,0 +1,28 @@
+
+> @kjam/action-next@ build /home/kuus/Web/KnitKode/kjam/packages/action-next
+> ncc build ./index.ts -o ../../actions/action-next --minify --no-cache --no-source-map-register --license licenses.txt
+
+ncc: Version 0.38.1
+ncc: Compiling file index.js into CJS
+ncc: Using typescript@5.3.3 (local user-provided)
+Error: [90m[tsl] [39m[1m[31mERROR[39m[22m[1m[31m in [39m[22m[1m[36m/home/kuus/Web/KnitKode/kjam/packages/action/git.ts(8,23)[39m[22m
+[1m[31m      TS2307: Cannot find module 'simple-git' or its corresponding type declarations.[39m[22m
+[90m[tsl] [39m[1m[31mERROR[39m[22m[1m[31m in [39m[22m[1m[36m/home/kuus/Web/KnitKode/kjam/packages/action/git.ts(85,65)[39m[22m
+[1m[31m      TS7006: Parameter 'err' implicitly has an 'any' type.[39m[22m
+[90m[tsl] [39m[1m[31mERROR[39m[22m[1m[31m in [39m[22m[1m[36m/home/kuus/Web/KnitKode/kjam/packages/action/git.ts(85,70)[39m[22m
+[1m[31m      TS7006: Parameter 'data' implicitly has an 'any' type.[39m[22m
+[90m[tsl] [39m[1m[31mERROR[39m[22m[1m[31m in [39m[22m[1m[36m/home/kuus/Web/KnitKode/kjam/packages/action/git.ts(98,10)[39m[22m
+[1m[31m      TS7006: Parameter 'err' implicitly has an 'any' type.[39m[22m
+[90m[tsl] [39m[1m[31mERROR[39m[22m[1m[31m in [39m[22m[1m[36m/home/kuus/Web/KnitKode/kjam/packages/action/git.ts(98,15)[39m[22m
+[1m[31m      TS7006: Parameter 'data' implicitly has an 'any' type.[39m[22m
+    at /home/kuus/Web/KnitKode/kjam/node_modules/[4m.pnpm[24m/@vercel+ncc@0.38.1/node_modules/[4m@vercel[24m/ncc/dist/ncc/index.js.cache.js:38:1896272
+    at /home/kuus/Web/KnitKode/kjam/node_modules/[4m.pnpm[24m/@vercel+ncc@0.38.1/node_modules/[4m@vercel[24m/ncc/dist/ncc/index.js.cache.js:38:396262
+    at Hook.eval [as callAsync] (eval at create (/home/kuus/Web/KnitKode/kjam/node_modules/[4m.pnpm[24m/@vercel+ncc@0.38.1/node_modules/[4m@vercel[24m/ncc/dist/ncc/index.js.cache.js:21:75523), <anonymous>:6:1)
+    at Hook.CALL_ASYNC_DELEGATE [as _callAsync] (/home/kuus/Web/KnitKode/kjam/node_modules/[4m.pnpm[24m/@vercel+ncc@0.38.1/node_modules/[4m@vercel[24m/ncc/dist/ncc/index.js.cache.js:21:72685)
+    at Cache.shutdown (/home/kuus/Web/KnitKode/kjam/node_modules/[4m.pnpm[24m/@vercel+ncc@0.38.1/node_modules/[4m@vercel[24m/ncc/dist/ncc/index.js.cache.js:38:103412)
+    at /home/kuus/Web/KnitKode/kjam/node_modules/[4m.pnpm[24m/@vercel+ncc@0.38.1/node_modules/[4m@vercel[24m/ncc/dist/ncc/index.js.cache.js:38:236303
+    at Hook.eval [as callAsync] (eval at create (/home/kuus/Web/KnitKode/kjam/node_modules/[4m.pnpm[24m/@vercel+ncc@0.38.1/node_modules/[4m@vercel[24m/ncc/dist/ncc/index.js.cache.js:21:75523), <anonymous>:6:1)
+    at Hook.CALL_ASYNC_DELEGATE [as _callAsync] (/home/kuus/Web/KnitKode/kjam/node_modules/[4m.pnpm[24m/@vercel+ncc@0.38.1/node_modules/[4m@vercel[24m/ncc/dist/ncc/index.js.cache.js:21:72685)
+    at Compiler.close (/home/kuus/Web/KnitKode/kjam/node_modules/[4m.pnpm[24m/@vercel+ncc@0.38.1/node_modules/[4m@vercel[24m/ncc/dist/ncc/index.js.cache.js:38:236188)
+    at /home/kuus/Web/KnitKode/kjam/node_modules/[4m.pnpm[24m/@vercel+ncc@0.38.1/node_modules/[4m@vercel[24m/ncc/dist/ncc/index.js.cache.js:38:1896152
+[41m[30m ELIFECYCLE [39m[49m [31mCommand failed with exit code 1.[39m

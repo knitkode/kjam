@@ -29,8 +29,8 @@ export const TRANSLATIONS_REGEX = {
 
 function buildNestedTranslations(
   outBuffer:
-    | Kjam.Translations[string][string][string]
-    | Kjam.Translations[string][string],
+    | Kjam.Translations[Kjam.Locale][string][string]
+    | Kjam.Translations[Kjam.Locale][string],
   keyParts: string[],
   value: string
 ) {
@@ -122,9 +122,10 @@ export async function getTranslations(
 
   // automatically build translations for routes paths
   for (const route in routes) {
-    const locales = routes[route];
+    const locales = routes[route as keyof typeof routes];
 
-    for (const locale in locales) {
+    for (const _locale in locales) {
+      const locale = _locale as keyof typeof locales;
       const slug = locales[locale];
 
       out[locale][TRANSLATIONS_CHARS.route] =
@@ -140,7 +141,8 @@ export function writeTranslations(
   translations: Kjam.Translations,
   write: (path: string, data: Object) => any
 ) {
-  for (const locale in translations) {
+  for (const _locale in translations) {
+    const locale = _locale as keyof typeof translations;
     for (const fileName in translations[locale]) {
       const fileData = translations[locale][fileName];
       write(`i18n/${locale}/${fileName}`, fileData);

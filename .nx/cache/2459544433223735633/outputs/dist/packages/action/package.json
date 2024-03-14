@@ -1,0 +1,13 @@
+{
+  "name": "@kjam/action",
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "module": "./index.esm.js",
+      "import": "./index.cjs.mjs",
+      "default": "./index.cjs.js"
+    }
+  },
+  "module": "./index.esm.js",
+  "main": "./index.cjs.js"
+}

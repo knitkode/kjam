@@ -4,20 +4,12 @@
   "projectType": "library",
   "tags": [],
   "targets": {
-    "lint": {
-      "executor": "@nrwl/linter:eslint",
-      "outputs": ["{options.outputFile}"],
+    "build": {
       "options": {
-        "lintFilePatterns": ["packages/serializer/**/*.ts"]
+        "additionalEntryPoints": []
       }
     },
-    "test": {
-      "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/packages/serializer"],
-      "options": {
-        "jestConfig": "packages/serializer/jest.config.js",
-        "passWithNoTests": true
-      }
-    }
+    "lint": {},
+    "test": {}
   }
 }

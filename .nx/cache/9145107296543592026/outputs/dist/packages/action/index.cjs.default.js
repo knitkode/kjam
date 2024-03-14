@@ -1,0 +1,1 @@
+exports._default = require('./index.cjs.js').default;

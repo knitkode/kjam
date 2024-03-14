@@ -7,5 +7,14 @@
     "directory": "packages/next-ui"
   },
   "sideEffects": false,
-  "type": "module"
+  "type": "module",
+  "peerDependencies": {
+    "@mdx-js/react": "^3.0.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.65",
+    "@types/react-dom": "^18.2.21"
+  }
 }

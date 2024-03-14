@@ -1,7 +1,7 @@
 import { join, isAbsolute } from "path";
 import { readFileSync } from "fs";
 import type { EntriesMap, EntriesMapById } from "./types";
-import { Api, ApiConfig } from "./api";
+import { Api, type ApiConfig } from "./api";
 import { encodePathname } from "./helpers";
 
 export type ApiGitConfig = ApiConfig & {

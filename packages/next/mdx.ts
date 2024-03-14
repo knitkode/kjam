@@ -8,6 +8,7 @@
 import type { CompileOptions } from "@mdx-js/mdx";
 import type { Plugin } from "unified";
 import { codeFrameColumns } from "@babel/code-frame";
+import type { Node } from "unified/lib";
 
 export interface SerializeOptions {
   /**
@@ -113,14 +114,16 @@ More information: https://mdxjs.com/docs/troubleshooting-mdx`);
 function removeImportsExportsPlugin(
   remove: typeof import("unist-util-remove").remove
 ): Plugin {
-  return (tree) => remove(tree, "mdxjsEsm");
+  return ((tree: Node) => remove(tree, "mdxjsEsm")) as Plugin;
 }
 
 function getCompileOptions(
   mdxOptions: SerializeOptions["mdxOptions"] = {},
   remove: typeof import("unist-util-remove").remove
 ): CompileOptions {
-  const areImportsEnabled = mdxOptions?.useDynamicImport;
+  // FIXME: it used to be:
+  // const areImportsEnabled = mdxOptions?.useDynamicImport;
+  const areImportsEnabled = true;
 
   // don't modify the original object when adding our own plugin
   // this allows code to reuse the same options object

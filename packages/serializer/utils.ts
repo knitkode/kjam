@@ -4,8 +4,7 @@ import { load, JSON_SCHEMA } from "js-yaml";
 import type { Kjam, EntryMeta, EntryMatter, EntryMatterData, EntryRoute } from "@kjam/core";
 import {
   normalisePathname,
-  // } from "@kjam/core";
-} from "../core";
+} from "@kjam/core";
 
 /**
  * Only keep `.md` and `.mdx` files based on filename
@@ -37,7 +36,7 @@ export function extractMeta(filepath: string, i18n: Kjam.I18n): EntryMeta {
     // filename,
     // basename,
     // ext,
-    locale,
+    locale: locale as Kjam.Locale,
   };
 }
 

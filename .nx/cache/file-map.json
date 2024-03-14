@@ -1,0 +1,1173 @@
+{
+  "version": "6.0",
+  "nxVersion": "18.0.8",
+  "deps": {
+    "core-js": "^3.36.0",
+    "regenerator-runtime": "^0.14.1",
+    "tslib": "^2.6.2",
+    "@commitlint/cli": "^19.0.3",
+    "@commitlint/config-angular": "^19.0.3",
+    "@commitlint/config-conventional": "^19.0.3",
+    "@nx/eslint": "^18.0.8",
+    "@nx/eslint-plugin": "^18.0.8",
+    "@nx/jest": "^18.0.8",
+    "@nx/js": "^18.0.8",
+    "@nx/node": "^18.0.8",
+    "@nx/react": "^18.0.8",
+    "@nx/rollup": "^18.0.8",
+    "@nx/workspace": "^18.0.8",
+    "@swc/core": "^1.4.6",
+    "@types/jest": "^29.5.12",
+    "@types/node": "^20.11.26",
+    "@typescript-eslint/eslint-plugin": "^7.2.0",
+    "@typescript-eslint/parser": "^7.2.0",
+    "@vercel/ncc": "^0.38.1",
+    "eslint": "^8.57.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-jsx-a11y": "^6.8.0",
+    "eslint-plugin-react": "^7.34.0",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "husky": "^9.0.11",
+    "jest": "^29.7.0",
+    "jsonc-eslint-parser": "^2.4.0",
+    "lint-staged": "^15.2.2",
+    "nx": "^18.0.8",
+    "prettier": "^3.2.5",
+    "ts-jest": "^29.1.2"
+  },
+  "pathMappings": {
+    "@kjam/action": [
+      "packages/action/index.ts"
+    ],
+    "@kjam/action-next": [
+      "packages/action-next/index.ts"
+    ],
+    "@kjam/cli": [
+      "packages/cli/index.ts"
+    ],
+    "@kjam/core": [
+      "packages/core/index.ts"
+    ],
+    "@kjam/next": [
+      "packages/next/index.ts"
+    ],
+    "@kjam/next-ui": [
+      "packages/next-ui/index.ts"
+    ],
+    "@kjam/serializer": [
+      "packages/serializer/index.ts"
+    ],
+    "@kjam/serializer-next": [
+      "packages/serializer-next/index.ts"
+    ]
+  },
+  "nxJsonPlugins": [],
+  "fileMap": {
+    "nonProjectFiles": [
+      {
+        "file": ".editorconfig",
+        "hash": "5443105041930014821"
+      },
+      {
+        "file": ".github/workflows/ci.yml",
+        "hash": "17890051064031415767"
+      },
+      {
+        "file": ".gitignore",
+        "hash": "12884187284121677778"
+      },
+      {
+        "file": ".prettierignore",
+        "hash": "17733650430415207254"
+      },
+      {
+        "file": ".prettierrc",
+        "hash": "9237690392590914123"
+      },
+      {
+        "file": ".vscode/extensions.json",
+        "hash": "4637156562308165301"
+      },
+      {
+        "file": ".vscode/settings.json",
+        "hash": "7304593158949076008"
+      },
+      {
+        "file": "CHANGELOG.md",
+        "hash": "17244739385175707432"
+      },
+      {
+        "file": "README.md",
+        "hash": "8268946094335365925"
+      },
+      {
+        "file": "__mocks__/.kjam/byRoute.json",
+        "hash": "3981173995978906559"
+      },
+      {
+        "file": "__mocks__/.kjam/entries/__en.json",
+        "hash": "17672317213386509564"
+      },
+      {
+        "file": "__mocks__/.kjam/entries/__it.json",
+        "hash": "7664384836628541211"
+      },
+      {
+        "file": "__mocks__/.kjam/entries/about-us__en.json",
+        "hash": "541809702252897768"
+      },
+      {
+        "file": "__mocks__/.kjam/entries/eventi__it.json",
+        "hash": "11761633052681934373"
+      },
+      {
+        "file": "__mocks__/.kjam/entries/events/another-event__en.json",
+        "hash": "2837396653184893770"
+      },
+      {
+        "file": "__mocks__/.kjam/entries/events/event-name__en.json",
+        "hash": "1629195900596560919"
+      },
+      {
+        "file": "__mocks__/.kjam/entries/events/event-name__it.json",
+        "hash": "10747485457328788703"
+      },
+      {
+        "file": "__mocks__/.kjam/entries/events/nome-evento__it.json",
+        "hash": "10747485457328788703"
+      },
+      {
+        "file": "__mocks__/.kjam/entries/events__en.json",
+        "hash": "7432539103500656332"
+      },
+      {
+        "file": "__mocks__/.kjam/entries/pages/about__en.json",
+        "hash": "541809702252897768"
+      },
+      {
+        "file": "__mocks__/.kjam/entries/pages/events__en.json",
+        "hash": "7432539103500656332"
+      },
+      {
+        "file": "__mocks__/.kjam/entries/pages/events__it.json",
+        "hash": "11761633052681934373"
+      },
+      {
+        "file": "__mocks__/.kjam/entries/pages/home__en.json",
+        "hash": "17672317213386509564"
+      },
+      {
+        "file": "__mocks__/.kjam/entries/pages/home__it.json",
+        "hash": "7664384836628541211"
+      },
+      {
+        "file": "__mocks__/.kjam/entries/progetti__it.json",
+        "hash": "4000413102163788347"
+      },
+      {
+        "file": "__mocks__/.kjam/entries/projects/project-title__en.json",
+        "hash": "7201797860187607042"
+      },
+      {
+        "file": "__mocks__/.kjam/entries/projects/project-title__it.json",
+        "hash": "4152035854108849645"
+      },
+      {
+        "file": "__mocks__/.kjam/entries/projects/titolo-progetto__it.json",
+        "hash": "4152035854108849645"
+      },
+      {
+        "file": "__mocks__/.kjam/entries/projects__en.json",
+        "hash": "9576576434057586063"
+      },
+      {
+        "file": "__mocks__/.kjam/entries/projects__it.json",
+        "hash": "4000413102163788347"
+      },
+      {
+        "file": "__mocks__/.kjam/entries/spaces/all-aperto__it.json",
+        "hash": "7028107842076126994"
+      },
+      {
+        "file": "__mocks__/.kjam/entries/spaces/hospitality__en.json",
+        "hash": "9132703964478458186"
+      },
+      {
+        "file": "__mocks__/.kjam/entries/spaces/hospitality__it.json",
+        "hash": "14421231731813984250"
+      },
+      {
+        "file": "__mocks__/.kjam/entries/spaces/indoor/cucina__it.json",
+        "hash": "12814820020921059693"
+      },
+      {
+        "file": "__mocks__/.kjam/entries/spaces/indoor/hall__en.json",
+        "hash": "17352111396712921855"
+      },
+      {
+        "file": "__mocks__/.kjam/entries/spaces/indoor/hall__it.json",
+        "hash": "15943935280213001682"
+      },
+      {
+        "file": "__mocks__/.kjam/entries/spaces/indoor/kitchen__en.json",
+        "hash": "5354981321197235976"
+      },
+      {
+        "file": "__mocks__/.kjam/entries/spaces/indoor/kitchen__it.json",
+        "hash": "12814820020921059693"
+      },
+      {
+        "file": "__mocks__/.kjam/entries/spaces/indoor/sala__it.json",
+        "hash": "15943935280213001682"
+      },
+      {
+        "file": "__mocks__/.kjam/entries/spaces/indoor/the-hall__en.json",
+        "hash": "17352111396712921855"
+      },
+      {
+        "file": "__mocks__/.kjam/entries/spaces/indoor/the-kitchen__en.json",
+        "hash": "5354981321197235976"
+      },
+      {
+        "file": "__mocks__/.kjam/entries/spaces/living-outside__en.json",
+        "hash": "16546978753648559916"
+      },
+      {
+        "file": "__mocks__/.kjam/entries/spaces/ospitalita__it.json",
+        "hash": "14421231731813984250"
+      },
+      {
+        "file": "__mocks__/.kjam/entries/spaces/outdoor/area-giochi__it.json",
+        "hash": "3868306869927163956"
+      },
+      {
+        "file": "__mocks__/.kjam/entries/spaces/outdoor/by-season/estate__it.json",
+        "hash": "12235513639003954563"
+      },
+      {
+        "file": "__mocks__/.kjam/entries/spaces/outdoor/by-season/inverno__it.json",
+        "hash": "7517387860381743364"
+      },
+      {
+        "file": "__mocks__/.kjam/entries/spaces/outdoor/by-season/summer__en.json",
+        "hash": "9565603006840431154"
+      },
+      {
+        "file": "__mocks__/.kjam/entries/spaces/outdoor/by-season/summer__it.json",
+        "hash": "12235513639003954563"
+      },
+      {
+        "file": "__mocks__/.kjam/entries/spaces/outdoor/by-season/winter__en.json",
+        "hash": "14665146262691958515"
+      },
+      {
+        "file": "__mocks__/.kjam/entries/spaces/outdoor/by-season/winter__it.json",
+        "hash": "7517387860381743364"
+      },
+      {
+        "file": "__mocks__/.kjam/entries/spaces/outdoor/by-season__en.json",
+        "hash": "6897055162051894958"
+      },
+      {
+        "file": "__mocks__/.kjam/entries/spaces/outdoor/by-season__it.json",
+        "hash": "10485812409415376444"
+      },
+      {
+        "file": "__mocks__/.kjam/entries/spaces/outdoor/parco__it.json",
+        "hash": "11692580768345557644"
+      },
+      {
+        "file": "__mocks__/.kjam/entries/spaces/outdoor/park__en.json",
+        "hash": "8657100430579631302"
+      },
+      {
+        "file": "__mocks__/.kjam/entries/spaces/outdoor/park__it.json",
+        "hash": "11692580768345557644"
+      },
+      {
+        "file": "__mocks__/.kjam/entries/spaces/outdoor/playground__en.json",
+        "hash": "12468941605947321956"
+      },
+      {
+        "file": "__mocks__/.kjam/entries/spaces/outdoor/playground__it.json",
+        "hash": "3868306869927163956"
+      },
+      {
+        "file": "__mocks__/.kjam/entries/spaces/outdoor/stagioni__it.json",
+        "hash": "10485812409415376444"
+      },
+      {
+        "file": "__mocks__/.kjam/entries/spaces/outdoor__en.json",
+        "hash": "16546978753648559916"
+      },
+      {
+        "file": "__mocks__/.kjam/entries/spaces/outdoor__it.json",
+        "hash": "7028107842076126994"
+      },
+      {
+        "file": "__mocks__/.kjam/entries/spaces__en.json",
+        "hash": "13168970412963200586"
+      },
+      {
+        "file": "__mocks__/.kjam/entries/spaces__it.json",
+        "hash": "7507556985211089928"
+      },
+      {
+        "file": "__mocks__/.kjam/entries/spazi__it.json",
+        "hash": "7507556985211089928"
+      },
+      {
+        "file": "__mocks__/.kjam/i18n.json",
+        "hash": "11975985635529596568"
+      },
+      {
+        "file": "__mocks__/.kjam/i18n/en/_.json",
+        "hash": "2730870287472649771"
+      },
+      {
+        "file": "__mocks__/.kjam/i18n/en/~.json",
+        "hash": "11921098518477755886"
+      },
+      {
+        "file": "__mocks__/.kjam/i18n/it/_.json",
+        "hash": "17932667010795108261"
+      },
+      {
+        "file": "__mocks__/.kjam/i18n/it/~.json",
+        "hash": "2185378690671581832"
+      },
+      {
+        "file": "__mocks__/.kjam/routes.json",
+        "hash": "838301458842553007"
+      },
+      {
+        "file": "__mocks__/.kjam/slugs.json",
+        "hash": "3775652926648322094"
+      },
+      {
+        "file": "__mocks__/.kjam/urls.json",
+        "hash": "16904488390513585714"
+      },
+      {
+        "file": "__mocks__/events/another-event/index.en.md",
+        "hash": "17154001930983577317"
+      },
+      {
+        "file": "__mocks__/events/event-name/index.en.md",
+        "hash": "12775533240737521432"
+      },
+      {
+        "file": "__mocks__/events/event-name/index.it.md",
+        "hash": "7965001490714981380"
+      },
+      {
+        "file": "__mocks__/pages/about/index.en.md",
+        "hash": "2498745757278826270"
+      },
+      {
+        "file": "__mocks__/pages/about/index.it.md",
+        "hash": "3402750293022242541"
+      },
+      {
+        "file": "__mocks__/pages/events/index.en.md",
+        "hash": "16233293265513898915"
+      },
+      {
+        "file": "__mocks__/pages/events/index.it.md",
+        "hash": "16888137214645477700"
+      },
+      {
+        "file": "__mocks__/pages/home/index.en.md",
+        "hash": "106483718105193559"
+      },
+      {
+        "file": "__mocks__/pages/home/index.it.md",
+        "hash": "12775533240737521432"
+      },
+      {
+        "file": "__mocks__/pages/test-draft/index.en.md",
+        "hash": "6153495167328331425"
+      },
+      {
+        "file": "__mocks__/pages/test-draft/index.it.md",
+        "hash": "6153495167328331425"
+      },
+      {
+        "file": "__mocks__/projects/index.en.md",
+        "hash": "1042352885089945543"
+      },
+      {
+        "file": "__mocks__/projects/index.it.md",
+        "hash": "9585194438842118313"
+      },
+      {
+        "file": "__mocks__/projects/project-title/index.en.md",
+        "hash": "6659977280766830760"
+      },
+      {
+        "file": "__mocks__/projects/project-title/index.it.md",
+        "hash": "712329825721094060"
+      },
+      {
+        "file": "__mocks__/settings/i18n/config.yml",
+        "hash": "2313417732816366763"
+      },
+      {
+        "file": "__mocks__/settings/i18n/messages/en.yml",
+        "hash": "16233862723043244672"
+      },
+      {
+        "file": "__mocks__/settings/i18n/messages/it.yml",
+        "hash": "13118093234330319166"
+      },
+      {
+        "file": "__mocks__/spaces/hospitality/index.en.md",
+        "hash": "6059535058072119643"
+      },
+      {
+        "file": "__mocks__/spaces/hospitality/index.it.md",
+        "hash": "18152784724873444443"
+      },
+      {
+        "file": "__mocks__/spaces/index.en.md",
+        "hash": "11270855850925171334"
+      },
+      {
+        "file": "__mocks__/spaces/index.it.md",
+        "hash": "1149609089577365571"
+      },
+      {
+        "file": "__mocks__/spaces/indoor/hall/index.en.md",
+        "hash": "9346766186801314190"
+      },
+      {
+        "file": "__mocks__/spaces/indoor/hall/index.it.md",
+        "hash": "4355389360379673841"
+      },
+      {
+        "file": "__mocks__/spaces/indoor/kitchen/index.en.md",
+        "hash": "1985855852402391551"
+      },
+      {
+        "file": "__mocks__/spaces/indoor/kitchen/index.it.md",
+        "hash": "3157963781643910002"
+      },
+      {
+        "file": "__mocks__/spaces/outdoor/by-season/index.en.md",
+        "hash": "3244421341483603138"
+      },
+      {
+        "file": "__mocks__/spaces/outdoor/by-season/index.it.md",
+        "hash": "2320404757448929698"
+      },
+      {
+        "file": "__mocks__/spaces/outdoor/by-season/summer/index.en.md",
+        "hash": "14388287176910815674"
+      },
+      {
+        "file": "__mocks__/spaces/outdoor/by-season/summer/index.it.md",
+        "hash": "8086775448906690428"
+      },
+      {
+        "file": "__mocks__/spaces/outdoor/by-season/winter/index.en.md",
+        "hash": "16019610868545540356"
+      },
+      {
+        "file": "__mocks__/spaces/outdoor/by-season/winter/index.it.md",
+        "hash": "6928657184943667805"
+      },
+      {
+        "file": "__mocks__/spaces/outdoor/index.en.md",
+        "hash": "10781268059191330710"
+      },
+      {
+        "file": "__mocks__/spaces/outdoor/index.it.md",
+        "hash": "11926620556623279663"
+      },
+      {
+        "file": "__mocks__/spaces/outdoor/park/index.en.md",
+        "hash": "12083074479510495990"
+      },
+      {
+        "file": "__mocks__/spaces/outdoor/park/index.it.md",
+        "hash": "18304568519426453331"
+      },
+      {
+        "file": "__mocks__/spaces/outdoor/playground/index.en.md",
+        "hash": "15733659889971705022"
+      },
+      {
+        "file": "__mocks__/spaces/outdoor/playground/index.it.md",
+        "hash": "5494777649600770461"
+      },
+      {
+        "file": "actions/next/.gitignore",
+        "hash": "8922264602308911549"
+      },
+      {
+        "file": "actions/next/action.yml",
+        "hash": "2283006768188867754"
+      },
+      {
+        "file": "actions/next/index.js",
+        "hash": "15124555700269683292"
+      },
+      {
+        "file": "actions/next/licenses.txt",
+        "hash": "3494791482778034308"
+      },
+      {
+        "file": "babel.config.json",
+        "hash": "5546405625092116747"
+      },
+      {
+        "file": "commitlint.config.js",
+        "hash": "14207217877112209526"
+      },
+      {
+        "file": "eslint.config.js",
+        "hash": "11716751271506594185"
+      },
+      {
+        "file": "jest.config.ts",
+        "hash": "2392540309333994723"
+      },
+      {
+        "file": "jest.preset.js",
+        "hash": "11675871065836107495"
+      },
+      {
+        "file": "nx.json",
+        "hash": "13912254231329271017"
+      },
+      {
+        "file": "package.json",
+        "hash": "4228035727211962344"
+      },
+      {
+        "file": "pnpm-lock.yaml",
+        "hash": "6786154692640417164"
+      },
+      {
+        "file": "pnpm-workspace.yaml",
+        "hash": "16642526038666956749"
+      },
+      {
+        "file": "tools/generators/.gitkeep",
+        "hash": "3244421341483603138"
+      },
+      {
+        "file": "tools/tsconfig.tools.json",
+        "hash": "16088922570277978783"
+      },
+      {
+        "file": "tsconfig.base.json",
+        "hash": "12581993787699825854"
+      }
+    ],
+    "projectFileMap": {
+      "core": [
+        {
+          "file": "packages/core/README.md",
+          "hash": "8329396216425495958"
+        },
+        {
+          "file": "packages/core/api-git.spec.ts",
+          "hash": "17638451901649147403"
+        },
+        {
+          "file": "packages/core/api-git.ts",
+          "hash": "15992168582594364599",
+          "deps": [
+            "npm:path",
+            "npm:fs"
+          ]
+        },
+        {
+          "file": "packages/core/api-github.ts",
+          "hash": "7232902098996183298"
+        },
+        {
+          "file": "packages/core/api.ts",
+          "hash": "6398256741992413866"
+        },
+        {
+          "file": "packages/core/config-types.ts",
+          "hash": "10113059021512134607"
+        },
+        {
+          "file": "packages/core/content.spec.ts",
+          "hash": "14899142201131427680",
+          "deps": [
+            "npm:path"
+          ]
+        },
+        {
+          "file": "packages/core/content.ts",
+          "hash": "7315083387681529067"
+        },
+        {
+          "file": "packages/core/env.test",
+          "hash": "10999840621789867382"
+        },
+        {
+          "file": "packages/core/eslint.config.js",
+          "hash": "3635433446595848483",
+          "deps": [
+            "npm:../../eslint.config.js"
+          ]
+        },
+        {
+          "file": "packages/core/helpers.spec.ts",
+          "hash": "13250171021848909594"
+        },
+        {
+          "file": "packages/core/helpers.ts",
+          "hash": "1976814004378495021"
+        },
+        {
+          "file": "packages/core/index.ts",
+          "hash": "4339178160193977433"
+        },
+        {
+          "file": "packages/core/jest.config.js",
+          "hash": "6622800082427152108"
+        },
+        {
+          "file": "packages/core/package.json",
+          "hash": "1842966440879890653"
+        },
+        {
+          "file": "packages/core/project.json",
+          "hash": "505362064631049914"
+        },
+        {
+          "file": "packages/core/tsconfig.json",
+          "hash": "12834038490315927699"
+        },
+        {
+          "file": "packages/core/tsconfig.lib.json",
+          "hash": "12281615918919592158"
+        },
+        {
+          "file": "packages/core/tsconfig.spec.json",
+          "hash": "667688880430856318"
+        },
+        {
+          "file": "packages/core/types.d.ts",
+          "hash": "406293199811548506"
+        },
+        {
+          "file": "packages/core/types.ts",
+          "hash": "501087672113183340"
+        }
+      ],
+      "action": [
+        {
+          "file": "packages/action/README.md",
+          "hash": "10272399085950111487"
+        },
+        {
+          "file": "packages/action/eslint.config.js",
+          "hash": "2700511423001446186",
+          "deps": [
+            "npm:../../eslint.config.js"
+          ]
+        },
+        {
+          "file": "packages/action/git.ts",
+          "hash": "2848242465546611548",
+          "deps": [
+            "npm:@actions/core",
+            "npm:simple-git"
+          ]
+        },
+        {
+          "file": "packages/action/index.ts",
+          "hash": "17898936800151093378"
+        },
+        {
+          "file": "packages/action/package.json",
+          "hash": "8453676250921364302",
+          "deps": [
+            "npm:@actions/core",
+            "npm:simple-git"
+          ]
+        },
+        {
+          "file": "packages/action/project.json",
+          "hash": "10264392132664854778"
+        },
+        {
+          "file": "packages/action/tsconfig.json",
+          "hash": "15856989918287211863"
+        },
+        {
+          "file": "packages/action/tsconfig.lib.json",
+          "hash": "9772296972935785712"
+        }
+      ],
+      "serializer": [
+        {
+          "file": "packages/serializer/README.md",
+          "hash": "14740606278337387483"
+        },
+        {
+          "file": "packages/serializer/eslint.config.js",
+          "hash": "8116572633230233856",
+          "deps": [
+            "npm:../../eslint.config.js"
+          ]
+        },
+        {
+          "file": "packages/serializer/images.ts",
+          "hash": "8853481183575871890",
+          "deps": [
+            "core"
+          ]
+        },
+        {
+          "file": "packages/serializer/img.ts",
+          "hash": "3934554643300475395"
+        },
+        {
+          "file": "packages/serializer/index.ts",
+          "hash": "9825920801653118606"
+        },
+        {
+          "file": "packages/serializer/jest.config.js",
+          "hash": "5045766812339330220"
+        },
+        {
+          "file": "packages/serializer/links.ts",
+          "hash": "520034295218531581",
+          "deps": [
+            "npm:path",
+            "core"
+          ]
+        },
+        {
+          "file": "packages/serializer/mdx.ts",
+          "hash": "7582119972963360229"
+        },
+        {
+          "file": "packages/serializer/package.json",
+          "hash": "194285486524504383",
+          "deps": [
+            "core",
+            "npm:fdir",
+            "npm:fs-extra",
+            "npm:gray-matter",
+            "npm:js-yaml",
+            "npm:probe-image-size",
+            "npm:@types/fs-extra",
+            "npm:@types/js-yaml",
+            "npm:@types/probe-image-size"
+          ]
+        },
+        {
+          "file": "packages/serializer/project.json",
+          "hash": "7429290342208254509"
+        },
+        {
+          "file": "packages/serializer/serializer.spec.ts",
+          "hash": "5128597999171957949",
+          "deps": [
+            "npm:path",
+            "core"
+          ]
+        },
+        {
+          "file": "packages/serializer/serializer.ts",
+          "hash": "892725924762760264",
+          "deps": [
+            "npm:fs-extra",
+            "npm:path",
+            "npm:fdir",
+            "npm:js-yaml",
+            "core"
+          ]
+        },
+        {
+          "file": "packages/serializer/translations.ts",
+          "hash": "10079257672621737413",
+          "deps": [
+            "npm:path",
+            "npm:fs-extra",
+            "npm:js-yaml",
+            "core"
+          ]
+        },
+        {
+          "file": "packages/serializer/tsconfig.json",
+          "hash": "12834038490315927699"
+        },
+        {
+          "file": "packages/serializer/tsconfig.lib.json",
+          "hash": "477797837751125148"
+        },
+        {
+          "file": "packages/serializer/tsconfig.spec.json",
+          "hash": "13135811974882208806"
+        },
+        {
+          "file": "packages/serializer/utils.ts",
+          "hash": "7884329456366397848",
+          "deps": [
+            "npm:fs-extra",
+            "npm:gray-matter",
+            "npm:js-yaml",
+            "core"
+          ]
+        }
+      ],
+      "serializer-next": [
+        {
+          "file": "packages/serializer-next/README.md",
+          "hash": "6366211769021156796"
+        },
+        {
+          "file": "packages/serializer-next/eslint.config.js",
+          "hash": "257103333503680848",
+          "deps": [
+            "npm:../../eslint.config.js"
+          ]
+        },
+        {
+          "file": "packages/serializer-next/index.ts",
+          "hash": "8561556863056690086"
+        },
+        {
+          "file": "packages/serializer-next/jest.config.js",
+          "hash": "5045766812339330220"
+        },
+        {
+          "file": "packages/serializer-next/package.json",
+          "hash": "8054893164421759344",
+          "deps": [
+            "core",
+            "serializer",
+            "npm:next"
+          ]
+        },
+        {
+          "file": "packages/serializer-next/project.json",
+          "hash": "1716171640964182204"
+        },
+        {
+          "file": "packages/serializer-next/serializer-next.spec.ts",
+          "hash": "10850634195757346764",
+          "deps": [
+            "npm:path"
+          ]
+        },
+        {
+          "file": "packages/serializer-next/serializer-next.ts",
+          "hash": "5940292917987837421",
+          "deps": [
+            "npm:next",
+            "core",
+            "serializer"
+          ]
+        },
+        {
+          "file": "packages/serializer-next/tsconfig.json",
+          "hash": "12834038490315927699"
+        },
+        {
+          "file": "packages/serializer-next/tsconfig.lib.json",
+          "hash": "477797837751125148"
+        },
+        {
+          "file": "packages/serializer-next/tsconfig.spec.json",
+          "hash": "13135811974882208806"
+        }
+      ],
+      "action-next": [
+        {
+          "file": "packages/action-next/.gitignore",
+          "hash": "8922264602308911549"
+        },
+        {
+          "file": "packages/action-next/README.md",
+          "hash": "7256972011695036482"
+        },
+        {
+          "file": "packages/action-next/eslint.config.js",
+          "hash": "49573602347520404",
+          "deps": [
+            "npm:../../eslint.config.js"
+          ]
+        },
+        {
+          "file": "packages/action-next/index.ts",
+          "hash": "8443891075050501603",
+          "deps": [
+            "serializer-next",
+            "action"
+          ]
+        },
+        {
+          "file": "packages/action-next/package.json",
+          "hash": "10471870574759407735",
+          "deps": [
+            "npm:@actions/core",
+            "action",
+            "serializer-next",
+            "npm:@vercel/ncc"
+          ]
+        },
+        {
+          "file": "packages/action-next/project.json",
+          "hash": "3548668957735072333"
+        },
+        {
+          "file": "packages/action-next/tsconfig.json",
+          "hash": "3490332931329039730"
+        },
+        {
+          "file": "packages/action-next/tsconfig.lib.json",
+          "hash": "5045545194316191474"
+        }
+      ],
+      "cli": [
+        {
+          "file": "packages/cli/README.md",
+          "hash": "11309594032979606287"
+        },
+        {
+          "file": "packages/cli/bin.js",
+          "hash": "16144775788297898491"
+        },
+        {
+          "file": "packages/cli/dev.ts",
+          "hash": "6115336246715789914",
+          "deps": [
+            "npm:dotenv",
+            "npm:fs",
+            [
+              "npm:./node_modules/next/dist/bin/next",
+              "dynamic"
+            ]
+          ]
+        },
+        {
+          "file": "packages/cli/eslint.config.js",
+          "hash": "6279855669251744107",
+          "deps": [
+            "npm:../../eslint.config.js"
+          ]
+        },
+        {
+          "file": "packages/cli/index.ts",
+          "hash": "1261714850505968662",
+          "deps": [
+            "npm:commander"
+          ]
+        },
+        {
+          "file": "packages/cli/jest.config.js",
+          "hash": "16762825452332196785"
+        },
+        {
+          "file": "packages/cli/package.json",
+          "hash": "10013072419187864691",
+          "deps": [
+            "npm:chokidar",
+            "npm:commander",
+            "npm:get-port",
+            "npm:serve-handler",
+            "npm:@types/serve-handler"
+          ]
+        },
+        {
+          "file": "packages/cli/project.json",
+          "hash": "18377238997650195975"
+        },
+        {
+          "file": "packages/cli/serve.ts",
+          "hash": "1048923613123605024",
+          "deps": [
+            "npm:http",
+            "npm:get-port",
+            "npm:serve-handler"
+          ]
+        },
+        {
+          "file": "packages/cli/tsconfig.json",
+          "hash": "12834038490315927699"
+        },
+        {
+          "file": "packages/cli/tsconfig.lib.json",
+          "hash": "12876630147226789140"
+        },
+        {
+          "file": "packages/cli/tsconfig.spec.json",
+          "hash": "15676453332999148312"
+        },
+        {
+          "file": "packages/cli/watch.ts",
+          "hash": "4106298028963904831",
+          "deps": [
+            "npm:dotenv",
+            "npm:path",
+            "npm:chokidar",
+            "serializer-next"
+          ]
+        }
+      ],
+      "next-ui": [
+        {
+          "file": "packages/next-ui/MDX.tsx",
+          "hash": "8822459915522423514",
+          "deps": [
+            "npm:react",
+            "npm:@mdx-js/react",
+            "next"
+          ]
+        },
+        {
+          "file": "packages/next-ui/PageDebug.tsx",
+          "hash": "10487176449303470841",
+          "deps": [
+            "npm:react",
+            "next"
+          ]
+        },
+        {
+          "file": "packages/next-ui/README.md",
+          "hash": "9569161783663135077"
+        },
+        {
+          "file": "packages/next-ui/eslint.config.js",
+          "hash": "4949259709736801279",
+          "deps": [
+            "npm:../../eslint.config.js"
+          ]
+        },
+        {
+          "file": "packages/next-ui/idle-callback-polyfill.js",
+          "hash": "14523357843900388345"
+        },
+        {
+          "file": "packages/next-ui/index.ts",
+          "hash": "6633014246788368290"
+        },
+        {
+          "file": "packages/next-ui/package.json",
+          "hash": "7033591246583258031",
+          "deps": [
+            "npm:@types/react",
+            "npm:@types/react-dom",
+            "npm:@mdx-js/react",
+            "npm:react",
+            "npm:react-dom"
+          ]
+        },
+        {
+          "file": "packages/next-ui/project.json",
+          "hash": "8474225307406657142"
+        },
+        {
+          "file": "packages/next-ui/tsconfig.json",
+          "hash": "15856989918287211863"
+        },
+        {
+          "file": "packages/next-ui/tsconfig.lib.json",
+          "hash": "18006923520627178604"
+        }
+      ],
+      "next": [
+        {
+          "file": "packages/next/README.md",
+          "hash": "17669624936819443448"
+        },
+        {
+          "file": "packages/next/config.ts",
+          "hash": "2764634306425442771",
+          "deps": [
+            "npm:dotenv",
+            "npm:next",
+            "npm:next-translate",
+            "core"
+          ]
+        },
+        {
+          "file": "packages/next/content.spec.ts",
+          "hash": "13146635567980429322",
+          "deps": [
+            "npm:path"
+          ]
+        },
+        {
+          "file": "packages/next/content.ts",
+          "hash": "5667678615147750704",
+          "deps": [
+            "npm:dotenv",
+            "npm:next",
+            "core"
+          ]
+        },
+        {
+          "file": "packages/next/eslint.config.js",
+          "hash": "10284973992089804272",
+          "deps": [
+            "npm:../../eslint.config.js"
+          ]
+        },
+        {
+          "file": "packages/next/index.ts",
+          "hash": "14200843390672700093",
+          "deps": [
+            "core"
+          ]
+        },
+        {
+          "file": "packages/next/jest.config.js",
+          "hash": "7089358342137765189"
+        },
+        {
+          "file": "packages/next/mdx.ts",
+          "hash": "12723370714576576731",
+          "deps": [
+            "npm:@mdx-js/mdx",
+            "npm:unified",
+            "npm:@babel/code-frame",
+            "npm:unified/lib",
+            "npm:unist-util-remove"
+          ]
+        },
+        {
+          "file": "packages/next/package.json",
+          "hash": "5685132384855854606",
+          "deps": [
+            "npm:@babel/code-frame",
+            "npm:@mdx-js/mdx",
+            "npm:@mdx-js/react",
+            "npm:unist-util-remove",
+            "npm:@types/babel__code-frame",
+            "npm:next",
+            "npm:next-translate"
+          ]
+        },
+        {
+          "file": "packages/next/project.json",
+          "hash": "10532360002293038718"
+        },
+        {
+          "file": "packages/next/tsconfig.json",
+          "hash": "12834038490315927699"
+        },
+        {
+          "file": "packages/next/tsconfig.lib.json",
+          "hash": "477797837751125148"
+        },
+        {
+          "file": "packages/next/tsconfig.spec.json",
+          "hash": "13135811974882208806"
+        }
+      ]
+    }
+  }
+}

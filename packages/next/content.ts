@@ -5,8 +5,12 @@ import type {
   GetStaticPathsContext,
   GetStaticPathsResult,
 } from "next";
-import { Entry, normalisePathname } from "@kjam/core";
-import { Content, ContentConfig } from "@kjam/core";
+import {
+  type Entry,
+  normalisePathname,
+  Content,
+  type ContentConfig,
+} from "@kjam/core";
 import { serialize } from "./mdx";
 import type { KjamProps } from "./index";
 
@@ -19,8 +23,8 @@ type StaticPathsType = true | false;
 type StaticPathSlug<SlugAsString> = SlugAsString extends true
   ? string
   : SlugAsString extends false
-  ? string[]
-  : never;
+    ? string[]
+    : never;
 
 // interface StaticPathAsString {
 //   params: {
@@ -54,18 +58,21 @@ export class ContentNext extends Content {
    */
   async getStaticPaths<
     Params extends StaticPathsParams = StaticPathsParams,
-    Type extends StaticPathsType = boolean
+    Type extends StaticPathsType = boolean,
   >(
     context: GetStaticPathsContext,
     fallback: GetStaticPathsResult["fallback"] = "blocking",
     routeType = "",
-    asString?: Type
+    asString?: Type,
   ): Promise<GetStaticPathsResult<Params>> {
     const ctxLocalesMap =
-      context.locales?.reduce((map, locale) => {
-        map[locale] = true;
-        return map;
-      }, {} as Record<string, true>) ?? {};
+      context.locales?.reduce(
+        (map, locale) => {
+          map[locale] = true;
+          return map;
+        },
+        {} as Record<string, true>,
+      ) ?? {};
     const paths: GetStaticPathsResult<Params>["paths"] = [];
     const { byRoute } = await this.api.getMaps();
 
@@ -83,7 +90,7 @@ export class ContentNext extends Content {
             .replace(normalisedRouteType, "")
             .split("/")
             .filter(
-              (segment, idx) => segment && !(idx === 0 && segment === "pages")
+              (segment, idx) => segment && !(idx === 0 && segment === "pages"),
             );
           let slug;
 
@@ -125,13 +132,13 @@ export class ContentNext extends Content {
 
   async getStaticProps<
     Params extends StaticPathsParams = StaticPathsParams,
-    Data extends {} = {}
+    Data extends {} = {},
     // ExtraData extends Record<string, any> = {}
   >(
     ctx: GetStaticPropsContext<Params>,
     routeType = "",
     otherProps = {},
-    options: Omit<GetStaticPropsResult<Params>, "props"> = {}
+    options: Omit<GetStaticPropsResult<Params>, "props"> = {},
   ): Promise<GetStaticPropsResult<KjamProps<Data, Params>>> {
     const { params, locale } = ctx;
     const entry = await this.get<Data>(routeType, params?.slug || "", locale);

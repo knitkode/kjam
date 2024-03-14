@@ -1,14 +1,18 @@
 export declare namespace Kjam {
-  type Locale = string; // & { _branded: true};
+  // type Locale = string
+  type Locale = string & { _Locale: true};
 
   /** The folder path containing the entry's markdown file */
-  type RouteId = string; // & { _branded: true};
+  // type RouteId = string
+  type RouteId = string & { _RouteId: true};
 
   /** A single part of the URL pathname, e.g. `a-slug-path` */
-  type Slug = string; // & { _branded: true};
+  // type Slug = string
+  type Slug = string & { _Slug: true};
 
   /** A relative URL or all the URL pathname, e.g. `/my-folder/a-slug-path` */
-  type Url = string; // & { _branded: true};
+  // type Url = string
+  type Url = string & { _Url: true};
 
   type I18n = {
     /**

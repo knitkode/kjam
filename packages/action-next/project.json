@@ -5,27 +5,23 @@
   "tags": [],
   "targets": {
     "build": {
-      "executor": "@e-square/nx-ncc:build",
-      "outputs": ["{options.outputPath}"],
+      "executor": "nx:run-script",
       "options": {
-        "outputPath": "dist/packages/action-next",
-        "main": "packages/action-next/index.ts",
-        "tsConfig": "packages/action-next/tsconfig.lib.json",
-        "generatePackageJson": false,
-        "optimization": true,
-        "assets": [
-          "packages/action-next/.gitignore",
-          "packages/action-next/*.md",
-          "packages/action-next/*.yml"
-        ]
+        "script": "build"
+      },
+      "outputs": ["{workspaceRoot}/actions/next"]
+    },
+    "_build": {
+      "executor": "nx:run-commands",
+      "outputs": ["{workspaceRoot}/actions/next"],
+      "options": {
+        "commands": [
+          "ncc build packages/action-next/actions/action-next.ts -o actions/next --minify --no-cache --no-source-map-register --license licenses.txt"
+        ],
+        "parallel": true
       }
     },
-    "lint": {
-      "executor": "@nrwl/linter:eslint",
-      "outputs": ["{options.outputFile}"],
-      "options": {
-        "lintFilePatterns": ["packages/action-next/**/*.ts"]
-      }
-    }
+    "lint": {},
+    "test": {}
   }
 }

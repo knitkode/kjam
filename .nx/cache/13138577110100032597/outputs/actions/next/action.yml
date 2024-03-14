@@ -1,0 +1,22 @@
+name: 'kjam-next'
+description: 'Parse Decap CMS content structure for next.js applications. Static rest API?'
+author: 'KnitKode'
+runs:
+  using: "composite"
+  ############################## 1)
+  steps:
+    - name: Checkout the repo
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Set git config
+      run: |
+        git config --local user.email "github-actions[bot]@users.noreply.github.com"
+        git config --local user.name "github-actions[bot]"
+      shell: bash
+
+    # see https://github.com/orgs/community/discussions/26248
+    - name: Generate cms files
+      run: node ${{ github.action_path }}/index.js
+      shell: bash

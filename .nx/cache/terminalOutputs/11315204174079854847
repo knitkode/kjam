@@ -1,0 +1,18 @@
+Bundling cli...
+[1m[31mError during bundle: Error: [96mpackages/cli/watch.ts[0m:[93m4[0m:[93m32[0m - [91merror[0m[90m TS6059: [0mFile '/home/kuus/Web/KnitKode/kjam/packages/serializer-next/index.ts' is not under 'rootDir' '/home/kuus/Web/KnitKode/kjam/packages/cli'. 'rootDir' is expected to contain all source files.[39m[22m
+[1m[31m  The file is in the program because:[39m[22m
+[1m[31m    Imported via "@kjam/serializer-next" from file '/home/kuus/Web/KnitKode/kjam/packages/cli/watch.ts'[39m[22m
+[1m[31m    Root file specified for compilation[39m[22m
+[1m[31m[39m[22m
+[1m[31m[7m4[0m import { SerializerNext } from "@kjam/serializer-next";[39m[22m
+[1m[31m[7m [0m [91m                               ~~~~~~~~~~~~~~~~~~~~~~~[0m[39m[22m
+[1m[31m[39m[22m
+[1m[31mError during bundle: Error: [96mpackages/cli/watch.ts[0m:[93m4[0m:[93m32[0m - [91merror[0m[90m TS6059: [0mFile '/home/kuus/Web/KnitKode/kjam/packages/serializer-next/index.ts' is not under 'rootDir' '/home/kuus/Web/KnitKode/kjam/packages/cli'. 'rootDir' is expected to contain all source files.[39m[22m
+[1m[31m  The file is in the program because:[39m[22m
+[1m[31m    Imported via "@kjam/serializer-next" from file '/home/kuus/Web/KnitKode/kjam/packages/cli/watch.ts'[39m[22m
+[1m[31m    Root file specified for compilation[39m[22m
+[1m[31m[39m[22m
+[1m[31m[7m4[0m import { SerializerNext } from "@kjam/serializer-next";[39m[22m
+[1m[31m[7m [0m [91m                               ~~~~~~~~~~~~~~~~~~~~~~~[0m[39m[22m
+[1m[31m[39m[22m
+[1m[31mBundle failed: cli[39m[22m

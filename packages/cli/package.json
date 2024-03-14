@@ -6,7 +6,16 @@
     "url": "git+https://github.com/knitkode/kjam.git",
     "directory": "packages/cli"
   },
-  "bin": {
-    "kjam": "./index.js"
+  "TODO:bin": {
+    "kjam": "./bin.js"
+  },
+  "dependencies": {
+    "chokidar": "^3.6.0",
+    "commander": "^12.0.0",
+    "get-port": "^7.0.0",
+    "serve-handler": "^6.1.5"
+  },
+  "devDependencies": {
+    "@types/serve-handler": "^6.1.4"
   }
 }

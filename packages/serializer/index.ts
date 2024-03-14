@@ -1,10 +1,10 @@
-export { Img, ImgUrlParams } from "./img";
+export { Img, type ImgUrlParams } from "./img";
 // export * from "./links";
 // export * from "./media";
 export {
   Serializer,
-  SerializerConfig,
-  SerializerBodyImgTransformer,
+  type SerializerConfig,
+  type SerializerBodyImgTransformer,
 } from "./serializer";
 // export * from "./translations";
 // export * from "./utils";

@@ -5,31 +5,10 @@
   "tags": [],
   "targets": {
     "build": {
-      "executor": "@nrwl/web:rollup",
-      "outputs": ["{options.outputPath}"],
       "options": {
-        "outputPath": "dist/packages/next-ui",
-        "tsConfig": "packages/next-ui/tsconfig.lib.json",
-        "project": "packages/next-ui/package.json",
-        "entryFile": "packages/next-ui/index.ts",
-        "external": ["react/jsx-runtime"],
-        "rollupConfig": "@nrwl/react/plugins/bundle-rollup",
-        "format": ["esm"],
-        "assets": [
-          {
-            "glob": "packages/next-ui/README.md",
-            "input": ".",
-            "output": "."
-          }
-        ]
+        "additionalEntryPoints": []
       }
     },
-    "lint": {
-      "executor": "@nrwl/linter:eslint",
-      "outputs": ["{options.outputFile}"],
-      "options": {
-        "lintFilePatterns": ["packages/next-ui/**/*.{ts,tsx,js,jsx}"]
-      }
-    }
+    "lint": {}
   }
 }

@@ -4,12 +4,11 @@
   "projectType": "library",
   "tags": [],
   "targets": {
-    "lint": {
-      "executor": "@nrwl/linter:eslint",
-      "outputs": ["{options.outputFile}"],
+    "build": {
       "options": {
-        "lintFilePatterns": ["packages/action/**/*.ts"]
+        "additionalEntryPoints": []
       }
-    }
+    },
+    "lint": {}
   }
 }

@@ -1,20 +1,13 @@
 import type { Redirect, Rewrite } from "next/dist/lib/load-custom-routes";
-import type { Kjam } from "@kjam/core";
-import {
-  encodePathname,
-  // } from "@kjam/core";
-} from "../core";
-import {
-  Serializer,
-  Img,
-  // } from "@kjam/serializer";
-} from "../serializer";
+// import { getRedirects, getRewrites } from "@koine/next/config-i18n";
+import { encodePathname, type Kjam } from "@kjam/core";
+import { Serializer, Img } from "@kjam/serializer";
 
 export type SerializerNextOutputConfig = {
   /**
    * Same as `import("next").NextConfig["i18n"]` but some of these are required.
    *
-   * The `i18n` next configuratoin cannot be retrieved asynchronously
+   * The `i18n` next configuration cannot be retrieved asynchronously
    * so it must be passed set here and it needs to match the remote content
    * one.
    *
@@ -54,7 +47,9 @@ export class SerializerNext extends Serializer {
     for (const [id, locales] of Object.entries(routes)) {
       for (const [locale, _url] of Object.entries(locales)) {
         let url = _url;
-        const idNormalised = id.startsWith("pages/") ? id.replace("pages/", "") : id;
+        const idNormalised = (
+          id.startsWith("pages/") ? id.replace("pages/", "") : id
+        ) as Kjam.RouteId;
         const templateAsUrl = `/${idNormalised}`;
 
         // only redirect if the template name of `/pages/${name}` is not the same
@@ -64,7 +59,7 @@ export class SerializerNext extends Serializer {
           // basically when the page template name does not match neither the
           // default language slug nor the translated slugs
           if (locale !== i18n.defaultLocale) {
-            url = `${locale}/${url}`;
+            url = `${locale}/${url}` as Kjam.Url;
           }
 
           const redirect = this.getPathRedirect(locale, templateAsUrl, url);
@@ -75,7 +70,7 @@ export class SerializerNext extends Serializer {
               locale,
               templateAsUrl,
               url,
-              true
+              true,
             );
             redirects.push(redirectDynamic);
           }
@@ -100,7 +95,9 @@ export class SerializerNext extends Serializer {
     for (const [id, locales] of Object.entries(routes)) {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       for (const [_locale, url] of Object.entries(locales)) {
-        const idNormalised = id.startsWith("pages/") ? id.replace("pages/", "") : id;
+        const idNormalised = (
+          id.startsWith("pages/") ? id.replace("pages/", "") : id
+        ) as Kjam.RouteId;
         const templateAsUrl = `/${idNormalised}`;
 
         if (url !== templateAsUrl && idNormalised !== "home") {
@@ -111,7 +108,7 @@ export class SerializerNext extends Serializer {
             const rewriteDynamic = this.getPathRewrite(
               url,
               templateAsUrl,
-              true
+              true,
             );
             rewrites.push(rewriteDynamic);
           }
@@ -138,7 +135,7 @@ export class SerializerNext extends Serializer {
     locale: string,
     localisedPathname: string,
     templateName: string,
-    dynamic?: boolean
+    dynamic?: boolean,
   ) {
     const suffix = dynamic ? `/:slug*` : "";
     return {

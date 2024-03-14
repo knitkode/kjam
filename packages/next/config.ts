@@ -39,13 +39,13 @@ export const withKjam = (config: NextConfig & KjamConfig = {}) => {
    * one (the `.kjam/i18n.json` file's content).
    */
   function getI18n(): Omit<NextConfig["i18n"], keyof Kjam.I18n> & Kjam.I18n {
-    const { locales, defaultLocale } = config.i18n || {};
+    const { locales, defaultLocale, ...rest } = config.i18n || {};
 
     return {
       localeDetection: false,
-      locales: locales || ["en"],
-      defaultLocale: defaultLocale || "en",
-      ...(config.i18n || {}),
+      locales: (locales || ["en"]) as Kjam.Locale[],
+      defaultLocale: (defaultLocale || "en") as Kjam.Locale,
+      ...rest,
     };
   }
 
@@ -64,7 +64,7 @@ export const withKjam = (config: NextConfig & KjamConfig = {}) => {
       | "extensionsRgx"
       | "logBuild"
       | "loadLocaleFrom"
-    > = {}
+    > = {},
   ): I18nConfig {
     const { locales, defaultLocale } = i18n;
 

@@ -2,8 +2,7 @@ import { join } from "path";
 import type { Api, Kjam, Entry } from "@kjam/core";
 import {
   normalisePathname,
-  // } from "@kjam/core";
-} from "../core";
+} from "@kjam/core";
 import { parseUrl } from "./utils";
 
 /**
@@ -33,7 +32,7 @@ function getTranslatedLink(
     return `${api.getUrl(id)}${query}`;
   }
 
-  return urls[id]?.[entry.locale] || raw;
+  return urls[id as Kjam.RouteId]?.[entry.locale] || raw;
   // raw.match(/[\.|\/]*(.+)/)[1]
 }
 

@@ -1,0 +1,19 @@
+{
+  "name": "@kjam/core",
+  "description": "Core of Kjam powered websites.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/knitkode/kjam.git",
+    "directory": "packages/core"
+  },
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "module": "./index.esm.js",
+      "import": "./index.cjs.mjs",
+      "default": "./index.cjs.js"
+    }
+  },
+  "module": "./index.esm.js",
+  "main": "./index.cjs.js"
+}

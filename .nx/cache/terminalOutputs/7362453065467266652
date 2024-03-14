@@ -1,0 +1,4 @@
+Bundling cli...
+[1m[31mError during bundle: Error: Could not resolve entry module (packages/cli/index.ts).[39m[22m
+[1m[31mError during bundle: Error: Could not resolve entry module (packages/cli/index.ts).[39m[22m
+[1m[31mBundle failed: cli[39m[22m

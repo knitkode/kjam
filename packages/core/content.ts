@@ -1,7 +1,7 @@
-import type { Entry } from "./types";
+import type { Entry, Kjam } from "./types";
 import type { BaseConfig } from "./config-types";
 import { Api } from "./api";
-import { ApiGithub, ApiGithubConfig } from "./api-github";
+import { ApiGithub, type ApiGithubConfig } from "./api-github";
 import { normalisePathname } from "./helpers";
 
 export type ContentConfig = BaseConfig & {
@@ -21,8 +21,8 @@ export class Content {
   async getById<T extends {} = {}>(id: string, locale?: string) {
     const { byRoute } = await this.api.getMaps<T>();
 
-    if (locale && byRoute[id]?.[locale]) {
-      return byRoute[id]?.[locale];
+    if (locale && byRoute[id as Kjam.RouteId]?.[locale as Kjam.Locale]) {
+      return byRoute[id as Kjam.RouteId]?.[locale as Kjam.Locale];
     }
 
     return null;
@@ -30,12 +30,12 @@ export class Content {
 
   async get<T extends {} = {}>(
     slug: string | string[],
-    locale: string
+    locale: string,
   ): Promise<Entry<T> | null>;
   async get<T extends {} = {}>(
     folderPath: string,
     slug: string | string[],
-    locale?: string
+    locale?: string,
   ): Promise<Entry<T> | null>;
   async get<T extends {} = {}>(
     ...args:
@@ -73,7 +73,7 @@ export class Content {
     }
 
     const data = await this.api.getData<Entry<T>>(
-      `entries/${target}__${_locale}`
+      `entries/${target}__${_locale}`,
     );
     return data;
   }
@@ -81,7 +81,7 @@ export class Content {
   async getMany<EntryData extends {} = {}>(
     idStartingWith: string,
     locale: string,
-    withBody?: boolean
+    withBody?: boolean,
   ) {
     const { byRoute } = await this.api.getMaps<EntryData>();
 
@@ -92,11 +92,12 @@ export class Content {
         // but the entries like "projects/a-title/..."
         return (
           id.startsWith(normalisePathname(idStartingWith) + "/") &&
-          !!byRoute[id]?.[locale]
+          !!byRoute[id as Kjam.RouteId]?.[locale as Kjam.Locale]
         );
       })
       .map((id) => {
-        const { body, ...entry } = byRoute[id][locale];
+        const { body, ...entry } =
+          byRoute[id as Kjam.RouteId][locale as Kjam.Locale];
         return withBody ? { body, ...entry } : entry;
       });
   }

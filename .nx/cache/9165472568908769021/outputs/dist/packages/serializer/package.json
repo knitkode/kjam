@@ -1,0 +1,24 @@
+{
+  "name": "@kjam/serializer",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/knitkode/kjam.git",
+    "directory": "packages/serializer"
+  },
+  "dependencies": {
+    "@kjam/core": "*",
+    "fdir": "^5.1.0",
+    "fs-extra": "^10.0.0",
+    "js-yaml": "^4.1.0"
+  },
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "module": "./index.esm.js",
+      "import": "./index.cjs.mjs",
+      "default": "./index.cjs.js"
+    }
+  },
+  "module": "./index.esm.js",
+  "main": "./index.cjs.js"
+}
